@@ -1,0 +1,196 @@
+@import 'https://fonts.googleapis.com/css?family=Open+Sans';
+@import 'https://fonts.googleapis.com/css?family=Raleway';
+
+html{
+  background-color: #333;
+}
+
+#icns{
+  width: 100%;
+  margin-left: calc(50% - 75px);
+}
+
+.contact-btn{
+  width: 50px;
+  display: inline-block;
+}
+
+.contact-btn:hover{
+  animation: wiggle 1s ease-in-out;
+  transform-origin: center center;
+}
+
+@keyframes wiggle{
+  20%{
+    transform: rotate(-10deg);
+  }
+  40%{
+    transform: rotate(10deg) scale(1.1);
+  }
+  60%{
+    transform: rotate(-10deg) scale(1.1);
+  }
+  80%{
+    transform: rotate(10deg);
+  }
+}
+
+
+h1{
+  font-family: "Raleway";
+  text-align: center;
+}
+p{
+  font-family: "Open Sans";
+  text-align: center;
+}
+.active{
+  background-color: blue;
+}
+.enter{
+  --color: #999;
+  border: 2px solid var(--color);
+  text-align: center;
+  padding: 5px 8px 5px 8px;
+  color: var(--color);
+  transition: .2s ease-in-out;
+  font: 20px 'Open Sans', sans-serif;
+}
+.enter:hover{
+  background-color: rgba(255,255,255,.2);
+  --color: #fff;
+}
+.enter:active{
+  background-color: blue;
+}
+
+#header { 
+  width: 100%; 
+  background-color: rgba(0,0,0,.3);  
+  position: fixed;
+  margin-top: 30px;
+  padding: 20px;
+}
+.name{
+  font-family: Raleway;
+  background: #333;
+  position: absolute;
+  left: 140px;
+  z-index: 1;
+  padding: 3px;
+  color: #fff;
+}
+#nav {float: right; margin-top: 20px; }
+#logo{ color: #fff; text-decoration: none; float: left; font-size: 30px; margin-top: 20px; color: #fff; font-family:"Raleway"; font-weight: bold;}
+.lt{ border-bottom: 4px dashed white;}
+#nav ul{
+  list-style: none;
+  display: block;
+  margin: 0 auto;
+  margin-right: 40px;
+}
+
+#nav li{
+  margin-top: 20px;  
+  float: left;
+  padding-left: 20px;
+}
+#nav li a { color: #fff; opacity:0.6; font-size: 16px; text-decoration: none; font-family: 'Raleway'; }
+
+#k4c{
+  display: block;
+  margin: 0 auto;
+  width: 20%;
+}
+
+.guy{
+  margin: 30px;
+  padding: 2%;
+  border-radius: 25px;
+}
+
+#people > div:nth-child(odd) .prof{
+  float: left;
+  box-shadow: 0px 5px 0px rgba(0,0,0,0.1);
+  border: 5px solid rgba(255,255,255,0.1);
+}
+
+#people > div:nth-child(even) .prof{
+  float: right;
+  box-shadow: 0px -5px 0px rgba(255,255,255,0.1);
+  border: 5px solid rgba(0,0,0,0.1);
+}
+
+#people > div:nth-child(odd){
+  background-color: rgba(255,255,255,0.1);
+  box-shadow: 0px 10px 0px rgba(0,0,0,0.1);
+}
+
+#people > div:nth-child(even){
+  background-color: rgba(0,0,0,0.1);
+  box-shadow: 0px -10px 0px rgba(255,255,255,0.1);
+}
+
+.prof{
+  width: 100px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+#k4c1{
+  display: block;
+  margin: 20px auto;
+  width: 5%;
+  min-width: 50px;
+  float: left;
+}
+
+#welcome{
+  background: linear-gradient(rgba(64, 32, 32, .7), rgba(64, 32, 32, .7)), url("../img/mountains1.jpg") no-repeat center center fixed;
+  color: #fff;
+  margin: 0;
+  padding: 200px 0 260px 0;
+  background-size: cover;
+  overflow: hidden;
+}
+
+#what{
+  background-color: #F2E394;
+  color: #333333;
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 200px 0;
+}
+
+#where{
+  background: linear-gradient(rgba(57, 29, 18, .7), rgba(57, 29, 18, .7)), url("../img/galaxy.jpeg") no-repeat center center fixed;
+  color: #fff;
+  padding: 100px 0 0 0; 
+  background-size: cover;
+  overflow: hidden;
+}
+
+#map{
+  margin: 20px calc(25% - 10px) 50px;
+  width: 50%;
+  border-radius: 40px;
+  padding: 10px;
+  border: 10px solid rgba(0, 120, 200, .5);
+  box-shadow: 0px -10px 0px rgba(0, 200, 255, .7);
+}
+
+#who{
+  background-color: #D96459;
+  color: #333333;
+  padding: 100px 0;
+  overflow: hidden;
+}
+
+#contact{
+  background: linear-gradient(rgba(26, 81, 87, .7), rgba(26, 81, 87, .7)), url("../img/rock-texture.jpg") no-repeat center center fixed;
+  margin: 0 auto;
+  padding: 100px 20%;
+  color: #fff;
+  background-size: cover;
+  overflow: hidden;
+}

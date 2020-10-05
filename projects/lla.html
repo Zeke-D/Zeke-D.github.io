@@ -1,0 +1,99 @@
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@320&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/konpa/devicon@master/devicon.min.css">
+<link href='../styles/style.css' rel='stylesheet' type='text/css'>
+<link href='../styles/slider.css' rel='stylesheet' type='text/css'>
+<script>
+  window.onload = () => {
+    const toggleSwitch = document.querySelector('#theme-switch');
+    const toggleTheme = e => {
+      const theme = e.target.checked ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+
+    toggleSwitch.addEventListener('change', toggleTheme, false);
+  }
+</script>
+<body>
+  <main>
+    <!-- <section id="hero">
+      <h1>Zeke D'Ascoli</h1>
+    </section> -->
+    <section id="hero">
+      <h1>Project.</h1>
+      <ul class="navlinks noBullets">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../index.html#work">Work</a></li>
+        <li><a href="../index.html#projects">Projects</a></li>
+        <!-- <li><a href="./blog.html">Blog</a></li> -->
+      </ul>
+    </section>
+    <section id="contact" class="card gutterItem">
+      <h1>Ezekiel D'Ascoli</h1>
+      <p>dascoli.e@northeastern.edu</p>
+      <p>609.213.6337</p>
+    </section>
+    <section id="links" class="gutterItem">
+      <label for="theme-switch" class="tip">Dark Mode</label><br>
+      <label class="switch">
+        <input id="theme-switch" type="checkbox"/>
+        <span class="slider round"></span>
+      </label>
+      <ul class="noBullets">
+        <li> <a href="https://www.linkedin.com/in/ezekiel-dascoli-2023">Linked In</a> </li>
+        <li> <a href="https://www.github.com/zeke-d">GitHub</a> </li>
+        <li> <a href="../misc/resume.pdf">Resume</a> </li>
+      </ul>
+    </section>
+    <section id="education" class="gutterItem card">
+      <h1>Education</h1>
+      <div class="info">
+        <h2>Northeastern University</h2>
+        <h3>Khoury College of Computer Sciences</h3>
+        <h3>College of Arts, Media, and Design</h3>
+        <p>2018–2023</p>
+      </div>
+      <p class="">Candidate for</p>
+      <ul class="noBullets">
+        <li><a href="http://catalog.northeastern.edu/undergraduate/computer-information-science/computer-science/bscs/">BS in Computer Science</a></li>
+        <li><a href="https://camd.northeastern.edu/program/theatre/">BA in Theatre</a></li>
+        <li><a href="http://catalog.northeastern.edu/undergraduate/arts-media-design/art-design/interaction-design-minor/">Minor in Interaction Design</a></li>
+      </ul>
+      <ul class="achievements">
+        <li>GPA: 3.72/4.0</li>
+        <li>Dean’s List</li>
+        <li>Academic Scholarship</li>
+      </ul>
+      <h3>Computer Science Coursework</h3>
+      <p>Theory of Computation, Algorithms and Data, Object-Oriented Design, Experience and Interaction Design, Computer Systems, Logic and Computation, Fundamentals of CS 1 & 2, Discrete Structures</p>
+    </section>
+    <section id="main" class="">
+        <h1>Language Learning Application</h1>
+        <img class="tutImg box-shadow imgMargins" src="../imgs/LLA/login.png">
+        <p>At the end of my junior year in high school, I was hired by my Chinese teacher to develop 
+            a language learning web application. This was my first introduction to full-stack 
+            web development. Throughout this process, I taught myself how to manage the routes 
+            of a webpage, build a server with Express and NodeJS, create user registration
+            and authentication, store/update user info inside databases (first with MySQL and later with PostgreSQL), 
+            utilize version control through git, and eventually deploy the app via Heroku.
+        </p>
+        <img class="tutImg box-shadow imgMargins" src="../imgs/LLA/HomePage.png">
+        <p>If you would like to peruse the student side of things,
+             you can visit the site and register your own account <a href="https://chinese-site.herokuapp.com">here</a>.
+             Give the service a second to start up, then use TLin as your class id when you register.
+        </p>
+        <img class="tutImg box-shadow imgMargins" src="../imgs/LLA/AddAssignment.png">
+        <p>
+            If you would like a demonstration of the teacher side,
+            please contact me so I can set up a sandbox environment for you.
+        </p>
+    </section>
+    <section id="footer">
+      <p>
+        Copyright 2020 Ezekiel D'Ascoli.<br>
+        But also who cares, use my template code if you think it's cool.<br>
+        It'd be nice if you credited me in a code comment :)
+      </p>
+    </section>
+  </main>
+</body>

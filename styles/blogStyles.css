@@ -1,0 +1,15 @@
+main {
+  --gutter-width: 20vw;
+  margin: 1rem;
+  display: grid;
+  grid-gap: 2rem 3rem;
+  grid-template-areas: "   .    hero    .  "
+                       "contact posts links"
+                       "   .    posts   .  "
+                       "   .    footer  .  ";
+  grid-template-columns: 20vw auto 16vw;
+}
+
+#posts {
+    grid-area: posts;
+}

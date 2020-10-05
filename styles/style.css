@@ -1,0 +1,552 @@
+:root {
+  --black: #222;
+  --off-black: #333;
+  --gold: rgb(205, 145, 76);
+  --white: #fff;
+  --gray: #eee;
+  --dark-gray: #444;
+  --pink: rgb(198, 49, 71);
+  --mint: #42c993;
+
+  --shadow-color: rgba(0,0,0, .2);
+  --section-bg: var(--white);
+  --body-bg: var(--gray);
+  --text-color: var(--black);
+  --accent-color: var(--mint);
+
+  --card-offset: 2rem;
+
+}
+
+[data-theme="dark"] {
+  --section-bg: var(--off-black);
+  --body-bg: var(--black);
+  --text-color: #eee;
+  --accent-color: var(--gold);
+  --shadow-color: rgba(0,0,0, .7);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: .2s ease-in-out all;
+  font-family: 'Josefin Sans', sans-serif;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  background-color:var(--body-bg);
+  color: var(--text-color);
+}
+main {
+  --gutter-width: 20vw;
+  margin: 1rem 2rem 1rem 1rem;
+  column-count: 3;
+  display: grid;
+  grid-gap: 2rem;
+  grid-template-areas: ". hero .";
+  grid-template-columns: 24vw auto 16vw;
+  grid-template-rows: auto-fill;
+}
+
+
+
+/* Rules */
+.hint {
+  font-style: oblique;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+
+.hirebtn {
+  padding: 5px 15px;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  background-color: var(--accent-color);
+  cursor: pointer;
+  text-decoration: none;
+  font-size: .75rem;
+}
+
+.hirebtn:hover {
+  filter: brightness(1.1);
+}
+
+.card {
+  --section-padding: 80px;
+  padding: calc(var(--section-padding) / 2) calc(var(--section-padding) / 3 * 2);
+  background-color: var(--section-bg);
+  font-size: 12pt;
+  border-radius: 0 40px;
+  position: relative;
+}
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+}
+
+h1 {
+  font-weight: 600;
+  color: var(--accent-color);
+  margin: 1rem 0;
+}
+h3 {
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1rem;
+}
+h2, h3 {
+  font-weight: 400;
+}
+p, ul {
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+a {
+  color: var(--accent-color);
+  text-decoration: underline;
+  cursor: pointer;
+  /* text-decoration: none; */
+}
+
+ul {
+  margin: 1rem 0;
+}
+
+details {
+  margin: 1rem 0;
+}
+
+details summary {
+  padding: 1rem 0;
+}
+
+.accordionContent {
+  position: relative;
+}
+
+.accordionContent image:nth-child(odd) {
+  position: absolute;
+  left: 0;
+}
+
+.accordionContent image:nth-child(even) {
+  position: absolute;
+  right: 0;
+}
+
+/* unversal classes */
+
+.threeGrid {
+  display: grid;
+  grid-column: 1 / 4;
+  grid-row: 1 / 4;
+}
+
+.separate {
+  margin-top: 20px;
+}
+
+.info {
+  margin: 1rem 0;
+}
+
+.noBullets {
+  list-style: none;
+  line-height: 1.5rem;
+}
+
+.tip {
+  font-size: .75rem;
+}
+
+.cards {
+  margin-top: -1rem;
+  display: flex;
+  perspective: 800px;
+  flex-direction: column;
+}
+
+.cards .headerBlock:not(:first-child) {
+  margin-top: calc(-1 * var(--card-offset));
+}
+
+.cards .headerBlock:hover {
+  transform: translateY(calc(-1.5 * var(--card-offset))) scale(1.02 );
+}
+
+
+section .headerBlock {
+  margin-top: var(--card-offset);
+  position: relative;
+  overflow: hidden;
+} 
+
+
+/* Cool little circle expand i was messing around with */
+/* .cards .headerBlock:before {
+  content: ' ';
+  position: absolute;
+  transform: translate(50%, -50%);
+  right: 0;
+  bottom: 0;
+  padding: 3px;
+  border-radius: 50%;
+  display: block;
+  background-color: var(--accent-color);
+  transition: .2s;
+  z-index: -1;
+}
+
+.cards .headerBlock:hover:before {
+  transform: scale(50);
+} */
+
+.cards .headerBlock:hover > .info h2 {
+  color: var(--accent-color);
+}
+
+
+.headerBlock {
+  position: relative;
+  background-color: var(--section-bg);
+  padding: 40px 60px;
+  border-radius: 10px;
+  /* box-shadow: 0px 0px 15px var(--shadow-color); */
+}
+
+.iconList {
+  list-style: none;
+  font-size: 3rem;
+  color: var(--accent-color);
+}
+
+.iconList li {
+  display: inline-block;
+}
+
+/* end universal classes */
+/* links */
+#links {
+  grid-column: 3;
+  grid-row: 2/4;
+  background: none;
+}
+.navlinks {
+  display: flex;
+  width: 80%;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 ;
+  text-transform: uppercase;
+}
+.navlinks li {
+  display: inline-block;
+  border-bottom: 1px solid rgba(0,0,0,0);
+}
+.navlinks li a {
+  text-decoration: none;
+}
+.navlinks li:hover {
+  border-bottom: 1px solid var(--text-color);
+}
+/* end links */
+/* title */
+#hero {
+  grid-row: 1;
+  grid-column: 2;
+}
+#hero h1 {
+  font-size: 6rem;
+  line-height: 5rem;
+  color: var(--accent-color);
+}
+/* end title */
+
+/* About me*/
+#aboutMe {
+  grid-column: 2;
+  grid-row: 2 / 4;
+  --pictureWidth: 10rem;
+  --cornerRadius: calc(var(--pictureWidth) / 4);
+}
+
+.picture {
+  object-fit: cover;
+  width: var(--pictureWidth);
+  border-radius: 0 var(--cornerRadius) 0;
+  margin-right: 2rem;
+  float: left;
+}
+
+#aboutMe p {
+  margin-top: 1rem;
+}
+
+/* End About Me */
+
+#main {
+  grid-column: 2 / 3;
+  grid-row: 2 / 7;
+}
+
+/* tech stack */
+#techStack {
+  grid-column: 1;
+  grid-row: 6 / 10;
+}
+/* end tech stack */
+
+/* Education */
+
+#education {
+  grid-column: 1;
+  grid-row: 3 / 6;
+}
+
+#education h2 {
+  font-weight: 600;
+  font-size: 12pt;
+}
+
+/* End Education */
+.info p {
+  line-height: 1.5rem;
+}
+
+#contact {
+  grid-column: 1;
+  grid-row: 2 / 3;
+}
+
+#work {
+  grid-column: 2;
+  grid-row: 4 / 6;
+}
+
+#projects{
+  grid-column: 2;
+  grid-row: 6 / 12;
+}
+
+.gutterItem {
+  padding: 30px;
+}
+
+#footer {
+  grid-column: 1/4;
+  font-size: .75rem;
+  color: #777;
+  text-align: center;
+  background-color: rgba(0,0,0,0);
+}
+
+.post {
+  grid-column: 2;
+}
+
+img.hero {
+  --height: 300px;
+  /* margin-top: calc(-1 * var(--height)); */
+  object-fit: cover;
+  width: 100%;
+  overflow: hidden;
+  height: var(--height);
+}
+
+.tutImg {
+  width: 100%
+}
+
+.pList {
+  margin: .5rem 0 1rem 2rem;
+}
+
+.box-shadow {
+  box-shadow: 0px 5px 20px var(--shadow-color);
+}
+
+.imgMargins {
+  margin: 2rem 0;
+}
+
+video {
+  margin: 1rem auto;
+  margin-bottom: 2rem;
+  max-height: 100vh;
+}
+
+/* MEDIA QUERIES */
+
+/* explicitly large sizes */
+@media screen and (min-width: 863px) {
+  #education {
+    font-size: 10pt;
+  }
+
+  #education h3 {
+    font-size: 10pt;
+  }
+}
+
+/* medium size */
+@media screen and (max-width: 1120px) {
+  main {
+    grid-template-columns: 1fr 2fr;
+  }
+  #aboutMe p {
+    padding: 0;
+  }
+  .picture {
+    margin-right: 1rem ;
+  }
+
+  #links {
+    grid-row-start: 1 ;
+  }
+
+  #aboutMe, #work, #projects {
+    grid-column: 2 / 4 ;
+  }
+
+  #work {
+    grid-row: 4 / 5;
+  }
+
+  #projects {
+    grid-row-start: 5;
+  }
+
+}
+
+/* small */
+@media screen and (max-width: 862px) {
+  main {
+    grid-template-columns: 1fr;
+    grid-gap: 1rem 0;
+  }
+
+  #education, #techStack, #work, #aboutMe, #projects, #contact, #hero {
+    grid-column: 1 / -1 ;
+    grid-row: auto;
+  }
+  .navlinks {
+    width: 60%;
+  }
+
+  #links {
+    grid-column: 1 / 3;
+    grid-row: 8 / 9;
+  }
+  #links li {
+    display: inline-block;
+    margin-right: 1rem;
+  }
+
+  #footer {
+    padding: 0 ;
+    grid-column: 1 / 4;
+  }
+  #footer p {
+    margin-top: 1rem;
+  }
+
+  #main {
+    grid-column: 1 / 3;
+  }
+
+}
+
+/* mobile */
+@media screen and (max-width: 457px) {
+  #hero h1 {
+    font-size: 3rem ;
+  }
+  .navlinks {
+    width: 75%;
+  }
+
+  .picture {
+    margin-right: .75rem ;
+  }
+
+  #links {
+    margin: 0;
+    padding: .5rem 1rem;
+  }
+
+}
+
+
+/* modal styles */
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 150px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  transition: .2s;
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: var(--section-bg);
+  margin: auto;
+  padding: 0;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: fly-down;
+  -webkit-animation-duration: 0.5s;
+  -webkit-animation-timing-function: cubic-bezier(.13,.36,.48,1.03);
+  animation-name: fly-down;
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(.13,.36,.48,1.03);
+}
+
+/* Add Animation */
+@-webkit-keyframes fly-down {
+  from {transform: translateY(-100vw); opacity:0} 
+  to {transform: translateY(0); opacity:1}
+}
+
+@keyframes fly-down {
+  from {transform: translateY(-100vw); opacity:0} 
+  to {transform: translateY(0); opacity:1}
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 1rem 2rem;
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.modal-body {
+  padding: 1rem 2rem;
+}
