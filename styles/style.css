@@ -32,6 +32,7 @@
   box-sizing: border-box;
   transition: .2s ease-in-out all;
   font-family: 'Josefin Sans', sans-serif;
+  font-weight: 300;
 }
 html {
   scroll-behavior: smooth;
@@ -79,7 +80,7 @@ main {
   --section-padding: 80px;
   padding: calc(var(--section-padding) / 2) calc(var(--section-padding) / 3 * 2);
   background-color: var(--section-bg);
-  font-size: 12pt;
+  font-size: 12px;
   border-radius: 0 40px;
   position: relative;
 }
@@ -424,7 +425,7 @@ video {
 }
 
 /* small */
-@media screen and (max-width: 862px) {
+@media screen and (max-width: 812px) {
   main {
     grid-template-columns: 1fr;
     grid-gap: 1rem 0;
