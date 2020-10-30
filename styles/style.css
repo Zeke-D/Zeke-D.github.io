@@ -80,7 +80,6 @@ main {
   --section-padding: 80px;
   padding: calc(var(--section-padding) / 2) calc(var(--section-padding) / 3 * 2);
   background-color: var(--section-bg);
-  font-size: 12px;
   border-radius: 0 40px;
   position: relative;
 }
