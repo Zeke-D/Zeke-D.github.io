@@ -826,7 +826,7 @@ var app = (function () {
     			p = element("p");
     			p.textContent = "Be the first to comment...";
     			attr_dev(p, "class", "hint svelte-16tnh5c");
-    			add_location(p, file$1, 124, 16, 3562);
+    			add_location(p, file$1, 124, 16, 3561);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -936,9 +936,9 @@ var app = (function () {
     			t2 = text(t2_value);
     			t3 = space();
     			attr_dev(b, "class", "svelte-16tnh5c");
-    			add_location(b, file$1, 119, 20, 3415);
+    			add_location(b, file$1, 119, 20, 3414);
     			attr_dev(p, "class", "username svelte-16tnh5c");
-    			add_location(p, file$1, 118, 16, 3373);
+    			add_location(p, file$1, 118, 16, 3372);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -1085,37 +1085,37 @@ var app = (function () {
     			div3 = element("div");
     			if_block1.c();
     			attr_dev(div0, "class", "imgCont profilePic svelte-16tnh5c");
-    			add_location(div0, file$1, 83, 8, 2264);
+    			add_location(div0, file$1, 83, 8, 2263);
     			attr_dev(b0, "class", "svelte-16tnh5c");
-    			add_location(b0, file$1, 85, 8, 2322);
+    			add_location(b0, file$1, 85, 8, 2321);
     			attr_dev(div1, "class", "spacer svelte-16tnh5c");
-    			add_location(div1, file$1, 86, 8, 2349);
+    			add_location(div1, file$1, 86, 8, 2348);
     			attr_dev(button, "class", "svelte-16tnh5c");
-    			add_location(button, file$1, 87, 8, 2385);
+    			add_location(button, file$1, 87, 8, 2384);
     			attr_dev(header, "class", "svelte-16tnh5c");
-    			add_location(header, file$1, 82, 4, 2246);
+    			add_location(header, file$1, 82, 4, 2245);
     			set_style(canvas_1, "background-image", "url(" + /*trueSource*/ ctx[8] + ")");
     			attr_dev(canvas_1, "width", "400");
     			attr_dev(canvas_1, "height", "300");
     			attr_dev(canvas_1, "class", "imgCont postImage svelte-16tnh5c");
-    			add_location(canvas_1, file$1, 89, 4, 2426);
+    			add_location(canvas_1, file$1, 89, 4, 2425);
     			attr_dev(div2, "class", "spacer svelte-16tnh5c");
-    			add_location(div2, file$1, 100, 8, 2822);
+    			add_location(div2, file$1, 100, 8, 2821);
     			attr_dev(footer, "class", "svelte-16tnh5c");
-    			add_location(footer, file$1, 97, 4, 2713);
+    			add_location(footer, file$1, 97, 4, 2712);
     			attr_dev(b1, "class", "likes svelte-16tnh5c");
-    			add_location(b1, file$1, 104, 8, 2934);
+    			add_location(b1, file$1, 104, 8, 2933);
     			attr_dev(b2, "class", "svelte-16tnh5c");
-    			add_location(b2, file$1, 112, 12, 3177);
+    			add_location(b2, file$1, 112, 12, 3176);
     			attr_dev(p, "class", "username caption svelte-16tnh5c");
-    			add_location(p, file$1, 111, 8, 3135);
+    			add_location(p, file$1, 111, 8, 3134);
     			attr_dev(div3, "class", "comments preview svelte-16tnh5c");
-    			add_location(div3, file$1, 115, 8, 3241);
+    			add_location(div3, file$1, 115, 8, 3240);
     			attr_dev(div4, "class", "info svelte-16tnh5c");
-    			add_location(div4, file$1, 103, 4, 2906);
+    			add_location(div4, file$1, 103, 4, 2905);
     			attr_dev(article, "style", /*style*/ ctx[5]);
     			attr_dev(article, "class", "svelte-16tnh5c");
-    			add_location(article, file$1, 81, 0, 2200);
+    			add_location(article, file$1, 81, 0, 2199);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1278,7 +1278,7 @@ var app = (function () {
     	let trueRealitySource = fixImgPath(realitySource);
     	let oldCaption = caption;
     	let crack = new Image();
-    	crack.src = "../images/crack1.png";
+    	crack.src = "./images/crack1.png";
 
     	function toggleLike() {
     		$$invalidate(1, likes = parseInt(likes) + 2 * (!isLiked - 0.5));
