@@ -3,17 +3,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/konpa/devicon@master/devicon.min.css">
 <link href='../styles/style.css' rel='stylesheet' type='text/css'>
 <link href='../styles/slider.css' rel='stylesheet' type='text/css'>
-<script>
-  window.onload = () => {
-    const toggleSwitch = document.querySelector('#theme-switch');
-    const toggleTheme = e => {
-      const theme = e.target.checked ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', theme);
-    }
-
-    toggleSwitch.addEventListener('change', toggleTheme, false);
-  }
-</script>
+<script src="../scripts/pageSetup.js"></script>
 <body>
   <main>
     <!-- <section id="hero">

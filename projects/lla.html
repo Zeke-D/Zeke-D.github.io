@@ -3,17 +3,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/konpa/devicon@master/devicon.min.css">
 <link href='../styles/style.css' rel='stylesheet' type='text/css'>
 <link href='../styles/slider.css' rel='stylesheet' type='text/css'>
-<script>
-  window.onload = () => {
-    const toggleSwitch = document.querySelector('#theme-switch');
-    const toggleTheme = e => {
-      const theme = e.target.checked ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', theme);
-    }
-
-    toggleSwitch.addEventListener('change', toggleTheme, false);
-  }
-</script>
+<script src="../scripts/pageSetup.js"></script>
 <body>
   <main>
     <!-- <section id="hero">
@@ -69,7 +59,7 @@
     </section>
     <section id="main" class="">
         <h1>Language Learning Application</h1>
-        <img class="tutImg box-shadow imgMargins" src="../imgs/LLA/login.png">
+        <img class="tutImg box-shadow imgMargins" src="../imgs/LLA/Login.png">
         <p>At the end of my junior year in high school, I was hired by my Chinese teacher to develop 
             a language learning web application. This was my first introduction to full-stack 
             web development. Throughout this process, I taught myself how to manage the routes 
