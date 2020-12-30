@@ -313,7 +313,16 @@ section .headerBlock {
   font-size: 12pt;
 }
 
+#education h3.coursework {
+  margin-bottom: 1em;
+}
+
+#education h3 + p:not(:last-child) {
+  margin-bottom: 2em;	
+}
+
 /* End Education */
+
 .info p {
   line-height: 1.5rem;
 }
