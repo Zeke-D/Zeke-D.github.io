@@ -1,0 +1,160 @@
+<style>
+  @font-face {
+    font-family: "Heathergreen";
+    src: url('./fonts/Heathergreen.ttf');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: "Bahnschrift";
+    src: url('./fonts/Bahnschrift.TTF');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  :root {
+    font-size: 22pt;
+    font-family: "Bahnschrift", monospace, sans-serif;
+    --dark-blue: #000707;
+    --lime: #94FF4E;
+    --light: #D4D4D4;
+    --gold:  #EFB466;
+    --red: #FF3636;
+    --blue: #004CFF;
+    --bg: var(--light);
+    --primary: var(--blue);
+    color: var(--blue);
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+  }
+  
+  /* main hero */
+
+  main.hero {
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    text-transform: uppercase;
+  }
+
+  main.hero span {
+    color: var(--primary);
+  }
+  
+  main.hero h1{
+    margin-top: -.125rem;
+    margin-bottom: 1rem;
+  }
+
+  main.hero div {
+    position: relative;
+  }
+  
+  main.hero div .byline {
+    position: absolute;
+  }
+  
+  main.hero div .byline:first-child {
+    left: -1.5rem;
+    top: -1rem;
+  }
+  
+  main.hero div .byline:last-child {
+    right: -2rem;
+  }
+
+  main.hero ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    min-width: 25rem;
+  }
+  
+  main.hero ul li {
+    position: relative;
+  }
+
+  main.hero ul li:hover {
+    cursor: pointer;
+    color: var(--primary);
+  }
+
+  main.hero ul li:before {
+    content: 'ACTOR';
+    opacity: 0;
+    z-index: -1;
+    position: absolute;
+    color: var(--dark-blue);
+    font-family: "Heathergreen", sans-serif;
+    font-size: 8rem;
+    line-height: 6.5rem;
+    transform: translateY(-50%);
+    transition: .2s opacity, .2s transform;
+ }
+  
+  main.hero ul li:last-child:before {
+    content: 'PROGRAMMER';
+    right: -4rem;
+  }
+    
+  main.hero ul li:hover:before {
+    opacity: .2;
+  }
+
+  .heather {
+    font-family: "Heathergreen", sans-serif;
+    font-size: 8rem;
+    line-height: 6.5rem;
+  }
+
+  .heather .apos {
+    color: inherit;
+    letter-spacing: -.65rem;
+  }
+
+  section#portfolio {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 3;
+    gap: 1rem;
+  }
+
+  section#portfolio article {
+    
+  }
+
+</style>
+
+<main class="hero">
+  <div>
+    <span class='byline'>Which</span>
+    <h1 class='heather'>Ezekiel D<span class='apos'>’</span>Ascoli</h1>
+    <span class='byline'>are you looking for?</span>
+  </div>
+  <ul>
+    <li><a>Script Reader</a></li>
+    <li><a>&lsaquo;script&rsaquo; Writer</a></li>
+  </ul>
+</main>
+<section id="portfolio">
+  <article>
+    <h2>This is an article title</h2>
+    <p>This maybe says a little bit more about whatever this is</p>
+    <img src='https://images.pexels.com/photos/12358386/pexels-photo-12358386.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load' alt='Portfolio Picture'/>
+    <ul class='tag-list'>
+      <li>VR/AR/XR</li>
+      <li>3D</li>
+    </ul>
+  </article>
+</section>
