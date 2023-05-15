@@ -1,0 +1,460 @@
+<style>
+:root {
+  --light-gray: #e5e5e5;
+  --mid-gray: #D1D1D1;
+  --dark-gray: #707070;  
+  --shadow: 0px 3px 10px rgba(0, 0, 0, .16);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+h3, span, p {
+  cursor: default;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--light-gray);
+  width: 100%;
+  color: var(--dark-gray);
+  text-transform: uppercase;
+  font-family: "Bahnschrift", sans-serif;
+  font-weight: 700;
+  font-stretch: semi-condensed;
+  font-size: 40px;
+  overflow: hidden;
+}
+
+#nav-icon {
+  position: fixed;
+  top: 60vh;
+  /* left: 50%; */
+  right: 30pt;
+  transform: translate(-50%);
+  opacity: .15;
+  font-size: 200pt;
+}
+
+#nav-icon.uarr {
+  transform: translate(-50%, -16px);
+}
+
+#name {  
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 150px;
+  line-height: 100px;
+  width: max-content;
+  font-stretch: condensed;
+  transform: translate(-50%, calc(-50% - 380pt/2 - 10pt));
+}
+
+#name span {
+  font-size: 20pt;
+  line-height: 30pt;
+  font-weight: 100;
+  font-stretch: normal;
+  letter-spacing: 20pt;
+}
+
+#contact {
+  z-index: 0;
+  padding: 50px 30px;
+  background-color: #fff;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  height: 200px;
+  aspect-ratio: 16 / 9;
+  transform: translate(-50%, -50%) rotate(-5deg) scale(.95);
+  transition: .3s transform ease-out;
+  box-shadow: var(--shadow);
+}
+
+#contact:hover {
+  transform: translate(-50%, -50%) rotate(-5deg);
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, .1);
+}
+
+#contact ul {
+  display: flex;
+  list-style: none;
+  justify-content: space-between;
+}
+
+#contact ul li a {
+  color: orange;
+}
+
+
+#projects article {
+  z-index: 1;
+  position: absolute;
+  top: calc(50% - 380pt * .5);
+  left: calc(50% - 380pt * 8 / 9 * .5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40pt 30pt;
+  background: #fff;
+  aspect-ratio: 8/9;
+  height: 380pt;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+#projects article h3 {
+  line-height: 30pt;
+}
+
+#projects article span {
+  font-weight: 400;
+  line-height: 20pt;
+  font-size: 16pt;
+  width: 100%;
+  margin-top: .4rem;
+}
+
+#projects button.add-bookmark {
+  /* 
+  Honestly, sorta a superfluous button... may use later, for now: bye 
+  
+  position: absolute;
+  right: 50px;
+  padding: 3px;
+  */
+  display: none;
+}
+
+#projects button.bookmark {
+  position: absolute;
+  bottom: -20px;
+  display: block;
+  opacity: 0%;
+  height: 40px;
+  width: 50px;
+  border: none;
+  background-color: #009ce5;
+  box-shadow: 0px 2px 0px #008ac1, 0px 3px 6px rgba(0, 0, 0, .3);
+  border-radius: 5px 5px 15px 15px ;
+  cursor: pointer;
+}
+
+#projects article[data-bookmarked="true"]  button.bookmark{
+  opacity: 100%;
+}
+
+#projects article .splash {
+  position: absolute;
+  display: block;
+  left: 50%;
+  top: 290px;
+  width: 300px;
+  background-color: var(--mid-gray);
+  transform: translate(-50%, -50%);
+  aspect-ratio: 3 / 2;
+  border-radius: 12px;
+  border: 10px solid #fff;
+  box-shadow: var(--shadow);
+}
+
+
+#work {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translate(-90%, -50%);
+  text-align: right;
+}
+
+#work > h3 {
+  transform: translate(40%);
+}
+
+#work article {
+  position: relative;
+  display: block;
+  height: 200px;
+  padding: 30pt;
+  margin-bottom: -50pt;
+  background: #fff;
+  border-radius: 12px;
+  border: 2pt solid var(--mid-gray);
+  box-shadow: 0px 1pt 0 var(--mid-gray), var(--shadow);
+  transition: .3s ease-in-out transform;
+  cursor: pointer;
+}
+
+#work article:first-child {
+  transform: translate(40%);
+  height: max-content;
+}
+
+#work article:not(:first-child):hover {
+  transform: translate(83%);
+}
+
+#work article h3 {
+  font-size: 24pt;
+  line-height: 20pt;
+}
+
+#work article span {
+  display: block;
+  font-weight: 400;
+  line-height: 15pt;
+  font-size: 12pt;
+  margin: 0;
+  width: 100%;
+}
+
+#work article .date {
+  font-style: oblique;
+  font-stretch: normal;
+  text-transform: none;
+  font-weight: 200;
+}
+
+
+</style>
+<script>
+
+// from https://stackoverflow.com/questions/58357955/debouncing-in-javascript-not-working-with-wheel-event
+function debounce(fn, d) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => { fn.apply(this, args); }, d);
+  }
+}
+
+// t assumed within [0, 1]
+function lerp(a, b, t) {
+  return a + (b - a) * t
+}
+
+// animate to a window position in (x, y) px coords over duration millisecs
+function animateToPosition(domEl, top, left, durationMs) {
+
+  // STEP 1: Make positioning absolute
+  let startPos = domEl.getBoundingClientRect()
+  domEl.style.removeProperty("transform");
+  domEl.style.setProperty("position", "absolute");
+  domEl.style.setProperty("top", startPos.top);
+  domEl.style.setProperty("left", startPos.left);
+
+  top = top ?? startPos.top;
+  left = left ?? startPos.left;
+  
+  // STEP 2: Animate
+  let startTime = +(new Date());
+  
+  const step = () => {
+    let curTime = +(new Date());
+    if (curTime - startTime >= durationMs) {
+      domEl.style.setProperty("top", top);  
+      domEl.style.setProperty("left", left);  
+      return;
+    }
+    // lerp between vals
+    let progress = (curTime - startTime) / durationMs
+    domEl.style.setProperty("top", lerp(startPos.top, top, progress));
+    domEl.style.setProperty("left", lerp(startPos.left, left, progress));
+    window.requestAnimationFrame(step);
+  }
+  window.requestAnimationFrame(step);
+  
+}
+
+function dontBubble(event) {
+  event.preventDefault()
+  event.stopPropagation()
+}
+
+let articles = [];
+let curArticleInd = 0;
+window.onload = _ => {
+
+  // init articles
+  let pageStackMargin = 5;
+  articles = Array.prototype.slice.call(document.querySelectorAll("#projects article"))
+  curArticleInd = articles.length - 1;
+  
+  articles.forEach((domArticle, ind) => {
+  
+    domArticle.style.setProperty("margin-top", ind * -pageStackMargin + "px")
+    let bounds = domArticle.getBoundingClientRect()
+    
+    domArticle.isDown = true;
+    
+    domArticle.slideUp = () => {
+      animateToPosition(domArticle, -bounds.height + 30, bounds.left, 300)
+      domArticle.isDown = false;
+    }
+    
+    domArticle.slideDown = () => {
+      animateToPosition(domArticle, bounds.top + ind * pageStackMargin, bounds.left, 300)
+      domArticle.isDown = true;
+    }
+
+    domArticle.bookmark = () => {
+      // toggle bookmark
+      domArticle.isBookmarked = !domArticle.isBookmarked;
+      domArticle.setAttribute("data-bookmarked", domArticle.isBookmarked)
+    }
+    domArticle.bookmark()
+    
+    domArticle.onclick = _ => goToPageIndex(ind)
+    let addBmBtn = domArticle.querySelector("button.add-bookmark")
+    if (addBmBtn) {
+      addBmBtn.onclick = e => {
+        dontBubble(e)
+        domArticle.bookmark()
+      }
+    }
+    
+    let bookmark = domArticle.querySelector("button.bookmark")
+    if (bookmark) {
+      bookmark.onclick = e => {
+        dontBubble(e)
+        if (ind == curArticleInd) return;
+        goToPageIndex(ind)
+      }
+      let bookmarkWidth = bookmark.getBoundingClientRect().width
+      let leftPos = 50 + (bookmarkWidth + 1) * (articles.length - 2 - ind) 
+      bookmark.style.setProperty("left", leftPos + "px")
+    }
+  })
+}
+
+function setIcon() {
+  // set the scroll-nav icon to the right thing
+  let iconEl = document.querySelector("#nav-icon");
+  iconEl.classList.remove('uarr');
+  let icon; 
+  if (curArticleInd == articles.length-1) { icon = "&darr;" } // down arrow
+  else if (curArticleInd < 0)             { icon = "&uarr;";  // up arrow
+                                            iconEl.classList.add('uarr') } // requires specific alignment
+  else                                    { icon = "&varr;" } // vertical arrow
+  iconEl.innerHTML = icon;
+}
+  
+
+function goToPageIndex(ind) {
+  let domArticle = articles[ind]
+  
+  // if it's the top page, go to next page
+  if (ind == curArticleInd) {
+    domArticle.slideUp()
+    curArticleInd--;
+    setIcon();
+    return;
+  }
+  
+  if (domArticle.isDown) {
+    // animate to the clicked project, slide away top pages
+    articles
+      .slice(ind + 1, curArticleInd + 1)
+      .forEach(otherArticle => otherArticle.slideUp())
+  }
+  else {
+    // animate to clicked project, slide down to it
+    articles
+      .slice(curArticleInd + 1, ind + 1)
+      .forEach(otherArticle => otherArticle.slideDown())
+  }
+  curArticleInd = ind;
+  setIcon();
+}
+
+function onWheelHandler(e) {
+  if (e.deltaY > 0 && curArticleInd >= 0) {
+    // scroll down
+    goToPageIndex(curArticleInd)
+  }
+  else if (e.deltaY < 0 && curArticleInd < articles.length - 1) {
+    // scroll up
+    goToPageIndex(curArticleInd + 1)
+  }
+}
+
+window.onwheel = debounce(onWheelHandler, 50)
+
+</script>
+<body>
+  <div id="name">
+    <div>Ezekiel D'Ascoli</div>
+    <!-- <span>Software Engineer</span> -->
+  </div>
+  <section id="projects">
+    <article>
+      <h3>CoveyTown Battlegrounds</h3>
+      <span>Software Engineering Final Project</span>
+      <button class="add-bookmark">Bookmark</button>
+      <button class="bookmark"></button>
+    </article>
+    <article>
+      <h3>CoveyTown Battlegrounds 2</h3>
+      <span>Software Engineering Final Project</span>
+      <button class="add-bookmark">Bookmark</button>
+      <button class="bookmark"></button>
+    </article>
+    <article>
+      <h3>CoveyTown Battlegrounds 3</h3>
+      <span>Software Engineering Final Project</span>
+      <button class="add-bookmark">Bookmark</button>
+      <button class="bookmark"></button>
+    </article>
+    <article>
+      <h3>CoveyTown Battlegrounds 3</h3>
+      <span>Software Engineering Final Project</span>
+      <button class="add-bookmark">Bookmark</button>
+      <button class="bookmark"></button>
+    </article>
+    <article>
+      <h3>CoveyTown Battlegrounds 3</h3>
+      <span>Software Engineering Final Project</span>
+      <button class="add-bookmark">Bookmark</button>
+      <button class="bookmark"></button>
+      <div class="splash"></div>
+    </article>
+    <article>
+      <h3>Projects</h3>
+    </article>
+  </section>
+  <section id="work">
+    <h3>Work</h3>
+    <article>
+      <h3>Smartleaf Inc.</h3>
+      <span>Software Development Co-Op</span>
+      <span class="date">Dec 2019&ndash;Aug 2020</span>
+    </article>
+    <article>
+      <h3>Places For Less</h3>
+      <span>Software Engineeringing Co-Op</span>
+      <span class="date">Jan&ndash;Aug 2021</span>
+    </article>
+    <article>
+      <h3>Verve Motion</h3>
+      <span>Software Engineeringing Co-Op</span>
+      <span class="date">July&ndash;Dec 2022</span>
+    </article>
+  </section>
+  <section id="contact">
+    <h3>Contact</h3>
+    <ul>
+      <li><a target="_" href='mailto:dascoli.e@northeastern.edu'>Email</a></li>
+      <li><a target="_" href='https://www.linkedin.com/in/ezekiel-dascoli-2023/'>LinkedIn</a></li>
+    </ul>
+  </section>
+  <h3 id="nav-icon">&darr;</h3>
+</body>
