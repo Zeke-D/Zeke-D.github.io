@@ -3,6 +3,8 @@
   --light-gray: #e5e5e5;
   --mid-gray: #D1D1D1;
   --dark-gray: #707070;  
+  --neu-gold: #A4804A;
+  --neu-red: #C8102E;
   --shadow: 0px 3px 10px rgba(0, 0, 0, .16);
 }
 
@@ -10,6 +12,10 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+.spacer {
+  flex-grow: 1;
 }
 
 h3, span, p {
@@ -26,22 +32,25 @@ body {
   font-family: "Bahnschrift", sans-serif;
   font-weight: 700;
   font-stretch: semi-condensed;
-  font-size: 40px;
+  font-size: 30pt;
   overflow: hidden;
 }
 
 #nav-icon {
   position: fixed;
-  top: 60vh;
+  bottom: -10pt;
   /* left: 50%; */
+  top: 50%;
   right: 30pt;
-  transform: translate(-50%);
-  opacity: .15;
+  /* transform: translateY(-50%);*/
+  opacity: 0;
+  /* opacity: .15; */
   font-size: 200pt;
+  line-height: 200pt;
 }
 
 #nav-icon.uarr {
-  transform: translate(-50%, -16px);
+  /* transform: translate(-50%, -16px);  */
 }
 
 #name {  
@@ -51,8 +60,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 150px;
-  line-height: 100px;
+  font-size: 90pt;
+  line-height: 70pt;
   width: max-content;
   font-stretch: condensed;
   transform: translate(-50%, calc(-50% - 380pt/2 - 10pt));
@@ -75,14 +84,15 @@ body {
   left: 50%;
   height: 200px;
   aspect-ratio: 16 / 9;
-  transform: translate(-50%, -50%) rotate(-5deg) scale(.95);
+  transform: translate(-50%, calc(-100% + 10pt + .5 * 380pt)) rotate(-5deg) scale(.95);
   transition: .3s transform ease-out;
   box-shadow: var(--shadow);
 }
 
 #contact:hover {
-  transform: translate(-50%, -50%) rotate(-5deg);
+  transform: translate(-50%, calc(-100% + 10pt + .5 * 380pt)) rotate(-5deg);
   box-shadow: 0px 5px 20px rgba(0, 0, 0, .1);
+  cursor: pointer;
 }
 
 #contact ul {
@@ -114,14 +124,55 @@ body {
 
 #projects article h3 {
   line-height: 30pt;
+  text-align: center;
 }
 
 #projects article span {
-  font-weight: 400;
+  font-weight: 100;
+  text-align: center;
   line-height: 20pt;
-  font-size: 16pt;
+  letter-spacing: 3pt;
+  font-size: 15pt;
   width: 100%;
   margin-top: .4rem;
+}
+
+#projects article p {
+  font-family: "Courier New", serif;
+  text-transform: none;
+  font-weight: 100;
+  font-size: 11pt;
+  line-height: 14pt;
+  width: 100%;
+  margin: 2rem 0;
+}
+
+#projects article p ul li {
+  margin-bottom: 4pt;
+}
+
+#projects article a {
+  color: white;
+  text-transform: uppercase;
+  font-weight: 800;
+  font-stretch: condensed;
+  font-size: 2rem;
+  text-decoration: none;
+  padding: 5pt 10pt;
+  background-color: #56d15c;
+  box-shadow: 0px 4pt 0 #32a852;
+  border-radius: 5pt;
+  margin-bottom: 2rem;
+}
+
+#projects article ul.tags li {
+  background-color: var(--light-gray);
+  font-size: 20pt;
+  color: white;
+  list-decoration: none;
+  display: inline-block;
+  margin: 5pt 10pt 0 0;
+  padding: 0 10pt;
 }
 
 #projects button.add-bookmark {
@@ -135,9 +186,15 @@ body {
   display: none;
 }
 
+#projects .date {
+  position: absolute;
+  top: 10pt;
+  right: 10pt;
+}
+
 #projects button.bookmark {
   position: absolute;
-  bottom: -20px;
+  bottom: -10px;
   display: block;
   opacity: 0%;
   height: 40px;
@@ -147,6 +204,11 @@ body {
   box-shadow: 0px 2px 0px #008ac1, 0px 3px 6px rgba(0, 0, 0, .3);
   border-radius: 5px 5px 15px 15px ;
   cursor: pointer;
+  transition: .2s ease-out bottom;
+}
+
+#projects button.bookmark:hover {
+  bottom: -20px;
 }
 
 #projects article[data-bookmarked="true"]  button.bookmark{
@@ -172,17 +234,18 @@ body {
   position: absolute;
   left: 0;
   top: 50%;
-  transform: translate(-90%, -50%);
+  transform: translate(-83%, -50%);
   text-align: right;
 }
 
 #work > h3 {
-  transform: translate(40%);
+  transform: translate(20%);
 }
 
 #work article {
   position: relative;
   display: block;
+  width: 330px;
   height: 200px;
   padding: 30pt;
   margin-bottom: -50pt;
@@ -194,13 +257,8 @@ body {
   cursor: pointer;
 }
 
-#work article:first-child {
-  transform: translate(40%);
-  height: max-content;
-}
-
 #work article:not(:first-child):hover {
-  transform: translate(83%);
+  transform: translate(70%);
 }
 
 #work article h3 {
@@ -214,26 +272,126 @@ body {
   line-height: 15pt;
   font-size: 12pt;
   margin: 0;
-  width: 100%;
 }
 
 #work article .date {
+  font-family: "Courier New", serif;
   font-style: oblique;
   font-stretch: normal;
   text-transform: none;
   font-weight: 200;
 }
 
+#education {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  aspect-ratio: 3 / 2;
+  width: 600px;
+  transform: translate(calc(-15pt + 50vw), calc(-50%));
+  padding: 50px 50px 20px 50px;
+  border-radius: 10pt;
+  background-color: white;
+  box-shadow: var(--shadow);
+  border: 20pt solid var(--neu-gold);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: .3s ease-out transform, .3s ease-in-out box-shadow;
+  transform-style: preserve-3d;
+}
+
+#education::before {
+  content: '→';
+  font-size: 3rem;
+  text-align: center;
+  color: var(--neu-gold);
+  line-height: 3.25rem;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  display: block;
+  aspect-ratio: 3 / 2;
+  width: 80px;
+  background-color: white;
+  border: 2pt solid var(--neu-gold);
+  box-shadow: var(--shadow);
+  border-radius: 10pt 30pt 30pt 10pt;
+  transform: translate(80%, -50%) translateZ(-1px);
+}
+
+#education:not(.focused):hover {
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, .4);
+  transform: translate(calc(-50pt + 50vw), calc(-50%));
+}
+
+#education.focused {
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, .4);
+  transform: translate(-50%, -50%);
+}
+
+#education p, #education span {
+  font-size: 13pt;
+  font-weight: 200;
+  font-stretch: normal;
+  text-transform: none;
+}
+
+#education .class {
+  text-transform: uppercase;
+  letter-spacing: 1.5rem;
+  color: var(--neu-gold);
+  margin-bottom: 2rem;
+}
+#education .honors {
+  text-transform: uppercase;
+  justify-self: end;
+  letter-spacing: .2rem;
+  font-size: 1rem;
+  color: var(--neu-gold);
+}
+
+#education .degrees {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  grid-gap: 10pt;
+}
+
+#education .degrees span:nth-child(odd) {
+  text-align: right;
+  font-weight: 800;
+}
+
+#education .degrees span:nth-child(even) {
+  font-family: "Courier New", serif;
+}
+
+#coffee-stain {
+  position: fixed;
+  top: 40svh;
+  left: 50%;
+  transform: translate(calc(-50% - 100pt), -50%);
+  aspect-ratio: 1;
+  width: 400px;
+  mix-blend-mode: multiply;
+  filter: grayscale(.5);
+  opacity: .7;
+}
+
 
 </style>
+<script src="projects.js" type="application/javascript"></script>
 <script>
 
-// from https://stackoverflow.com/questions/58357955/debouncing-in-javascript-not-working-with-wheel-event
 function debounce(fn, d) {
-  let timer;
+  let timer = 0;
   return (...args) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => { fn.apply(this, args); }, d);
+    if (Date.now() - timer > d) fn.apply(this, args);
+    timer = Date.now();
   }
 }
 
@@ -285,6 +443,9 @@ let curArticleInd = 0;
 window.onload = _ => {
 
   // init articles
+  loadProjects();
+
+  
   let pageStackMargin = 5;
   articles = Array.prototype.slice.call(document.querySelectorAll("#projects article"))
   curArticleInd = articles.length - 1;
@@ -297,7 +458,7 @@ window.onload = _ => {
     domArticle.isDown = true;
     
     domArticle.slideUp = () => {
-      animateToPosition(domArticle, -bounds.height + 30, bounds.left, 300)
+      animateToPosition(domArticle, -bounds.height + projects.length * 6, bounds.left, 300)
       domArticle.isDown = false;
     }
     
@@ -330,10 +491,25 @@ window.onload = _ => {
         goToPageIndex(ind)
       }
       let bookmarkWidth = bookmark.getBoundingClientRect().width
-      let leftPos = 50 + (bookmarkWidth + 1) * (articles.length - 2 - ind) 
+      let leftPos = 20 + (bookmarkWidth + 1) * (articles.length - 2 - ind) 
       bookmark.style.setProperty("left", leftPos + "px")
     }
   })
+
+  let contact = document.querySelector("#contact");
+  contact.onclick = () => {
+    if (curArticleInd == -1) return;
+    goToPageIndex(0);
+    articles[0].slideUp();
+    curArticleInd = -1;
+    setIcon();
+  }
+
+  let diploma = document.querySelector("#education")
+  diploma.onclick = () => {
+    diploma.classList.toggle("focused");
+  }
+  
 }
 
 function setIcon() {
@@ -395,38 +571,21 @@ window.onwheel = debounce(onWheelHandler, 50)
     <div>Ezekiel D'Ascoli</div>
     <!-- <span>Software Engineer</span> -->
   </div>
+  <section id="education" class="">
+    <h3>Northeastern University</h3>
+    <span class="class">2018&mdash;2023</span>
+    <div class="degrees">
+      <span>Bachelor of Science</span>
+      <span>Computer Science</span>
+      <span>Concentration</span>
+      <span>Human Centered Computing</span>
+      <span>Minors</span>
+      <span>Theatre, Interaction Design</span>
+    </div>
+    <div class="spacer"></div>
+    <span class="honors"><i>Magna Cum Laude</i></span>
+  </section>
   <section id="projects">
-    <article>
-      <h3>CoveyTown Battlegrounds</h3>
-      <span>Software Engineering Final Project</span>
-      <button class="add-bookmark">Bookmark</button>
-      <button class="bookmark"></button>
-    </article>
-    <article>
-      <h3>CoveyTown Battlegrounds 2</h3>
-      <span>Software Engineering Final Project</span>
-      <button class="add-bookmark">Bookmark</button>
-      <button class="bookmark"></button>
-    </article>
-    <article>
-      <h3>CoveyTown Battlegrounds 3</h3>
-      <span>Software Engineering Final Project</span>
-      <button class="add-bookmark">Bookmark</button>
-      <button class="bookmark"></button>
-    </article>
-    <article>
-      <h3>CoveyTown Battlegrounds 3</h3>
-      <span>Software Engineering Final Project</span>
-      <button class="add-bookmark">Bookmark</button>
-      <button class="bookmark"></button>
-    </article>
-    <article>
-      <h3>CoveyTown Battlegrounds 3</h3>
-      <span>Software Engineering Final Project</span>
-      <button class="add-bookmark">Bookmark</button>
-      <button class="bookmark"></button>
-      <div class="splash"></div>
-    </article>
     <article>
       <h3>Projects</h3>
     </article>
@@ -457,4 +616,5 @@ window.onwheel = debounce(onWheelHandler, 50)
     </ul>
   </section>
   <h3 id="nav-icon">&darr;</h3>
+  <img id="coffee-stain" src="../../imgs/coffee-stain.svg" alt="casualty of working"/>
 </body>
