@@ -22,6 +22,15 @@ h3, span, p {
   cursor: default;
 }
 
+b {
+  font-weight: 800;
+}
+
+a {
+  word-break: break-word;
+}
+
+
 body {
   margin: 0;
   padding: 0;
@@ -144,25 +153,40 @@ body {
   font-size: 11pt;
   line-height: 14pt;
   width: 100%;
-  margin: 2rem 0;
+  margin-top: 2rem;
 }
 
 #projects article p ul li {
   margin-bottom: 4pt;
 }
 
-#projects article a {
+#projects article .links {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+#projects article a.btn {
   color: white;
+  display: inline-block;
   text-transform: uppercase;
+  width: 100%;
+  text-align: center;
   font-weight: 800;
   font-stretch: condensed;
-  font-size: 2rem;
+  font-size: 1rem;
   text-decoration: none;
   padding: 5pt 10pt;
-  background-color: #56d15c;
-  box-shadow: 0px 4pt 0 #32a852;
+  background-color: #52af57;
+  box-shadow: 0px 4pt 0 #32a852, var(--shadow);
   border-radius: 5pt;
-  margin-bottom: 2rem;
+  margin-top: .5rem;
+  z-index: 2;
+}
+
+#projects article ul.tags {
+  position: absolute;
+  bottom: 40pt;
+  z-index: 1;
 }
 
 #projects article ul.tags li {
@@ -191,6 +215,7 @@ body {
   bottom: 10pt;
   right: 10pt;
   text-align: right;
+  z-index: 2;
 }
 
 #projects button.bookmark {
@@ -206,6 +231,7 @@ body {
   border-radius: 5px 5px 15px 15px ;
   cursor: pointer;
   transition: .2s ease-out bottom;
+  z-index: 3;
 }
 
 #projects button.bookmark:hover {
@@ -407,6 +433,7 @@ body {
   bottom: 20%;
   right: 100px;
   cursor: pointer;
+  z-index: 4;
   /* transform: translateZ(-1px); */
 }
 

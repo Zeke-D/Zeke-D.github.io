@@ -29,7 +29,7 @@ const projects = [
     title: "Terrariam",               
     subtitle: "MIT RealityHack 2023 Winner",
     date: new Date("2022-03-26"),
-    images: ["../../imgs/Terrariam/me-talking.jpeg"],
+    images: ["imgs/Terrariam/me-talking.jpeg"],
     iframes: [
       "https://www.youtube.com/embed/wtCWMM_7NuE?enablejsapi=1",
       "https://www.youtube.com/embed/aM9F0wimqzY?enablejsapi=1",
@@ -49,7 +49,7 @@ const projects = [
     tags: [Tag.UI_UX, Tag.HCI, Tag.WEBDEV],
     desc: "A semester long group project teaching us how to iteratively test designs each step of the way. Through lofi paper prototypes all the way up to a hifi mockup, we built a travel planning application interface.",
     images: [
-      "../../imgs/Condor/PaperPrototype.png"
+      "imgs/Condor/PaperPrototype.png"
     ],
     iframes: [
       "https://youtube.com/embed/4ZIGfC6iR3k?enablejsapi=1",
@@ -61,9 +61,9 @@ const projects = [
     subtitle: "Computer Graphics",
     date: new Date("2022-06-01"),
     images: [
-      "../../imgs/OpenChiaL/Grass.png",
-      "../../imgs/OpenChiaL/Rabbit.png",
-      "../../imgs/OpenChiaL/Rabbit2.png",
+      "imgs/OpenChiaL/Grass.png",
+      "imgs/OpenChiaL/Rabbit.png",
+      "imgs/OpenChiaL/Rabbit2.png",
     ],
     iframes: [
       "https://www.youtube.com/embed/kVwgti5Q0po?enablejsapi=1",
@@ -82,8 +82,8 @@ const projects = [
       "https://www.youtube.com/embed/t_5VT0DOnFA?enablejsapi=1",
     ],
     images: [
-      "../../imgs/CoveyTown/tag.png",
-      "../../imgs/CoveyTown/wizard-wars.png",
+      "imgs/CoveyTown/tag.png",
+      "imgs/CoveyTown/wizard-wars.png",
     ],
     tags: [Tag.WEBDEV, Tag.TYPESCRIPT, Tag.REACT, Tag.UI_UX],
     desc: "What would make a group project requiring a semester's worth of planning and interoperating with a multi-thousand line codebase more exciting? Implementing an entire TypeScript game engine, of course!<br>" +
@@ -102,7 +102,7 @@ const projects = [
     media: ["https://images.pexels.com/photos/5957094/pexels-photo-5957094.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"],
     tags: [Tag.WEBDEV, Tag.SVELTE, Tag.UI_UX, Tag.ART] ,
     desc: `This was a tactical-media art installation created for my Experience Design class using Svelte. I wanted to experiment with using the common infinite-timeline as a narrative device.`,
-    links: [{url: "../../projects/Instagrat/index.html", text: "See it"}],
+    links: [{url: "projects/Instagrat/index.html", text: "See it"}],
   },
   {
     title: "Boston Reddiment",        

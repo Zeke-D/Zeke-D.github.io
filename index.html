@@ -1,274 +1,806 @@
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@320&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/konpa/devicon@master/devicon.min.css">
-<link href='./styles/style.css' rel='stylesheet' type='text/css'>
-<link href='./styles/slider.css' rel='stylesheet' type='text/css'>
-<script src="./scripts/pageSetup.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root {
+  --light-gray: #e5e5e5;
+  --mid-gray: #D1D1D1;
+  --dark-gray: #707070;  
+  --neu-gold: #A4804A;
+  --neu-red: #C8102E;
+  --shadow: 0px 3px 10px rgba(0, 0, 0, .16);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+h3, span, p {
+  cursor: default;
+}
+
+b {
+  font-weight: 800;
+}
+
+a {
+  word-break: break-word;
+}
+
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--light-gray);
+  width: 100%;
+  color: var(--dark-gray);
+  text-transform: uppercase;
+  font-family: "Bahnschrift", sans-serif;
+  font-weight: 700;
+  font-stretch: semi-condensed;
+  font-size: 30pt;
+  overflow: hidden;
+}
+
+#nav-icon {
+  position: fixed;
+  bottom: -10pt;
+  /* left: 50%; */
+  top: 50%;
+  right: 30pt;
+  /* transform: translateY(-50%);*/
+  opacity: 0;
+  /* opacity: .15; */
+  font-size: 200pt;
+  line-height: 200pt;
+}
+
+#nav-icon.uarr {
+  /* transform: translate(-50%, -16px);  */
+}
+
+#name {  
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 90pt;
+  line-height: 70pt;
+  width: max-content;
+  font-stretch: condensed;
+  transform: translate(-50%, calc(-50% - 380pt/2 - 10pt));
+}
+
+#name span {
+  font-size: 20pt;
+  line-height: 30pt;
+  font-weight: 100;
+  font-stretch: normal;
+  letter-spacing: 20pt;
+}
+
+#contact {
+  z-index: 0;
+  padding: 50px 30px;
+  background-color: #fff;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  height: 200px;
+  aspect-ratio: 16 / 9;
+  transform: translate(-50%, calc(-100% + 10pt + .5 * 380pt)) rotate(-5deg) scale(.95);
+  transition: .3s transform ease-out;
+  box-shadow: var(--shadow);
+}
+
+#contact:hover {
+  transform: translate(-50%, calc(-100% + 10pt + .5 * 380pt)) rotate(-5deg);
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, .1);
+  cursor: pointer;
+}
+
+#contact ul {
+  display: flex;
+  list-style: none;
+  justify-content: space-between;
+}
+
+#contact ul li a {
+  color: orange;
+}
+
+
+#projects article {
+  z-index: 1;
+  position: absolute;
+  top: calc(50% - 380pt * .5);
+  left: calc(50% - 380pt * 8 / 9 * .5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40pt 30pt;
+  background: #fff;
+  aspect-ratio: 8/9;
+  height: 380pt;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+#projects article h3 {
+  line-height: 30pt;
+  text-align: center;
+}
+
+#projects article span {
+  font-weight: 100;
+  text-align: center;
+  line-height: 20pt;
+  letter-spacing: 3pt;
+  font-size: 15pt;
+  width: 100%;
+  margin-top: .4rem;
+}
+
+#projects article p {
+  font-family: "Courier New", serif;
+  text-transform: none;
+  font-weight: 100;
+  font-size: 11pt;
+  line-height: 14pt;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+#projects article p ul li {
+  margin-bottom: 4pt;
+}
+
+#projects article .links {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+#projects article a.btn {
+  color: white;
+  display: inline-block;
+  text-transform: uppercase;
+  width: 100%;
+  text-align: center;
+  font-weight: 800;
+  font-stretch: condensed;
+  font-size: 1rem;
+  text-decoration: none;
+  padding: 5pt 10pt;
+  background-color: #52af57;
+  box-shadow: 0px 4pt 0 #32a852, var(--shadow);
+  border-radius: 5pt;
+  margin-top: .5rem;
+  z-index: 2;
+}
+
+#projects article ul.tags {
+  position: absolute;
+  bottom: 40pt;
+  z-index: 1;
+}
+
+#projects article ul.tags li {
+  background-color: var(--light-gray);
+  font-size: 20pt;
+  color: white;
+  list-decoration: none;
+  display: inline-block;
+  margin: 5pt 10pt 0 0;
+  padding: 0 10pt;
+}
+
+#projects button.add-bookmark {
+  /* 
+  Honestly, sorta a superfluous button... may use later, for now: bye 
+  
+  position: absolute;
+  right: 50px;
+  padding: 3px;
+  */
+  display: none;
+}
+
+#projects article .date {
+  position: absolute;
+  bottom: 10pt;
+  right: 10pt;
+  text-align: right;
+  z-index: 2;
+}
+
+#projects button.bookmark {
+  position: absolute;
+  bottom: -10px;
+  display: block;
+  opacity: 0%;
+  height: 40px;
+  width: 50px;
+  border: none;
+  background-color: #009ce5;
+  box-shadow: 0px 2px 0px #008ac1, 0px 3px 6px rgba(0, 0, 0, .3);
+  border-radius: 5px 5px 15px 15px ;
+  cursor: pointer;
+  transition: .2s ease-out bottom;
+  z-index: 3;
+}
+
+#projects button.bookmark:hover {
+  bottom: -20px;
+}
+
+#projects article[data-bookmarked="true"]  button.bookmark{
+  opacity: 100%;
+}
+
+#projects article .splash {
+  position: absolute;
+  display: block;
+  left: 50%;
+  top: 290px;
+  width: 300px;
+  background-color: var(--mid-gray);
+  transform: translate(-50%, -50%);
+  aspect-ratio: 3 / 2;
+  border-radius: 12px;
+  border: 10px solid #fff;
+  box-shadow: var(--shadow);
+}
+
+
+#work {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translate(-83%, -50%);
+  text-align: right;
+}
+
+#work > h3 {
+  transform: translate(20%);
+}
+
+#work article {
+  position: relative;
+  display: block;
+  width: 330px;
+  height: 200px;
+  padding: 30pt;
+  margin-bottom: -50pt;
+  background: #fff;
+  border-radius: 12px;
+  border: 2pt solid var(--mid-gray);
+  box-shadow: 0px 1pt 0 var(--mid-gray), var(--shadow);
+  transition: .3s ease-in-out transform;
+  cursor: pointer;
+}
+
+#work article:not(:first-child):hover {
+  transform: translate(70%);
+}
+
+#work article h3 {
+  font-size: 24pt;
+  line-height: 20pt;
+}
+
+#work article span {
+  display: block;
+  font-weight: 400;
+  line-height: 15pt;
+  font-size: 12pt;
+  margin: 0;
+}
+
+#work article .date {
+  font-family: "Courier New", serif;
+  font-style: oblique;
+  font-stretch: normal;
+  text-transform: none;
+  font-weight: 200;
+}
+
+#education > h3 {
+  position: fixed;
+  top: 27%;
+  right: 50pt;
+}
+
+#education article {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  aspect-ratio: 3 / 2;
+  width: 700px;
+  transform: translate(calc(-25pt + 50vw), calc(-50%));
+  padding: 50px 50px 20px 50px;
+  border-radius: 10pt;
+  background-color: white;
+  box-shadow: var(--shadow);
+  border: 20pt solid var(--neu-gold);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: .3s ease-in-out transform, .3s ease-in-out box-shadow;
+  transform-style: preserve-3d;
+}
+
+#education article::before {
+  content: '→';
+  font-size: 3rem;
+  text-align: center;
+  background-color: var(--neu-gold);
+  line-height: 3.25rem;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  display: block;
+  aspect-ratio: 3 / 2;
+  width: 80px;
+  color: white;
+  border: 2pt solid var(--neu-gold);
+  box-shadow: var(--shadow);
+  border-radius: 10pt 30pt 30pt 10pt;
+  transform: translate(80%, -50%) translateZ(-1px);
+}
+
+#education article h3 {
+  text-align: center;
+  width: max-content;
+  /*
+  font-size: 30pt;
+  line-height: 28pt;
+  */
+}
+
+#education article:not(.focused):hover {
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, .4);
+  transform: translate(calc(-50pt + 50vw), calc(-50%));
+}
+
+#education article.focused {
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, .4);
+  transform: translate(-50%, -50%);
+}
+
+#education article p, #education article span {
+  font-size: 13pt;
+  font-weight: 200;
+  font-stretch: normal;
+  text-transform: none;
+}
+
+#education article .class {
+  place-self: end;
+  text-transform: uppercase;
+  letter-spacing: 3rem;
+  color: var(--neu-gold);
+}
+#education article .honors {
+  text-transform: uppercase;
+  justify-self: end;
+  letter-spacing: .2rem;
+  font-size: 1rem;
+  color: var(--neu-gold);
+}
+
+#education article .degrees {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: start;
+  grid-gap: 10pt;
+}
+
+#education article .degrees span:nth-child(odd) {
+  text-align: right;
+  font-weight: 800;
+}
+
+#education article .degrees span:nth-child(even) {
+  font-family: "Courier New", serif;
+}
+
+#coffee-stain {
+  position: fixed;
+  top: 40svh;
+  left: 50%;
+  transform: translate(calc(-50% - 100pt), -50%);
+  aspect-ratio: 1;
+  width: 400px;
+  mix-blend-mode: multiply;
+  filter: grayscale(.5);
+  opacity: .7;
+}
+
+
+
+.media-stack {
+  position: absolute;
+  width: max-content;
+  right: -20px;
+  bottom: 20%;
+  right: 100px;
+  cursor: pointer;
+  z-index: 4;
+  /* transform: translateZ(-1px); */
+}
+
+.media-stack li {
+  position: absolute;
+  list-style: none;
+  transform: translate(-50%, -50%) scale(.2);
+  transition: .2s ease-out transform, .2s ease-out position;
+}
+
+.media-stack li img, .media-stack li iframe {
+  position: relative;
+  object-fit: cover;
+  width: 700;
+  aspect-ratio: 3/2;
+  border-radius: 40pt;
+  border: calc(10pt / .15 * .5) solid white;
+  box-shadow: var(--shadow);
+  background-color: var(--light-gray);
+}
+
+.media-stack li:nth-child(1) { z-index: 2; transform: translate(calc(7% - 50%), -50%) scale(.15); }
+.media-stack li:nth-child(2) { transform:  translate(calc(.5 * +12% - 50%), calc(.5 * -10% - 50%)) scale(.15) rotate(-5deg); }
+.media-stack li:nth-child(3) { transform:  translate(calc(.5 * +14% - 50%), calc(.5 * -5% - 50%)) scale(.15) rotate(-2deg); }
+.media-stack li:nth-child(4) { transform:  translate(calc(.5 * +12% - 50%), calc(.5 * +10% - 50%)) scale(.15) rotate(5deg); }
+.media-stack li:nth-child(5) { transform:  translate(calc(.5 * +14% - 50%), calc(.5 * +5% - 50%)) scale(.15) rotate(2deg); }
+
+.media-stack li:nth-child(1).onHover { z-index: 2; transform: translate(calc(8% - 50%), -50%) scale(.15); }
+.media-stack li:nth-child(2).onHover { transform:  translate(calc(.5 * +11% - 50%), calc(.5 * -20% - 50%)) scale(.15) rotate(-15deg); }
+.media-stack li:nth-child(3).onHover { transform:  translate(calc(.5 * +15% - 50%), calc(.5 * -10% - 50%)) scale(.15) rotate(-5deg); }
+.media-stack li:nth-child(4).onHover { transform:  translate(calc(.5 * +11% - 50%), calc(.5 * +20% - 50%)) scale(.15) rotate(15deg); }
+.media-stack li:nth-child(5).onHover { transform:  translate(calc(.5 * +15% - 50%), calc(.5 * +10% - 50%)) scale(.15) rotate(5deg); }
+
+.media-stack li iframe {
+  pointer-events: none;
+}
+
+.media-stack li.expanded iframe {
+  pointer-events: all;
+}
+.media-stack li.expanded::before {
+  content: 'Close';
+  color: white;
+  position: absolute;
+  display: block;
+  padding: 10pt;
+  font-size: 2rem;
+  border-radius: 10pt;
+  top: 100%;
+  left: 50%;
+  background-color: orangered;
+  box-shadow: 0px 5pt 0px darkred, var(--shadow);
+  z-index: 10;
+  transform: translate(-50%, -90%);
+}
+
+.media-stack li.expanded { 
+  z-index: 3; 
+  transform: translate(-100%, -75%) scale(1); 
+}
+.media-stack li.expanded img, .media-stack li.expanded iframe { 
+  box-shadow: 0px 20px 50px rgba(0, 0, 0, .3);
+  border: 10pt solid white;
+  border-radius: 10pt;
+}
+
+
+</style>
+<script src="projects.js" type="application/javascript"></script>
+<script>
+
+function debounce(fn, d) {
+  let timer = 0;
+  return (...args) => {
+    if (Date.now() - timer > d) fn.apply(this, args);
+    timer = Date.now();
+  }
+}
+
+// t assumed within [0, 1]
+function lerp(a, b, t) {
+  return a + (b - a) * t
+}
+
+// animate to a window position in (x, y) px coords over duration millisecs
+function animateToPosition(domEl, top, left, durationMs) {
+
+  // STEP 1: Make positioning absolute
+  let startPos = domEl.getBoundingClientRect()
+  domEl.style.removeProperty("transform");
+  domEl.style.setProperty("position", "absolute");
+  domEl.style.setProperty("top", startPos.top);
+  domEl.style.setProperty("left", startPos.left);
+
+  top = top ?? startPos.top;
+  left = left ?? startPos.left;
+  
+  // STEP 2: Animate
+  let startTime = +(new Date());
+  
+  const step = () => {
+    let curTime = +(new Date());
+    if (curTime - startTime >= durationMs) {
+      domEl.style.setProperty("top", top);  
+      domEl.style.setProperty("left", left);  
+      return;
+    }
+    // lerp between vals
+    let progress = (curTime - startTime) / durationMs
+    domEl.style.setProperty("top", lerp(startPos.top, top, progress));
+    domEl.style.setProperty("left", lerp(startPos.left, left, progress));
+    window.requestAnimationFrame(step);
+  }
+  window.requestAnimationFrame(step);
+  
+}
+
+function dontBubble(event) {
+  event.preventDefault()
+  event.stopPropagation()
+}
+
+let articles = [];
+let curArticleInd = 0;
+
+function resetArticleMedia(domArticle) {
+  domArticle.querySelectorAll('.media-stack').forEach(stack => {stack.activeImage = undefined});
+  domArticle.querySelectorAll('.media-stack li').forEach(li => {
+    li.querySelector("iframe")
+      ?.contentWindow
+      .postMessage('{"event":"command","func":"pauseVideo","args":""}', "*");
+    li.classList.remove('expanded')
+    li.classList.remove('onHover')
+  });
+}
+
+window.onload = _ => {
+
+  // init articles
+  loadProjects();
+
+  
+  let pageStackMargin = 5;
+  articles = Array.prototype.slice.call(document.querySelectorAll("#projects article"))
+  curArticleInd = articles.length - 1;
+  
+  articles.forEach((domArticle, ind) => {
+  
+    domArticle.style.setProperty("margin-top", ind * -pageStackMargin + "px")
+    let bounds = domArticle.getBoundingClientRect()
+    
+    domArticle.isDown = true;
+    
+    domArticle.slideUp = () => {
+      animateToPosition(domArticle, -bounds.height + projects.length * 6, bounds.left, 300)
+      resetArticleMedia(domArticle);
+      domArticle.isDown = false;
+    }
+    
+    domArticle.slideDown = () => {
+      animateToPosition(domArticle, bounds.top + ind * pageStackMargin, bounds.left, 300)
+      if (articles[curArticleInd]) resetArticleMedia(articles[curArticleInd]);
+      domArticle.isDown = true;
+    }
+
+    domArticle.bookmark = () => {
+      // toggle bookmark
+      domArticle.isBookmarked = !domArticle.isBookmarked;
+      domArticle.setAttribute("data-bookmarked", domArticle.isBookmarked)
+    }
+    domArticle.bookmark()
+    
+    domArticle.onclick = _ => goToPageIndex(ind)
+    let addBmBtn = domArticle.querySelector("button.add-bookmark")
+    if (addBmBtn) {
+      addBmBtn.onclick = e => {
+        dontBubble(e)
+        domArticle.bookmark()
+      }
+    }
+    
+    let bookmark = domArticle.querySelector("button.bookmark")
+    if (bookmark) {
+      bookmark.onclick = e => {
+        dontBubble(e)
+        if (ind == curArticleInd) return;
+        goToPageIndex(ind)
+      }
+      let bookmarkWidth = bookmark.getBoundingClientRect().width
+      let leftPos = 20 + (bookmarkWidth + 1) * (articles.length - 2 - ind) 
+      bookmark.style.setProperty("left", leftPos + "px")
+    }
+  })
+
+  let contact = document.querySelector("#contact");
+  contact.onclick = () => {
+    if (curArticleInd == -1) return;
+    goToPageIndex(0);
+    articles[0].slideUp();
+    curArticleInd = -1;
+    setIcon();
+  }
+
+  let diploma = document.querySelector("#education article")
+  diploma.onclick = () => {
+    diploma.classList.toggle("focused");
+  }
+
+
+  // setup all the image stacks
+  document.querySelectorAll(".media-stack").forEach(stack => {
+    let images = stack.querySelectorAll('li')
+    images.forEach(image => {
+      image.addEventListener('mouseenter', e => {
+        dontBubble(e);
+        if (!stackIsOnTop(stack)) return;
+        images.forEach(otherImage => {
+          if (image != stack.activeImage && otherImage != stack.activeImage) {
+            otherImage.classList.add('onHover')
+          }
+        });
+      });
+      
+      image.addEventListener('mouseleave', e => {
+        dontBubble(e);
+        if (!stackIsOnTop(stack)) return;
+        if (stack.activeImage) return;
+        images.forEach(image => image.classList.remove('onHover'));
+      });
+      
+      image.addEventListener("click", e => {
+        dontBubble(e);
+        if (!stackIsOnTop(stack)) return;
+        if (stack.activeImage) {
+          // pause youtube video
+          stack.activeImage.querySelector("iframe")
+            ?.contentWindow
+            .postMessage('{"event":"command","func":"pauseVideo","args":""}', "*");
+          stack.activeImage.classList.remove("expanded");
+        }
+        if (stack.activeImage == image) {
+          stack.activeImage = undefined;
+          return;
+        }
+        image.classList.remove('onHover');
+        image.classList.toggle("expanded");
+        stack.activeImage = image;
+      })
+    })
+  });
+  
+}
+
+function stackIsOnTop(stack) {
+  return []
+    .slice
+    .call(articles[curArticleInd].querySelectorAll('.media-stack'))
+    .includes(stack);
+}
+
+function setIcon() {
+  // set the scroll-nav icon to the right thing
+  let iconEl = document.querySelector("#nav-icon");
+  iconEl.classList.remove('uarr');
+  let icon; 
+  if (curArticleInd == articles.length-1) { icon = "&darr;" } // down arrow
+  else if (curArticleInd < 0)             { icon = "&uarr;";  // up arrow
+                                            iconEl.classList.add('uarr') } // requires specific alignment
+  else                                    { icon = "&varr;" } // vertical arrow
+  iconEl.innerHTML = icon;
+}
+  
+
+function goToPageIndex(ind) {
+  let domArticle = articles[ind]
+  
+  // if it's the top page, go to next page
+  if (ind == curArticleInd) {
+    domArticle.slideUp()
+    curArticleInd--;
+    setIcon();
+    return;
+  }
+  
+  if (domArticle.isDown) {
+    // animate to the clicked project, slide away top pages
+    articles
+      .slice(ind + 1, curArticleInd + 1)
+      .forEach(otherArticle => otherArticle.slideUp())
+  }
+  else {
+    // animate to clicked project, slide down to it
+    articles
+      .slice(curArticleInd + 1, ind + 1)
+      .forEach(otherArticle => otherArticle.slideDown())
+  }
+  curArticleInd = ind;
+  setIcon();
+}
+
+function onWheelHandler(e) {
+  if (e.deltaY > 0 && curArticleInd >= 0) {
+    // scroll down
+    goToPageIndex(curArticleInd)
+  }
+  else if (e.deltaY < 0 && curArticleInd < articles.length - 1) {
+    // scroll up
+    goToPageIndex(curArticleInd + 1)
+  }
+}
+
+window.onwheel = debounce(onWheelHandler, 50)
+
+</script>
 <body>
-  <main>
-    <!-- <section id="hero">
-      <h1>Zeke D'Ascoli</h1>
-    </section> -->
-    <section id="hero">
-      <h1>My Overview.</h1>
-      <ul class="navlinks noBullets">
-        <li><a href="#">Home</a></li>
-        <li><a href="#work">Work</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <!-- <li><a href="./blog.html">Blog</a></li> -->
-      </ul>
-    </section>
-    <section id="contact" class="card gutterItem">
-      <h1>Ezekiel D'Ascoli</h1>
-      <p>dascoli.e@northeastern.edu</p>
-      <p>609.213.6337</p>
-    </section>
-    <section id="links" class="gutterItem">
-      <label for="theme-switch" class="tip">Dark Mode</label><br>
-      <label class="switch">
-        <input id="theme-switch" type="checkbox"/>
-        <span class="slider round"></span>
-      </label>
-      <ul class="noBullets">
-        <li> <a href="https://www.linkedin.com/in/ezekiel-dascoli-2023">Linked In</a> </li>
-        <li> <a href="https://www.github.com/zeke-d">GitHub</a> </li>
-        <li> <a href="./misc/Resume_2022.pdf">Resume</a> </li>
-      </ul>
-    </section>
-    <section id="aboutMe" class="">
-      <h1>About Me</h1>
-      <img class="picture" src="imgs/ActingHeadshot_str.jpg"/>
-      <p>I've been programming for over a decade, which is a little more than half my life.
-        I've learned to build, break, tinker, toy, hack, design, and redesign 100 times over.
-        I love finding new frontiers of communication. I am currently focused on multi-media and mixed-reality style performance.
-        I study interdisciplinary research, and am passionate about uniting multiple fields.
-        This page is my virtual resume, but please poke around the other pages for a more
-        in-depth view of my work.
-      </p>
-    </section>
-
-    <section id="education" class="gutterItem card">
-      <h1>Education</h1>
-      <div class="info">
-        <h2>Northeastern University</h2>
-        <h3>Khoury College of Computer Sciences</h3>
-        <h3>College of Arts, Media, and Design</h3>
-        <p>2018–2023</p>
-      </div>
-      <p class="">Candidate for</p>
-      <ul class="noBullets">
-        <li><a href="http://catalog.northeastern.edu/undergraduate/computer-information-science/computer-science/bscs/">BS in Computer Science</a></li>
-        <li><a href="https://camd.northeastern.edu/program/theatre/">BA in Theatre</a></li>
-        <li><a href="http://catalog.northeastern.edu/undergraduate/arts-media-design/art-design/interaction-design-minor/">Minor in Interaction Design</a></li>
-      </ul>
-      <ul class="achievements">
-        <li>GPA: 3.73/4.0</li>
-        <li>Dean’s List</li>
-        <li>Academic Scholarship</li>
-      </ul>
-      <h3 class="coursework">Computer Science Coursework</h3>
-      <p>Mixed Reality, Software Engineering, Networks and Distributed Systems, Fundamentals of Digital Design/Computer Organization, Theory of Computation, Algorithms and Data, Object-Oriented Design, Computer Systems, Logic and Computation, Fundamentals of CS 1 & 2, Discrete Structures</p>
-      <h3 class="coursework">Theatre Coursework</h3>
-      <p>Mixed Media Performance Lab, Acting for the Camera, Acting 1 & 2, Introduction to Theatre, Into to Theatrical Design</p>
-      <h3 class="coursework">Design Coursework</h3>
-      <p>Experience and Interaction Design, Design Process Context/Systems, Typography 1, Type Tools</p>
-    </section>
-    <section id="techStack" class="gutterItem card">
-      <h1>Some Stuff I Use</h1>
-      <h3>Languages</h3>
-      <ul class="iconList">
-        <li><i class="devicon-javascript-plain"></i></li>
-        <li><i class="devicon-java-plain"></i></li>
-        <li><i class="devicon-python-plain"></i></li>
-        <li><i class="devicon-html5-plain"></i></li>
-        <li><i class="devicon-css3-plain"></i></li>
-        <li><i class="devicon-c-plain"></i></li>
-        <li><i class="devicon-csharp-plain"></i></li>
-        <li><i class="devicon-rails-plain"></i></li>
-        <li><i class="devicon-ruby-plain"></i></li>
-      </ul>
-      <h3>Frameworks</h3>
-      <ul class="iconList">
-        <li><i class="devicon-react-plain"></i></li>
-        <li><i class="devicon-handlebars-plain"></i></li>
-        <li><i class="devicon-nodejs-plain"></i></li>
-      </ul>
-      <h3>Databases</h3>
-      <ul class="iconList">
-        <li><i class="devicon-mongodb-plain-wordmark"></i></li>
-        <li><i class="devicon-mysql-plain"></i></li>
-        <li><i class="devicon-postgresql-plain-wordmark"></i></li>
-      </ul>
-      <h3>Software</h3>
-      <ul class="iconList">
-        <li><i class="devicon-apple-plain"></i></li>
-        <li><i class="devicon-linux-plain"></i></li>
-        <li><i class="devicon-windows8-plain"></i></li>
-        <li><i class="devicon-git-plain"></i></li>
-      </ul>
-    </section>
-    <section id="work" class=''>
-      <h1>Work</h1>
-      <div class="headerBlock box-shadow">
-        <div class="info">
-          <h2>Places For Less</h2>
-          <h3>Full Stack Software Engineering Co-Op</h3>
-          <p class="">December 2020 – August 2021</p>
-        </div>
-        <ul class="achievements" title="achievements">
-          <li>Maintained full app alongside two other developers (Laravel/Vue Framework)</li>
-          <li>Engineered an address-based apartment search engine</li>
-          <li>Homebrewed analytic tools for optimizing automatic advertisement success</li>
-          <li>Integrated backend with Salesforce, Twillio, and Zapier to automate sales-team workflow</li>
-          <li>Improved user search-page load-time by ~71%</li>
-        </ul>
-      </div>
-      <div class="headerBlock box-shadow">
-        <div class="info">
-          <h2>Smartleaf</h2>
-          <h3>Full Stack Software Engineering Co-Op</h3>
-          <p class="">January–August 2020</p>
-        </div>
-        <ul class="achievements" title="achievements">
-          <li>Utilized React, Redux, and plotly API to build a developer tools suite</li>
-          <li>Tracked, fixed, & automated testing of major application breaking bugs</li>
-          <li>Built large client-facing securities report using Ruby/Rails, Oracle SQL</li>
-          <li>Conducted technical interviews and onboarded my proceeding co-ops</li>
-          <li>Operated as Release Master for 1 month & deployed production releases</li>
-        </ul>
-      </div>
-      <div class="separate">
-        <p class="hint">Want to help me expand this list?</p>
-        <a class="hirebtn" href="mailto:dascoli.e@northeastern.edu?subject=Hire%20Zeke">Hire Zeke</a>
-      </div>
-    </section>
-    <section id="projects">
-      <h1>Projects</h1>
-      <div class="cards">
-        <div class="headerBlock box-shadow">
-          <div class="info">
-            <h2>Instagrat</h2>
-            <h3>Artist</h3>
-            <p class="">November 2020</p>
-          </div>
-          <p style="margin-bottom: 1em">This was a tactical-media art installation created for my Experience Design class using Svelte. You can read my artist statement <a href="projects/Instagrat/Statement.pdf">here</a>.</p>
-          <a href="projects/Instagrat/index.html">view full project</a>
-        </div>
-        <div class="headerBlock box-shadow">
-          <div class="info">
-            <h2>This Website</h2>
-            <h3>Creator</h3>
-            <p class="">Present</p>
-          </div>
-          <p>
-            I needed a website to showcase my work and felt that my current site was a little
-            too "Wordpressy" for my liking. So I made this one. It is completely compiled to Vanilla
-            everything, so if you like the template, just grab the source code either from here
-            or my repo and use it if you'd like!
-          </p>
-        </div>
-        <div class="headerBlock box-shadow">
-          <div class="info">
-            <h2>Reddiment Analysis</h2>
-            <h3>Researcher</h3>
-            <p class="">March–April 2019</p>
-          </div>
-          <ul class="">
-            <li>Performed Sentiment Analysis on the Reddit Ecosystem</li>
-            <li>Wrangled R and Google's BigQuery to generate relevant data visualizations</li>
-            <li>Established observable patterns in the mood of Reddit over year-long trends</li>
-          </ul>
-          <a onclick="toggleModal('reddiment')">view full project</a>
-
-        </div>
-        <div class="headerBlock box-shadow">
-          <div class="info">
-            <h2>Connected</h2>
-            <h3>Lead App Developer</h3>
-            <p class="">September 2018–Present</p>
-          </div>
-          <ul class="">
-            <li>Developed hobby-based matchmaking app with React Native</li>
-            <li>Designed and prototyped application with Adobe XD</li>
-            <li>Currently refactoring application towards COVID friendly usage</li>
-          </ul>
-          <a href="projects/connected.html">view full project</a>
-        </div>
-        <div class="headerBlock box-shadow">
-          <div class="info">
-            <h2>Language Learning Application</h2>
-            <h3>Freelance Full Stack Software Developer</h3>
-            <p class="">May–September 2017</p>
-          </div>
-          <div class="">
-            <ul class="" title="achievements">
-              <li>Created language learning app with NodeJS, Express, and Handlebars</li>
-              <li>Implemented secure postgreSQL db with authentication via passportJS</li>
-              <li>Developed admin tools, multi-language support, & deployed app to Heroku</li>
-            </ul>
-            <a href="projects/lla.html">view full project</a>
-          </div>
-        </div>
-
-        <div class="headerBlock box-shadow">
-          <div class="info">
-            <h2>Kids For Code</h2>
-            <h3>Volunteer Educator, Co-Founder</h3>
-            <p class="">May 2017–August 2018</p>
-          </div>
-          <ul class="">
-            <li>Created volunteer organization to teach middle-schoolers programming</li>
-            <li>Organized 6 community coding outreaches to schools in the area</li>
-            <li>Directed 3 "Code by Nite” evening events at my high school</li>
-          </ul>
-          <a onclick="toggleModal('kfc')">view full project</a>
-        </div>
-
-      </div>
-    </section>
-    <section id="modals">
-      <div class="modal" id="reddiment">
-        <div class="modal-content">
-          <div class="modal-header">
-            <span class="close" onclick="toggleModal('reddiment')">&times;</span>
-            <h2>Reddiment Analysis</h2>
-          </div>
-          <div class="modal-body">
-            <p>This was a project for Bostonography, a class dedicated to analyzing Boston through computer science data analytics.
-              We actively used R, GIS, and Python to interpret public access datasets provided by the Boston City government.
-              For this project, I decided to determine if there was a correlation between the time of year and the general attitude
-              of Reddit users over different subreddits.
-              <a href="projects/reddiment.pdf#page=6">My work is on pages 6-12.</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="modal" id="kfc">
-        <div class="modal-content">
-          <div class="modal-header">
-            <span class="close" onclick="toggleModal('kfc')">&times;</span>
-            <h2>Kids For Code</h2>
-          </div>
-          <div class="modal-body">
-            <p>This was a personal project I had really wanted to get going during my free time in high school.
-               I realized that I loved programming in part because I had been teaching myself it since 5th grade.
-               However, I noticed there weren't a lot of opportunities for kids
-               in middle school to learn coding. So I decided to start an outreach program to our local 4th-6th grade middle school
-               to see if I could come teach lessons during my lunch period some days a month. It worked,
-               and was a lot of fun. You can see the old site I made for it
-              <a href="projects/KidsForCode/index.html">here</a>.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section id="footer">
-      <p>
-        Copyright 2020 Ezekiel D'Ascoli.<br>
-        But also who cares, use my template code if you think it's cool.<br>
-        It'd be nice if you credited me in a code comment :)
-      </p>
-    </section>
-  </main>
+  <div id="name">
+    <div>Ezekiel D'Ascoli</div>
+    <!-- <span>Software Engineer</span> -->
+  </div>
+  <section id="education" class="">
+    <h3>Education</h3>
+    <article>
+    <h3>Northeastern University</h3>
+    <span class="class">2018&mdash;2023</span>
+    <div class="spacer"></div>
+    <div class="degrees">
+      <span>Bachelor of Science</span>
+      <span>Computer Science</span>
+      <span>Concentration</span>
+      <span>Human Centered Computing</span>
+      <span>Minors</span>
+      <span>Theatre, Interaction Design</span>
+    </div>
+    <div class="spacer"></div>
+    <span class="honors"><i>Magna Cum Laude</i></span>
+    </article>
+  </section>
+  <section id="projects">
+    <article>
+      <h3>Projects</h3>
+    </article>
+  </section>
+  <section id="work">
+    <h3>Work</h3>
+    <article>
+      <h3>Smartleaf Inc.</h3>
+      <span>Software Development Co-Op</span>
+      <span class="date">Dec 2019&ndash;Aug 2020</span>
+    </article>
+    <article>
+      <h3>Places For Less</h3>
+      <span>Software Engineeringing Co-Op</span>
+      <span class="date">Jan&ndash;Aug 2021</span>
+    </article>
+    <article>
+      <h3>Verve Motion</h3>
+      <span>Software Engineeringing Co-Op</span>
+      <span class="date">July&ndash;Dec 2022</span>
+    </article>
+  </section>
+  <section id="contact">
+    <h3>Contact</h3>
+    <ul>
+      <li><a target="_" href='mailto:dascoli.e@northeastern.edu'>Email</a></li>
+      <li><a target="_" href='https://www.linkedin.com/in/ezekiel-dascoli-2023/'>LinkedIn</a></li>
+    </ul>
+  </section>
+  <h3 id="nav-icon">&darr;</h3>
+  <img id="coffee-stain" src="imgs/coffee-stain.svg" alt="casualty of working"/>
 </body>
