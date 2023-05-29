@@ -49,7 +49,7 @@ const projects = [
     tags: [Tag.UI_UX, Tag.HCI, Tag.WEBDEV],
     desc: "A semester long group project teaching us how to iteratively test designs each step of the way. Through lofi paper prototypes all the way up to a hifi mockup, we built a travel planning application interface.",
     images: [
-      "imgs/Condor/PaperPrototype.png"
+      "imgs/Condor/PaperPrototype.PNG"
     ],
     iframes: [
       "https://youtube.com/embed/4ZIGfC6iR3k?enablejsapi=1",
@@ -61,9 +61,9 @@ const projects = [
     subtitle: "Computer Graphics",
     date: new Date("2022-06-01"),
     images: [
-      "imgs/OpenChiaL/Grass.png",
-      "imgs/OpenChiaL/Rabbit.png",
-      "imgs/OpenChiaL/Rabbit2.png",
+      "imgs/OpenChiaL/Grass.PNG",
+      "imgs/OpenChiaL/Rabbit.PNG",
+      "imgs/OpenChiaL/Rabbit2.PNG",
     ],
     iframes: [
       "https://www.youtube.com/embed/kVwgti5Q0po?enablejsapi=1",
@@ -82,8 +82,8 @@ const projects = [
       "https://www.youtube.com/embed/t_5VT0DOnFA?enablejsapi=1",
     ],
     images: [
-      "imgs/CoveyTown/tag.png",
-      "imgs/CoveyTown/wizard-wars.png",
+      "imgs/CoveyTown/tag.PNG",
+      "imgs/CoveyTown/wizard-wars.PNG",
     ],
     tags: [Tag.WEBDEV, Tag.TYPESCRIPT, Tag.REACT, Tag.UI_UX],
     desc: "What would make a group project requiring a semester's worth of planning and interoperating with a multi-thousand line codebase more exciting? Implementing an entire TypeScript game engine, of course!<br>" +
