@@ -186,10 +186,11 @@ body {
   display: none;
 }
 
-#projects .date {
+#projects article .date {
   position: absolute;
-  top: 10pt;
+  bottom: 10pt;
   right: 10pt;
+  text-align: right;
 }
 
 #projects button.bookmark {
@@ -282,13 +283,19 @@ body {
   font-weight: 200;
 }
 
-#education {
+#education > h3 {
+  position: fixed;
+  top: 27%;
+  right: 50pt;
+}
+
+#education article {
   position: fixed;
   top: 50%;
   left: 50%;
   z-index: 3;
   aspect-ratio: 3 / 2;
-  width: 600px;
+  width: 700px;
   transform: translate(calc(-25pt + 50vw), calc(-50%));
   padding: 50px 50px 20px 50px;
   border-radius: 10pt;
@@ -300,15 +307,15 @@ body {
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  transition: .3s ease-out transform, .3s ease-in-out box-shadow;
+  transition: .3s ease-in-out transform, .3s ease-in-out box-shadow;
   transform-style: preserve-3d;
 }
 
-#education::before {
+#education article::before {
   content: '→';
   font-size: 3rem;
   text-align: center;
-  color: var(--neu-gold);
+  background-color: var(--neu-gold);
   line-height: 3.25rem;
   position: absolute;
   top: 50%;
@@ -316,37 +323,46 @@ body {
   display: block;
   aspect-ratio: 3 / 2;
   width: 80px;
-  background-color: white;
+  color: white;
   border: 2pt solid var(--neu-gold);
   box-shadow: var(--shadow);
   border-radius: 10pt 30pt 30pt 10pt;
   transform: translate(80%, -50%) translateZ(-1px);
 }
 
-#education:not(.focused):hover {
+#education article h3 {
+  text-align: center;
+  width: max-content;
+  /*
+  font-size: 30pt;
+  line-height: 28pt;
+  */
+}
+
+#education article:not(.focused):hover {
   box-shadow: 0px 10px 30px rgba(0, 0, 0, .4);
   transform: translate(calc(-50pt + 50vw), calc(-50%));
 }
 
-#education.focused {
+#education article.focused {
   box-shadow: 0px 10px 30px rgba(0, 0, 0, .4);
   transform: translate(-50%, -50%);
 }
 
-#education p, #education span {
+#education article p, #education article span {
   font-size: 13pt;
   font-weight: 200;
   font-stretch: normal;
   text-transform: none;
 }
 
-#education .class {
+#education article .class {
+  place-self: end;
   text-transform: uppercase;
-  letter-spacing: 1.5rem;
+  letter-spacing: 3rem;
   color: var(--neu-gold);
-  margin-bottom: 2rem;
 }
-#education .honors {
+#education article .honors {
   text-transform: uppercase;
   justify-self: end;
   letter-spacing: .2rem;
@@ -354,19 +370,19 @@ body {
   color: var(--neu-gold);
 }
 
-#education .degrees {
+#education article .degrees {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
   align-items: start;
   grid-gap: 10pt;
 }
 
-#education .degrees span:nth-child(odd) {
+#education article .degrees span:nth-child(odd) {
   text-align: right;
   font-weight: 800;
 }
 
-#education .degrees span:nth-child(even) {
+#education article .degrees span:nth-child(even) {
   font-family: "Courier New", serif;
 }
 
@@ -380,6 +396,77 @@ body {
   mix-blend-mode: multiply;
   filter: grayscale(.5);
   opacity: .7;
+}
+
+
+
+.media-stack {
+  position: absolute;
+  width: max-content;
+  bottom: 20%;
+  right: 100px;
+  cursor: pointer;
+  /* transform: translateZ(-1px); */
+}
+
+.media-stack li {
+  position: absolute;
+  list-style: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(.2);
+  transition: .2s ease-out transform;
+}
+
+.media-stack li img, .media-stack li iframe {
+  position: relative;
+  object-fit: cover;
+  width: 700;
+  aspect-ratio: 3/2;
+  border-radius: 40pt;
+  border: calc(10pt / .15 * .5) solid white;
+  box-shadow: var(--shadow);
+  background-color: var(--light-gray);
+}
+
+.media-stack li:nth-child(1) { z-index: 2; transform: translate(calc(7% - 50%), -50%) scale(.15); }
+.media-stack li:nth-child(2) { transform:  translate(calc(.5 * +12% - 50%), calc(.5 * -10% - 50%)) scale(.15) rotate(-5deg); }
+.media-stack li:nth-child(3) { transform:  translate(calc(.5 * +14% - 50%), calc(.5 * -5% - 50%)) scale(.15) rotate(-2deg); }
+.media-stack li:nth-child(4) { transform:  translate(calc(.5 * +12% - 50%), calc(.5 * +10% - 50%)) scale(.15) rotate(5deg); }
+.media-stack li:nth-child(5) { transform:  translate(calc(.5 * +14% - 50%), calc(.5 * +5% - 50%)) scale(.15) rotate(2deg); }
+
+.media-stack li:nth-child(1).onHover { z-index: 2; transform: translate(calc(8% - 50%), -50%) scale(.15); }
+.media-stack li:nth-child(2).onHover { transform:  translate(calc(.5 * +11% - 50%), calc(.5 * -20% - 50%)) scale(.15) rotate(-15deg); }
+.media-stack li:nth-child(3).onHover { transform:  translate(calc(.5 * +15% - 50%), calc(.5 * -10% - 50%)) scale(.15) rotate(-5deg); }
+.media-stack li:nth-child(4).onHover { transform:  translate(calc(.5 * +11% - 50%), calc(.5 * +20% - 50%)) scale(.15) rotate(15deg); }
+.media-stack li:nth-child(5).onHover { transform:  translate(calc(.5 * +15% - 50%), calc(.5 * +10% - 50%)) scale(.15) rotate(5deg); }
+
+.media-stack li iframe {
+  pointer-events: none;
+}
+.media-stack li.expanded iframe {
+  pointer-events: all;
+}
+.media-stack li.expanded::before {
+  content: 'Close';
+  color: white;
+  position: absolute;
+  display: block;
+  padding: 10pt;
+  border-radius: 10pt;
+  top: 50%;
+  right: -20px;
+  background-color: orangered;
+  box-shadow: 0px 5pt 0px darkred, var(--shadow);
+  z-index: 10;
+  transform: translate(50%, -50%);
+}
+
+.media-stack li.expanded { z-index: 3; transform: translate(-50%, -50%) scale(1); }
+.media-stack li.expanded img, .media-stack li.expanded iframe { 
+  box-shadow: 0px 20px 50px rgba(0, 0, 0, .3);
+  border: 10pt solid white;
+  border-radius: 10pt;
 }
 
 
@@ -459,6 +546,14 @@ window.onload = _ => {
     
     domArticle.slideUp = () => {
       animateToPosition(domArticle, -bounds.height + projects.length * 6, bounds.left, 300)
+      domArticle.querySelectorAll('.media-stack').forEach(stack => {stack.activeImage = undefined});
+      domArticle.querySelectorAll('.media-stack li').forEach(li => {
+        li.querySelector("iframe")
+          ?.contentWindow
+          .postMessage('{"event":"command","func":"pauseVideo","args":""}', "*");
+        li.classList.remove('expanded')
+        li.classList.remove('onHover')
+      });
       domArticle.isDown = false;
     }
     
@@ -505,11 +600,62 @@ window.onload = _ => {
     setIcon();
   }
 
-  let diploma = document.querySelector("#education")
+  let diploma = document.querySelector("#education article")
   diploma.onclick = () => {
     diploma.classList.toggle("focused");
   }
+
+
+  // setup all the image stacks
+  document.querySelectorAll(".media-stack").forEach(stack => {
+    let images = stack.querySelectorAll('li')
+    images.forEach(image => {
+      image.addEventListener('mouseenter', e => {
+        dontBubble(e);
+        if (!stackIsOnTop(stack)) return;
+        images.forEach(otherImage => {
+          if (image != stack.activeImage && otherImage != stack.activeImage) {
+            otherImage.classList.add('onHover')
+          }
+        });
+      });
+      
+      image.addEventListener('mouseleave', e => {
+        dontBubble(e);
+        if (!stackIsOnTop(stack)) return;
+        if (stack.activeImage) return;
+        images.forEach(image => image.classList.remove('onHover'));
+      });
+      
+      image.addEventListener("click", e => {
+        dontBubble(e);
+        if (!stackIsOnTop(stack)) return;
+        if (stack.activeImage) {
+          // pause youtube video
+          stack.activeImage.querySelector("iframe")
+            ?.contentWindow
+            .postMessage('{"event":"command","func":"pauseVideo","args":""}', "*");
+            
+          stack.activeImage.classList.remove("expanded");
+        }
+        if (stack.activeImage == image) {
+          stack.activeImage = undefined;
+          return;
+        }
+        image.classList.remove('onHover');
+        image.classList.toggle("expanded");
+        stack.activeImage = image;
+      })
+    })
+  });
   
+}
+
+function stackIsOnTop(stack) {
+  return []
+    .slice
+    .call(articles[curArticleInd].querySelectorAll('.media-stack'))
+    .includes(stack);
 }
 
 function setIcon() {
@@ -572,8 +718,11 @@ window.onwheel = debounce(onWheelHandler, 50)
     <!-- <span>Software Engineer</span> -->
   </div>
   <section id="education" class="">
+    <h3>Education</h3>
+    <article>
     <h3>Northeastern University</h3>
     <span class="class">2018&mdash;2023</span>
+    <div class="spacer"></div>
     <div class="degrees">
       <span>Bachelor of Science</span>
       <span>Computer Science</span>
@@ -584,6 +733,7 @@ window.onwheel = debounce(onWheelHandler, 50)
     </div>
     <div class="spacer"></div>
     <span class="honors"><i>Magna Cum Laude</i></span>
+    </article>
   </section>
   <section id="projects">
     <article>

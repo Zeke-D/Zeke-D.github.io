@@ -32,12 +32,23 @@ const projects = [
     date: new Date("2023-04-07"),
     tags: [Tag.UI_UX, Tag.HCI, Tag.WEBDEV],
     desc: "A semester long group project teaching us how to iteratively test designs each step of the way. Through lofi paper prototypes all the way up to a hifi mockup, we built a travel planning application interface.",
+    images: [
+      "../../imgs/Condor/PaperPrototype.png"
+    ],
+    videos: [
+      "https://youtube.com/embed/4ZIGfC6iR3k?enablejsapi=1"
+    ],
   },
   {
     title: "OpenChiaL",               
     subtitle: "Computer Graphics",
     date: new Date("2022-06-01"),
-    imgSrc: "https://images.pexels.com/photos/5957094/pexels-photo-5957094.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+    images: [
+      "https://images.pexels.com/photos/5957094/pexels-photo-5957094.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+    ],
+    videos: [
+      "https://www.youtube.com/embed/t_5VT0DOnFA?enablejsapi=1",
+    ],
     tags: [Tag.THREE_D, Tag.OPENGL, Tag.CPP, Tag.SHADERS, Tag.ART],
     desc: "The culmination of my first semester-long foray into the world of low-level graphics. " + 
           "This program takes in a triangulated .obj file and renders it as Chia pet, growing grass out of the faces. " +
@@ -48,14 +59,14 @@ const projects = [
     title: "Terrariam",               
     subtitle: "MIT RealityHack 2023 Winner",
     date: new Date("2022-03-26"),
-    imgSrc: "https://images.pexels.com/photos/5957094/pexels-photo-5957094.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+    media: ["https://images.pexels.com/photos/5957094/pexels-photo-5957094.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"],
     tags: [Tag.VR_AR_XR, Tag.UI_UX, Tag.AWARD, Tag.CS, Tag.UNITY, Tag.SHADERS, Tag.LOOKING_GLASS],
     desc: "Lorem ipsum something about the project, to be decided later... I am cool, please hire me.",
   },
   {
     title: "BeatBoxer",               
     date: new Date("2022-03-01"),
-    imgSrc: "https://images.pexels.com/photos/5957094/pexels-photo-5957094.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+    media: ["https://images.pexels.com/photos/5957094/pexels-photo-5957094.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"],
     tags: [Tag.VR_AR_XR, Tag.UI_UX, Tag.THREE_D, Tag.UNITY, Tag.SHADERS],
     desc: "A clone of a certain popular music-slashing VR hit... this time Rocky style!",
   },
@@ -63,7 +74,7 @@ const projects = [
     title: "Coveytown Battlegrounds", 
     subtitle: "Software Engineering",
     date: new Date("2022-04-15"),
-    imgSrc: "https://images.pexels.com/photos/5957094/pexels-photo-5957094.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+    media: ["https://images.pexels.com/photos/5957094/pexels-photo-5957094.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"],
     tags: [Tag.WEBDEV, Tag.TYPESCRIPT, Tag.REACT, Tag.UI_UX],
     desc: "What would make a group project requiring a semester's worth of planning and interoperating with a multi-thousand line codebase more exciting? Implementing an entire TypeScript game engine, of course!<br>" +
           "For this project, I implemented a real-time turn-based game for settling arguments within an online media platform.",
@@ -71,7 +82,7 @@ const projects = [
   {
     title: "Instagrat",               
     date: new Date("2020-08-15"),
-    imgSrc: "https://images.pexels.com/photos/5957094/pexels-photo-5957094.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+    media: ["https://images.pexels.com/photos/5957094/pexels-photo-5957094.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"],
     tags: [Tag.WEBDEV, Tag.SVELTE, Tag.UI_UX, Tag.ART] ,
     desc: `This was a tactical-media art installation created for my Experience Design class using Svelte. I wanted to experiment with using the common infinite-timeline as a narrative device.`,
     link: "projects/Instagrat/index.html",
@@ -79,7 +90,7 @@ const projects = [
   {
     title: "Boston Reddiment",        
     date: new Date("2019-04-15"),
-    imgSrc: "https://images.pexels.com/photos/5957094/pexels-photo-5957094.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+    media: ["https://images.pexels.com/photos/5957094/pexels-photo-5957094.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"],
     tags: [Tag.RESEARCH, Tag.DATAVIS],
     desc: `<ul>
             <li>Performed Sentiment Analysis on the Reddit Ecosystem</li>
@@ -90,7 +101,7 @@ const projects = [
   {
     title: "Connected",               
     date: new Date("2018-04-15"),
-    imgSrc: "https://images.pexels.com/photos/5957094/pexels-photo-5957094.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+    media: ["https://images.pexels.com/photos/5957094/pexels-photo-5957094.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"],
     tags: [Tag.MOBILE, Tag.REACT_NATIVE, Tag.DATABASE, Tag.SQL, Tag.POSTGRESQL],
     desc: `Fun little experiment to learn React Native and Adobe XD.`,
   }
@@ -118,6 +129,15 @@ function makeProject(project) {
     article.append(subtitle);
   }
 
+  let months = [
+    "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+  ]
+
+  let dateEl = document.createElement('span');
+  dateEl.classList.add('date');
+  dateEl.innerHTML = `${months[project.date.getMonth()]} ${project.date.getUTCFullYear()}`;
+  article.append(dateEl);
+
   let desc = document.createElement("p");
   desc.innerHTML = project.desc;
   article.append(desc);
@@ -136,6 +156,27 @@ function makeProject(project) {
     tagEl.innerHTML = tag;
     tags.appendChild(tagEl);
   }
+
+  if (project.videos || project.images) {
+    let mediaStack = document.createElement("ul");
+    mediaStack.classList.add("media-stack");
+    project.videos?.forEach(video => {
+      let item = document.createElement("li");
+      let vid = document.createElement("iframe");
+      vid.src = video;
+      item.append(vid);
+      mediaStack.append(item)
+    })
+    project.images?.forEach(image => {
+      let item = document.createElement("li");
+      let img  = document.createElement("img");
+      img.src = image;
+      item.append(img);
+      mediaStack.append(item)
+    })
+    article.append(mediaStack)
+  }
+  
 
   let bookmark = document.createElement("button");
   bookmark.classList.add("bookmark");
