@@ -35,8 +35,9 @@ const projects = [
     images: [
       "../../imgs/Condor/PaperPrototype.png"
     ],
-    videos: [
-      "https://youtube.com/embed/4ZIGfC6iR3k?enablejsapi=1"
+    iframes: [
+      "https://youtube.com/embed/4ZIGfC6iR3k?enablejsapi=1",
+      "https://codepen.io/Pseudonymous/embed/YzOgVVw?default-tab=result",
     ],
   },
   {
@@ -44,14 +45,16 @@ const projects = [
     subtitle: "Computer Graphics",
     date: new Date("2022-06-01"),
     images: [
-      "https://images.pexels.com/photos/5957094/pexels-photo-5957094.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+      "../../imgs/OpenChiaL/Grass.png",
+      "../../imgs/OpenChiaL/Rabbit.png",
+      "../../imgs/OpenChiaL/Rabbit2.png",
     ],
-    videos: [
-      "https://www.youtube.com/embed/t_5VT0DOnFA?enablejsapi=1",
+    iframes: [
+      "https://www.youtube.com/embed/kVwgti5Q0po?enablejsapi=1",
     ],
     tags: [Tag.THREE_D, Tag.OPENGL, Tag.CPP, Tag.SHADERS, Tag.ART],
     desc: "The culmination of my first semester-long foray into the world of low-level graphics. " + 
-          "This program takes in a triangulated .obj file and renders it as Chia pet, growing grass out of the faces. " +
+          "This program takes in a triangulated .obj file and renders it as a Chia pet, growing grass out of the faces. " +
           "Using deferred rendering techniques I create a brush for users to paint their pets with."
     ,
   },
@@ -74,7 +77,13 @@ const projects = [
     title: "Coveytown Battlegrounds", 
     subtitle: "Software Engineering",
     date: new Date("2022-04-15"),
-    media: ["https://images.pexels.com/photos/5957094/pexels-photo-5957094.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"],
+    iframes: [
+      "https://www.youtube.com/embed/t_5VT0DOnFA?enablejsapi=1",
+    ],
+    images: [
+      "../../imgs/CoveyTown/tag.png",
+      "../../imgs/CoveyTown/wizard-wars.png",
+    ],
     tags: [Tag.WEBDEV, Tag.TYPESCRIPT, Tag.REACT, Tag.UI_UX],
     desc: "What would make a group project requiring a semester's worth of planning and interoperating with a multi-thousand line codebase more exciting? Implementing an entire TypeScript game engine, of course!<br>" +
           "For this project, I implemented a real-time turn-based game for settling arguments within an online media platform.",
@@ -85,7 +94,7 @@ const projects = [
     media: ["https://images.pexels.com/photos/5957094/pexels-photo-5957094.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"],
     tags: [Tag.WEBDEV, Tag.SVELTE, Tag.UI_UX, Tag.ART] ,
     desc: `This was a tactical-media art installation created for my Experience Design class using Svelte. I wanted to experiment with using the common infinite-timeline as a narrative device.`,
-    link: "projects/Instagrat/index.html",
+    link: "../../projects/Instagrat/index.html",
   },
   {
     title: "Boston Reddiment",        
@@ -157,10 +166,10 @@ function makeProject(project) {
     tags.appendChild(tagEl);
   }
 
-  if (project.videos || project.images) {
+  if (project.iframes || project.images) {
     let mediaStack = document.createElement("ul");
     mediaStack.classList.add("media-stack");
-    project.videos?.forEach(video => {
+    project.iframes?.forEach(video => {
       let item = document.createElement("li");
       let vid = document.createElement("iframe");
       vid.src = video;
