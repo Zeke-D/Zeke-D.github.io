@@ -98,13 +98,13 @@ body {
   left: 50%;
   height: 200px;
   aspect-ratio: 16 / 9;
-  transform: translate(-50%, calc(-100% + 10pt + .5 * 380pt)) rotate(-5deg) scale(.95);
+  transform: translate(-50%, calc(-100% + 10pt + .5 * 380pt)) rotate(-15deg) scale(.95);
   transition: .3s transform ease-out;
   box-shadow: var(--shadow);
 }
 
 #contact:hover {
-  transform: translate(-50%, calc(-100% + 10pt + .5 * 380pt)) rotate(-5deg);
+  transform: translate(-50%, calc(-100% + 10pt + .5 * 380pt)) rotate(-25deg);
   box-shadow: 0px 5px 20px rgba(0, 0, 0, .1);
   cursor: pointer;
 }
@@ -117,6 +117,18 @@ body {
 
 #contact ul li a {
   color: orange;
+}
+
+#projects article::before {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+  border-radius: 10px;
+  background-color: #fff;  
+  z-index: 1;
 }
 
 
@@ -134,6 +146,12 @@ body {
   height: 380pt;
   border-radius: 12px;
   box-shadow: var(--shadow);
+}
+
+#projects article h3, 
+#projects article span, 
+#projects article p {
+  z-index: 2;
 }
 
 #projects article h3 {
@@ -435,25 +453,23 @@ body {
 .media-stack {
   position: absolute;
   width: max-content;
-  right: -20px;
   bottom: 20%;
-  right: 100px;
+  right: 130px;
   cursor: pointer;
-  z-index: 4;
-  /* transform: translateZ(-1px); */
+  z-index: 0;
 }
 
 .media-stack li {
   position: absolute;
   list-style: none;
-  transform: translate(-50%, -50%) scale(.2);
+  transform: translate(-50%, -50%) scale(1);
   transition: .2s ease-out transform, .2s ease-out position;
 }
 
 .media-stack li img, .media-stack li iframe {
   position: relative;
   object-fit: cover;
-  width: 700;
+  width: 700px;
   aspect-ratio: 3/2;
   border-radius: 40pt;
   border: calc(10pt / .15 * .5) solid white;
@@ -461,17 +477,17 @@ body {
   background-color: var(--light-gray);
 }
 
-.media-stack li:nth-child(1) { z-index: 2; transform: translate(calc(7% - 50%), -50%) scale(.15); }
-.media-stack li:nth-child(2) { transform:  translate(calc(.5 * +12% - 50%), calc(.5 * -10% - 50%)) scale(.15) rotate(-5deg); }
-.media-stack li:nth-child(3) { transform:  translate(calc(.5 * +14% - 50%), calc(.5 * -5% - 50%)) scale(.15) rotate(-2deg); }
-.media-stack li:nth-child(4) { transform:  translate(calc(.5 * +12% - 50%), calc(.5 * +10% - 50%)) scale(.15) rotate(5deg); }
-.media-stack li:nth-child(5) { transform:  translate(calc(.5 * +14% - 50%), calc(.5 * +5% - 50%)) scale(.15) rotate(2deg); }
+.media-stack li:nth-child(1) { z-index: 2; transform: translate(calc(7% - 50%), -50%) scale(.3); }
+.media-stack li:nth-child(2) { transform:  translate(calc(.5 * +12% - 50%), calc(.5 * -10% - 50%)) scale(.3) rotate(-5deg); }
+.media-stack li:nth-child(3) { transform:  translate(calc(.5 * +14% - 50%), calc(.5 * -5% - 50%)) scale(.3) rotate(-2deg); }
+.media-stack li:nth-child(4) { transform:  translate(calc(.5 * +12% - 50%), calc(.5 * +10% - 50%)) scale(.3) rotate(5deg); }
+.media-stack li:nth-child(5) { transform:  translate(calc(.5 * +14% - 50%), calc(.5 * +5% - 50%)) scale(.3) rotate(2deg); }
 
-.media-stack li:nth-child(1).onHover { z-index: 2; transform: translate(calc(8% - 50%), -50%) scale(.15); }
-.media-stack li:nth-child(2).onHover { transform:  translate(calc(.5 * +11% - 50%), calc(.5 * -20% - 50%)) scale(.15) rotate(-15deg); }
-.media-stack li:nth-child(3).onHover { transform:  translate(calc(.5 * +15% - 50%), calc(.5 * -10% - 50%)) scale(.15) rotate(-5deg); }
-.media-stack li:nth-child(4).onHover { transform:  translate(calc(.5 * +11% - 50%), calc(.5 * +20% - 50%)) scale(.15) rotate(15deg); }
-.media-stack li:nth-child(5).onHover { transform:  translate(calc(.5 * +15% - 50%), calc(.5 * +10% - 50%)) scale(.15) rotate(5deg); }
+.media-stack li:nth-child(1).onHover { z-index: 2; transform: translate(calc(8% - 35%), -50%) scale(.3); }
+.media-stack li:nth-child(2).onHover { transform:  translate(calc(.5 * +11% - 35%), calc(.5 * -20% - 50%)) scale(.3) rotate(-15deg); }
+.media-stack li:nth-child(3).onHover { transform:  translate(calc(.5 * +15% - 35%), calc(.5 * -10% - 50%)) scale(.3) rotate(-5deg); }
+.media-stack li:nth-child(4).onHover { transform:  translate(calc(.5 * +11% - 35%), calc(.5 * +20% - 50%)) scale(.3) rotate(15deg); }
+.media-stack li:nth-child(5).onHover { transform:  translate(calc(.5 * +15% - 35%), calc(.5 * +10% - 50%)) scale(.3) rotate(5deg); }
 
 .media-stack li iframe {
   pointer-events: none;
@@ -485,20 +501,21 @@ body {
   color: white;
   position: absolute;
   display: block;
-  padding: 10pt;
+  padding: 10pt 20pt;
   font-size: 2rem;
   border-radius: 10pt;
   top: 100%;
   left: 50%;
   background-color: orangered;
-  box-shadow: 0px 5pt 0px darkred, var(--shadow);
+  box-shadow: 0px 5pt 0px darkred, var(--shadow), 0px 10px 20px rgba(0, 0, 0, .7);
   z-index: 10;
-  transform: translate(-50%, -90%);
+  transform: translate(-50%, -50%);
 }
 
 .media-stack li.expanded { 
-  z-index: 3; 
-  transform: translate(-100%, -75%) scale(1); 
+  z-index: 10; 
+  /* transform: translate(-70%, -75%) scale(1); */
+  /* animation: .3s slide-out linear forwards; */
 }
 .media-stack li.expanded img, .media-stack li.expanded iframe { 
   box-shadow: 0px 20px 50px rgba(0, 0, 0, .3);
@@ -506,6 +523,43 @@ body {
   border-radius: 10pt;
 }
 
+.paperclip {
+  transition: .2s transform ease-out;
+  position: absolute;
+  width: 100px;
+  height: 30px;
+  border-radius: 15px;
+  background-color: none;
+  border: 4px solid #888;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, .3);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.paperclip.media {
+  top: calc(100% - 100px);
+  right: 10px;
+  transform: translate(50%, -50%);
+}
+
+.paperclip.media.onHover {
+  transform: translate(120%, 50%) rotate(120deg);
+}
+
+
+@keyframes slide-out {
+  0% {
+    transform: initial;
+  }
+
+  50% {
+    transform: scale(.2) translate(0%, -50%);
+  }
+
+  100% {
+    transform: translate(-70%, -75%);
+  }
+}
 
 </style>
 <script src="projects.js" type="application/javascript"></script>
@@ -526,11 +580,10 @@ function lerp(a, b, t) {
 
 // animate to a window position in (x, y) px coords over duration millisecs
 function animateToPosition(domEl, top, left, durationMs) {
-
   // STEP 1: Make positioning absolute
   let startPos = domEl.getBoundingClientRect()
   domEl.style.removeProperty("transform");
-  domEl.style.setProperty("position", "absolute");
+  domEl.style.setProperty("position", "fixed");
   domEl.style.setProperty("top", startPos.top);
   domEl.style.setProperty("left", startPos.left);
 
@@ -554,7 +607,6 @@ function animateToPosition(domEl, top, left, durationMs) {
     window.requestAnimationFrame(step);
   }
   window.requestAnimationFrame(step);
-  
 }
 
 function dontBubble(event) {
@@ -566,6 +618,7 @@ let articles = [];
 let curArticleInd = 0;
 
 function resetArticleMedia(domArticle) {
+  domArticle.querySelector('.paperclip.media')?.classList.remove('onHover');
   domArticle.querySelectorAll('.media-stack').forEach(stack => {stack.activeImage = undefined});
   domArticle.querySelectorAll('.media-stack li').forEach(li => {
     li.querySelector("iframe")
@@ -656,6 +709,7 @@ window.onload = _ => {
       image.addEventListener('mouseenter', e => {
         dontBubble(e);
         if (!stackIsOnTop(stack)) return;
+        articles[curArticleInd].querySelector('.paperclip.media').classList.add('onHover');
         images.forEach(otherImage => {
           if (image != stack.activeImage && otherImage != stack.activeImage) {
             otherImage.classList.add('onHover')
@@ -668,6 +722,7 @@ window.onload = _ => {
         if (!stackIsOnTop(stack)) return;
         if (stack.activeImage) return;
         images.forEach(image => image.classList.remove('onHover'));
+        articles[curArticleInd].querySelector('.paperclip.media').classList.remove('onHover');
       });
       
       image.addEventListener("click", e => {
@@ -679,18 +734,57 @@ window.onload = _ => {
             ?.contentWindow
             .postMessage('{"event":"command","func":"pauseVideo","args":""}', "*");
           stack.activeImage.classList.remove("expanded");
+          // ANIMATE PICTURE TO smol VERSION
+          {
+            let rect = image.getBoundingClientRect();
+            let startTransform = image.style.transform;
+            animateToPosition(image, image.originalPos.top, image.originalPos.left + 100, .1);
+            setTimeout(_ => {
+              // reset image
+              animateToPosition(image, image.originalPos.top + .15 * rect.height, image.originalPos.left - 55, .1);
+              image.style.setProperty("transform", image.originalTransform);
+              },
+            .1 * 1000)
+            setTimeout(_ => {
+              // reset stack
+              stack.style.setProperty("z-index", 0)
+              
+              // reset image
+              image.style.setProperty("position", "absolute");
+              image.style.removeProperty("top");
+              image.style.removeProperty("left");
+            }, .2 * 1000);
+          }
+        
         }
         if (stack.activeImage == image) {
           stack.activeImage = undefined;
+          setTimeout(_ =>  stack.style.setProperty("z-index", 0) , .1 * 1000);
           return;
         }
         image.classList.remove('onHover');
         image.classList.toggle("expanded");
+        
+        // ANIMATE PICTURE TO BIG VERSION
+        {
+          let startPos = image.getBoundingClientRect();
+          image.originalPos = startPos;
+          let startTransform = image.style.transform;
+          image.originalTransform = startTransform;
+          animateToPosition(image, startPos.top, startPos.left + 100, .1);
+          image.style.setProperty("transform", startTransform); // animate to position clears transform
+          setTimeout(_ => {
+            animateToPosition(image, window.innerHeight / 2, window.innerWidth / 2, .1)
+            image.style.setProperty("transform", "translate(-50%, -50%)");
+            },
+          .1 * 1000)
+          setTimeout(_ =>  stack.style.setProperty("z-index", 5) , .2 * 1000);
+        }
+        
         stack.activeImage = image;
       })
     })
   });
-  
 }
 
 function stackIsOnTop(stack) {
@@ -751,7 +845,7 @@ function onWheelHandler(e) {
   }
 }
 
-window.onwheel = debounce(onWheelHandler, 50)
+window.onwheel = debounce(onWheelHandler, 150)
 
 </script>
 <body>

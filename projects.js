@@ -180,6 +180,13 @@ function makeProject(project) {
 
   if (project.iframes || project.images) {
     let mediaStack = document.createElement("ul");
+
+    // all media-stacks will have an associated paperclip as a sibling
+    let paperClip = document.createElement("div");
+    paperClip.classList.add('paperclip');
+    paperClip.classList.add("media") // as opposed to news clip
+    article.append(paperClip);
+
     mediaStack.classList.add("media-stack");
     project.iframes?.forEach(video => {
       let item = document.createElement("li");
