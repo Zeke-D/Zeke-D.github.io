@@ -619,7 +619,32 @@ let curArticleInd = 0;
 
 function resetArticleMedia(domArticle) {
   domArticle.querySelector('.paperclip.media')?.classList.remove('onHover');
-  domArticle.querySelectorAll('.media-stack').forEach(stack => {stack.activeImage = undefined});
+  domArticle.querySelectorAll('.media-stack').forEach(stack => {
+    // animate to smol version
+    if (stack.activeImage) {
+      let rect = stack.activeImage.getBoundingClientRect();
+      let startTransform = stack.activeImage.style.transform;
+      animateToPosition(stack.activeImage, stack.activeImage.originalPos.top, stack.activeImage.originalPos.left + 100, .1);
+      setTimeout(_ => {
+        // reset image
+        animateToPosition(stack.activeImage, stack.activeImage.originalPos.top + .15 * rect.height, stack.activeImage.originalPos.left - 55, .1);
+        stack.activeImage.style.setProperty("transform", stack.activeImage.originalTransform);
+        },
+      .1 * 1000)
+      setTimeout(_ => {
+        // reset stack
+        stack.style.setProperty("z-index", 0)
+      
+        // reset image
+        stack.activeImage.style.setProperty("position", "absolute");
+        stack.activeImage.style.removeProperty("top");
+        stack.activeImage.style.removeProperty("left");
+        
+        stack.activeImage = undefined
+      }, .2 * 1000);
+    }
+  
+  });
   domArticle.querySelectorAll('.media-stack li').forEach(li => {
     li.querySelector("iframe")
       ?.contentWindow
@@ -627,6 +652,7 @@ function resetArticleMedia(domArticle) {
     li.classList.remove('expanded')
     li.classList.remove('onHover')
   });
+  
 }
 
 window.onload = _ => {
