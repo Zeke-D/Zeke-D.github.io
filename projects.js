@@ -27,7 +27,7 @@ const Tag = {
 const projects = [
   {
     title: "Terrariam",               
-    subtitle: "MIT RealityHack 2023 Winner",
+    subtitle: "MIT RealityHack 2023 Finalist",
     date: new Date("2022-03-26"),
     images: ["imgs/Terrariam/me-talking.jpeg"],
     iframes: [
@@ -125,7 +125,7 @@ const projects = [
 ]
 
 function loadProjects() {
-  addProjects("section#projects", projects) //.sort((a, b) => a.date < b.date));
+  addProjects("section#projects", projects.filter(proj => proj.date > new Date("2020-01-01"))) //.sort((a, b) => a.date < b.date));
 }
 
 function makeProject(project) {
@@ -208,7 +208,8 @@ function makeProject(project) {
 
   let bookmark = document.createElement("button");
   bookmark.classList.add("bookmark");
-  [tags, bookmark].forEach(el => article.append(el))
+  article.append(tags);
+  // article.append(bookmark);
 
   return article;
 }
