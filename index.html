@@ -1,961 +1,575 @@
-<style>
-@font-face {
-  font-family: Bahnschrift;
-  src: url(fonts/Bahnschrift.ttf) format("truetype");
-}
-
-:root {
-  --light-gray: #e5e5e5;
-  --mid-gray: #D1D1D1;
-  --dark-gray: #707070;  
-  --neu-gold: #A4804A;
-  --neu-red: #C8102E;
-  --shadow: 0px 3px 10px rgba(0, 0, 0, .16);
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-.spacer {
-  flex-grow: 1;
-}
-
-h3, span, p {
-  cursor: default;
-}
-
-b {
-  font-weight: 800;
-}
-
-a {
-  word-break: break-word;
-}
-
-
-body {
-  margin: 0;
-  padding: 0;
-  background: var(--light-gray);
-  width: 100%;
-  color: var(--dark-gray);
-  text-transform: uppercase;
-  font-family: "Bahnschrift", sans-serif;
-  font-weight: 700;
-  font-stretch: semi-condensed;
-  font-size: 30pt;
-  overflow: hidden;
-}
-
-#resume {
-  width: 400px;
-  background-color: white;
-  box-shadow: var(--shadow);
-  aspect-ratio: 8.5 / 11;
-  position: fixed;
-  left: 80%;
-  bottom: 0;
-  transform: translate(-50%, 90%);
-  transition: .2s transform  ease-in-out, 
-              .2s box-shadow ease-in-out;
-}
-#resume:before {
-  content: "Resume";
-  text-transform: uppercase;
-  width: 100%;
-  text-align: center;
-  position: fixed;
-  top: 2rem;
-  color: var(--dark-gray);
-}
-#resume:hover {
-  transform: translate(-50%, 80%);
-  box-shadow: 0px 10px 40px rgba(0, 0, 0, .3);
-}
-
-#nav-icon {
-  position: fixed;
-  bottom: -10pt;
-  /* left: 50%; */
-  top: 50%;
-  right: 30pt;
-  /* transform: translateY(-50%);*/
-  opacity: 0;
-  /* opacity: .15; */
-  font-size: 200pt;
-  line-height: 200pt;
-}
-
-#nav-icon.uarr {
-  /* transform: translate(-50%, -16px);  */
-}
-
-#name {  
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 90pt;
-  line-height: 70pt;
-  width: max-content;
-  font-stretch: condensed;
-  transform: translate(-50%, calc(-50% - 380pt/2 - 10pt));
-}
-
-#name span {
-  font-size: 20pt;
-  line-height: 30pt;
-  font-weight: 100;
-  font-stretch: normal;
-  letter-spacing: 20pt;
-}
-
-#contact {
-  z-index: 0;
-  padding: 50px 30px;
-  background-color: #fff;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  height: 200px;
-  aspect-ratio: 16 / 9;
-  transform: translate(-50%, calc(-100% + 10pt + .5 * 380pt)) rotate(-15deg) scale(.95);
-  transition: .3s transform ease-out;
-  box-shadow: var(--shadow);
-}
-
-#contact:hover {
-  transform: translate(-50%, calc(-100% + 10pt + .5 * 380pt)) rotate(-25deg);
-  box-shadow: 0px 5px 20px rgba(0, 0, 0, .1);
-  cursor: pointer;
-}
-
-#contact ul {
-  display: flex;
-  list-style: none;
-  justify-content: space-between;
-}
-
-#contact ul li a {
-  color: orange;
-}
-
-#projects article::before {
-  content: '';
-  position: absolute;
-  display: block;
-  width: 100%;
-  height: 100%;
-  inset: 0;
-  border-radius: 10px;
-  background-color: #fff;  
-  z-index: 1;
-}
-
-
-#projects article {
-  z-index: 1;
-  position: absolute;
-  top: calc(50% - 380pt * .5);
-  left: calc(50% - 380pt * 8 / 9 * .5);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40pt 30pt;
-  background: #fff;
-  aspect-ratio: 8/9;
-  height: 380pt;
-  border-radius: 12px;
-  box-shadow: var(--shadow);
-}
-
-#projects article h3, 
-#projects article span, 
-#projects article p {
-  z-index: 2;
-}
-
-#projects article h3 {
-  line-height: 30pt;
-  text-align: center;
-}
-
-#projects article span {
-  font-weight: 100;
-  text-align: center;
-  line-height: 20pt;
-  letter-spacing: 3pt;
-  font-size: 15pt;
-  width: 100%;
-  margin-top: .4rem;
-}
-
-#projects article p {
-  font-family: "Courier New", serif;
-  text-transform: none;
-  font-weight: 100;
-  font-size: 11pt;
-  line-height: 14pt;
-  width: 100%;
-  margin-top: 2rem;
-}
-
-#projects article p ul li {
-  margin-bottom: 4pt;
-}
-
-#projects article .links {
-  display: flex;
-  gap: 1rem;
-  width: 100%;
-}
-#projects article a.btn {
-  color: white;
-  display: inline-block;
-  text-transform: uppercase;
-  width: 100%;
-  text-align: center;
-  font-weight: 800;
-  font-stretch: condensed;
-  font-size: 1rem;
-  text-decoration: none;
-  padding: 5pt 10pt;
-  background-color: #52af57;
-  box-shadow: 0px 4pt 0 #32a852, var(--shadow);
-  border-radius: 5pt;
-  margin-top: .5rem;
-  z-index: 2;
-}
-
-#projects article ul.tags {
-  position: absolute;
-  bottom: 40pt;
-  left: 10pt;
-  z-index: 1;
-}
-
-#projects article ul.tags li {
-  background-color: var(--light-gray);
-  font-size: 20pt;
-  color: white;
-  list-decoration: none;
-  display: inline-block;
-  margin: 5pt 10pt 0 0;
-  padding: 0 10pt;
-}
-
-#projects button.add-bookmark {
-  /* 
-  Honestly, sorta a superfluous button... may use later, for now: bye 
-  
-  position: absolute;
-  right: 50px;
-  padding: 3px;
-  */
-  display: none;
-}
-
-#projects article .date {
-  position: absolute;
-  bottom: 10pt;
-  right: 10pt;
-  text-align: right;
-  z-index: 2;
-}
-
-#projects button.bookmark {
-  position: absolute;
-  bottom: -10px;
-  display: block;
-  opacity: 0%;
-  height: 40px;
-  width: 50px;
-  border: none;
-  background-color: #009ce5;
-  box-shadow: 0px 2px 0px #008ac1, 0px 3px 6px rgba(0, 0, 0, .3);
-  border-radius: 5px 5px 15px 15px ;
-  cursor: pointer;
-  transition: .2s ease-out bottom;
-  z-index: 3;
-}
-
-#projects button.bookmark:hover {
-  bottom: -20px;
-}
-
-#projects article[data-bookmarked="true"]  button.bookmark{
-  opacity: 100%;
-}
-
-#projects article .splash {
-  position: absolute;
-  display: block;
-  left: 50%;
-  top: 290px;
-  width: 300px;
-  background-color: var(--mid-gray);
-  transform: translate(-50%, -50%);
-  aspect-ratio: 3 / 2;
-  border-radius: 12px;
-  border: 10px solid #fff;
-  box-shadow: var(--shadow);
-}
-
-
-#work {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translate(-83%, -50%);
-  text-align: right;
-}
-
-#work > h3 {
-  transform: translate(20%);
-}
-
-#work article {
-  position: relative;
-  display: block;
-  width: 330px;
-  height: 200px;
-  padding: 30pt;
-  margin-bottom: -50pt;
-  background: #fff;
-  border-radius: 12px;
-  border: 2pt solid var(--mid-gray);
-  box-shadow: 0px 1pt 0 var(--mid-gray), var(--shadow);
-  transition: .3s ease-in-out transform;
-  cursor: pointer;
-}
-
-#work article:not(:first-child):hover {
-  transform: translate(70%);
-}
-
-#work article h3 {
-  font-size: 24pt;
-  line-height: 20pt;
-}
-
-#work article span {
-  display: block;
-  font-weight: 400;
-  line-height: 15pt;
-  font-size: 12pt;
-  margin: 0;
-}
-
-#work article .date {
-  font-family: "Courier New", serif;
-  font-style: oblique;
-  font-stretch: normal;
-  text-transform: none;
-  font-weight: 200;
-}
-
-#education > h3 {
-  position: fixed;
-  top: 27%;
-  right: 50pt;
-}
-
-#education article {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  z-index: 3;
-  aspect-ratio: 3 / 2;
-  width: 700px;
-  transform: translate(calc(-25pt + 50vw), calc(-50%));
-  padding: 50px 50px 20px 50px;
-  border-radius: 10pt;
-  background-color: white;
-  box-shadow: var(--shadow);
-  border: 20pt solid var(--neu-gold);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  transition: .3s ease-in-out transform, .3s ease-in-out box-shadow;
-  transform-style: preserve-3d;
-}
-
-#education article::before {
-  content: '→';
-  font-size: 3rem;
-  text-align: center;
-  background-color: var(--neu-gold);
-  line-height: 3.25rem;
-  position: absolute;
-  top: 50%;
-  right: 0;
-  display: block;
-  aspect-ratio: 3 / 2;
-  width: 80px;
-  color: white;
-  border: 2pt solid var(--neu-gold);
-  box-shadow: var(--shadow);
-  border-radius: 10pt 30pt 30pt 10pt;
-  transform: translate(80%, -50%) translateZ(-1px);
-}
-
-#education article h3 {
-  text-align: center;
-  width: max-content;
-  /*
-  font-size: 30pt;
-  line-height: 28pt;
-  */
-}
-
-#education article:not(.focused):hover {
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, .4);
-  transform: translate(calc(-50pt + 50vw), calc(-50%));
-}
-
-#education article.focused {
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, .4);
-  transform: translate(-50%, -50%);
-}
-
-#education article p, #education article span {
-  font-size: 13pt;
-  font-weight: 200;
-  font-stretch: normal;
-  text-transform: none;
-}
-
-#education article .class {
-  place-self: end;
-  text-transform: uppercase;
-  letter-spacing: 3rem;
-  color: var(--neu-gold);
-}
-#education article .honors {
-  text-transform: uppercase;
-  justify-self: end;
-  letter-spacing: .2rem;
-  font-size: 1rem;
-  color: var(--neu-gold);
-}
-
-#education article .degrees {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  align-items: start;
-  grid-gap: 10pt;
-}
-
-#education article .degrees span:nth-child(odd) {
-  text-align: right;
-  font-weight: 800;
-}
-
-#education article .degrees span:nth-child(even) {
-  font-family: "Courier New", serif;
-}
-
-#coffee-stain {
-  position: fixed;
-  top: 40svh;
-  left: 50%;
-  transform: translate(calc(-50% - 100pt), -50%);
-  aspect-ratio: 1;
-  width: 400px;
-  mix-blend-mode: multiply;
-  filter: grayscale(.5);
-  opacity: .7;
-}
-
-
-
-.media-stack {
-  position: absolute;
-  width: max-content;
-  bottom: 20%;
-  right: 130px;
-  cursor: pointer;
-  z-index: 0;
-}
-
-.media-stack li {
-  position: absolute;
-  list-style: none;
-  transform: translate(-50%, -50%) scale(1);
-  transition: .2s ease-out transform, .2s ease-out position;
-}
-
-.media-stack li img, .media-stack li iframe {
-  position: relative;
-  object-fit: cover;
-  width: 700px;
-  aspect-ratio: 3/2;
-  border-radius: 40pt;
-  border: calc(10pt / .15 * .5) solid white;
-  box-shadow: var(--shadow);
-  background-color: var(--light-gray);
-}
-
-.media-stack li:nth-child(1) { z-index: 2; transform: translate(calc(7% - 50%), -50%) scale(.3); }
-.media-stack li:nth-child(2) { transform:  translate(calc(.5 * +12% - 50%), calc(.5 * -10% - 50%)) scale(.3) rotate(-5deg); }
-.media-stack li:nth-child(3) { transform:  translate(calc(.5 * +14% - 50%), calc(.5 * -5% - 50%)) scale(.3) rotate(-2deg); }
-.media-stack li:nth-child(4) { transform:  translate(calc(.5 * +12% - 50%), calc(.5 * +10% - 50%)) scale(.3) rotate(5deg); }
-.media-stack li:nth-child(5) { transform:  translate(calc(.5 * +14% - 50%), calc(.5 * +5% - 50%)) scale(.3) rotate(2deg); }
-
-.media-stack li:nth-child(1).onHover { z-index: 2; transform: translate(calc(8% - 35%), -50%) scale(.3); }
-.media-stack li:nth-child(2).onHover { transform:  translate(calc(.5 * +11% - 35%), calc(.5 * -20% - 50%)) scale(.3) rotate(-15deg); }
-.media-stack li:nth-child(3).onHover { transform:  translate(calc(.5 * +15% - 35%), calc(.5 * -10% - 50%)) scale(.3) rotate(-5deg); }
-.media-stack li:nth-child(4).onHover { transform:  translate(calc(.5 * +11% - 35%), calc(.5 * +20% - 50%)) scale(.3) rotate(15deg); }
-.media-stack li:nth-child(5).onHover { transform:  translate(calc(.5 * +15% - 35%), calc(.5 * +10% - 50%)) scale(.3) rotate(5deg); }
-
-.media-stack li iframe {
-  pointer-events: none;
-}
-
-.media-stack li.expanded iframe {
-  pointer-events: all;
-}
-.media-stack li.expanded::before {
-  content: 'Close';
-  color: white;
-  position: absolute;
-  display: block;
-  padding: 10pt 20pt;
-  font-size: 2rem;
-  border-radius: 10pt;
-  top: 100%;
-  left: 50%;
-  background-color: orangered;
-  box-shadow: 0px 5pt 0px darkred, var(--shadow), 0px 10px 20px rgba(0, 0, 0, .7);
-  z-index: 10;
-  transform: translate(-50%, -50%);
-}
-
-.media-stack li.expanded { 
-  z-index: 10; 
-  /* transform: translate(-70%, -75%) scale(1); */
-  /* animation: .3s slide-out linear forwards; */
-}
-.media-stack li.expanded img, .media-stack li.expanded iframe { 
-  box-shadow: 0px 20px 50px rgba(0, 0, 0, .3);
-  border: 10pt solid white;
-  border-radius: 10pt;
-}
-
-.paperclip {
-  transition: .2s transform ease-out;
-  position: absolute;
-  width: 100px;
-  height: 30px;
-  border-radius: 15px;
-  background-color: none;
-  border: 4px solid #888;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, .3);
-  z-index: 5;
-  pointer-events: none;
-}
-
-.paperclip.media {
-  top: calc(100% - 100px);
-  right: 10px;
-  transform: translate(50%, -50%);
-}
-
-.paperclip.media.onHover {
-  transform: translate(120%, 50%) rotate(120deg);
-}
-
-
-@keyframes slide-out {
-  0% {
-    transform: initial;
-  }
-
-  50% {
-    transform: scale(.2) translate(0%, -50%);
-  }
-
-  100% {
-    transform: translate(-70%, -75%);
-  }
-}
-
-</style>
-<script src="projects.js" type="application/javascript"></script>
-<script>
-
-function debounce(fn, d) {
-  let timer = 0;
-  return (...args) => {
-    if (Date.now() - timer > d) fn.apply(this, args);
-    timer = Date.now();
-  }
-}
-
-// t assumed within [0, 1]
-function lerp(a, b, t) {
-  return a + (b - a) * t
-}
-
-// animate to a window position in (x, y) px coords over duration millisecs
-function animateToPosition(domEl, top, left, durationMs) {
-  // STEP 1: Make positioning absolute
-  let startPos = domEl.getBoundingClientRect()
-  domEl.style.removeProperty("transform");
-  domEl.style.setProperty("position", "fixed");
-  domEl.style.setProperty("top", startPos.top);
-  domEl.style.setProperty("left", startPos.left);
-
-  top = top ?? startPos.top;
-  left = left ?? startPos.left;
-  
-  // STEP 2: Animate
-  let startTime = +(new Date());
-  
-  const step = () => {
-    let curTime = +(new Date());
-    if (curTime - startTime >= durationMs) {
-      domEl.style.setProperty("top", top);  
-      domEl.style.setProperty("left", left);  
-      return;
+<html>
+  <head>
+    <script src="./projects.js" type="application/javascript"></script>
+  </head>
+  <style>
+    * {
+      box-sizing: border-box;
     }
-    // lerp between vals
-    let progress = (curTime - startTime) / durationMs
-    domEl.style.setProperty("top", lerp(startPos.top, top, progress));
-    domEl.style.setProperty("left", lerp(startPos.left, left, progress));
-    window.requestAnimationFrame(step);
-  }
-  window.requestAnimationFrame(step);
-}
 
-function dontBubble(event) {
-  event.preventDefault()
-  event.stopPropagation()
-}
-
-let articles = [];
-let curArticleInd = 0;
-
-function resetArticleMedia(domArticle) {
-  domArticle.querySelector('.paperclip.media')?.classList.remove('onHover');
-  domArticle.querySelectorAll('.media-stack').forEach(stack => {
-    // animate to smol version
-    if (stack.activeImage) {
-      let rect = stack.activeImage.getBoundingClientRect();
-      let startTransform = stack.activeImage.style.transform;
-      animateToPosition(stack.activeImage, stack.activeImage.originalPos.top, stack.activeImage.originalPos.left + 100, .1);
-      setTimeout(_ => {
-        // reset image
-        animateToPosition(stack.activeImage, stack.activeImage.originalPos.top + .15 * rect.height, stack.activeImage.originalPos.left - 55, .1);
-        stack.activeImage.style.setProperty("transform", stack.activeImage.originalTransform);
-        },
-      .1 * 1000)
-      setTimeout(_ => {
-        // reset stack
-        stack.style.setProperty("z-index", 0)
-      
-        // reset image
-        stack.activeImage.style.setProperty("position", "absolute");
-        stack.activeImage.style.removeProperty("top");
-        stack.activeImage.style.removeProperty("left");
-        
-        stack.activeImage = undefined
-      }, .2 * 1000);
+    :root {
+      --primary: chartreuse;
+      --text: #111;
+      scroll-behavior: smooth;
     }
-  
-  });
-  domArticle.querySelectorAll('.media-stack li').forEach(li => {
-    li.querySelector("iframe")
-      ?.contentWindow
-      .postMessage('{"event":"command","func":"pauseVideo","args":""}', "*");
-    li.classList.remove('expanded')
-    li.classList.remove('onHover')
-  });
-  
-}
 
-window.onload = _ => {
-
-  // init articles
-  loadProjects();
-
-  
-  let pageStackMargin = 5;
-  articles = Array.prototype.slice.call(document.querySelectorAll("#projects article"))
-  curArticleInd = articles.length - 1;
-  
-  articles.forEach((domArticle, ind) => {
-  
-    domArticle.style.setProperty("margin-top", ind * -pageStackMargin + "px")
-    let bounds = domArticle.getBoundingClientRect()
-    
-    domArticle.isDown = true;
-    
-    domArticle.slideUp = () => {
-      animateToPosition(domArticle, -bounds.height + projects.length * 6, bounds.left, 300)
-      resetArticleMedia(domArticle);
-      domArticle.isDown = false;
+    ::selection {
+      color: var(--primary);
+      background: var(--text);
     }
     
-    domArticle.slideDown = () => {
-      animateToPosition(domArticle, bounds.top + ind * pageStackMargin, bounds.left, 300)
-      if (articles[curArticleInd]) resetArticleMedia(articles[curArticleInd]);
-      domArticle.isDown = true;
+    body {
+      color: var(--text);
+      background-color: var(--primary);
+      display: grid;
+      position: relative;
+      margin: 0 200px;
+      grid-template-areas: 
+        "hero main"
+      ;
+      grid-gap: 20pt 60pt;
+      grid-template-columns: 2fr 3fr;
+      font-family: "Roboto Mono", sans-serif;
+      height: 100vh;
+      align-items: center;
     }
 
-    domArticle.bookmark = () => {
-      // toggle bookmark
-      domArticle.isBookmarked = !domArticle.isBookmarked;
-      domArticle.setAttribute("data-bookmarked", domArticle.isBookmarked)
+    section {
+      position: relative;
     }
-    domArticle.bookmark()
     
-    domArticle.onclick = _ => goToPageIndex(ind)
-    let addBmBtn = domArticle.querySelector("button.add-bookmark")
-    if (addBmBtn) {
-      addBmBtn.onclick = e => {
-        dontBubble(e)
-        domArticle.bookmark()
+    nav {
+      z-index: 1;
+      background-color: var(--primary);
+      justify-self: end;
+    }
+
+    h1, h2, h3, h4, nav ul {
+      text-transform: uppercase;
+      margin: 0;
+      padding:0;
+    }
+
+    nav ul {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin: 0;
+      /*
+      background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23333' stroke-width='4' stroke-dasharray='10%2c 30' stroke-dashoffset='15' stroke-linecap='square'/%3e%3c/svg%3e");    
+      */
+    }
+
+    nav ul li {
+      list-style: none;
+      display: inline-block;
+      letter-spacing: .2rem;
+    }
+    
+    main {
+      grid-area: main;
+      align-self: start;
+    }
+
+    h1 {
+      font-size: 72pt;
+      line-height: 60pt;
+    }
+
+    main section {
+      margin-bottom: 20vh;
+    }
+
+    main {
+      /* cursor: grab; */
+    }
+
+
+    section#hero {
+      grid-area: hero;
+      align-self: start;
+      height: 100%;
+      margin-top: 0;
+      text-align: right;
+    }
+    
+    section#hero ul {
+      margin: 3rem 0 0 0 ;
+      text-transform: uppercase;
+      letter-spacing: .2rem;
+    }
+    
+    section#hero ul li {
+      list-style: none;
+      text-align: inherit;
+      margin: 1.2rem 0;
+    }
+    
+    a {
+      text-decoration: none;
+      padding-bottom: .2rem;
+      border-bottom: 1px solid var(--text);
+      color: var(--text);
+      padding: .2rem 1rem .2rem 1rem;
+      cursor: pointer;
+    }
+
+    a:hover {
+      background-color: var(--text);
+      color: var(--primary);
+    }
+
+    section#hero h1 {
+      font-family: "Bahnschrift";
+    }
+
+    section#hero h3 {
+      letter-spacing: .75rem;
+      margin-top: 1rem;
+      margin-right: -.75rem;
+    }
+    section#hero a {
+      padding: .2rem 0 .2rem 1rem;
+    }
+
+    .name-fix {
+      margin-top: 4rem;
+      margin-right: 1rem;
+    }
+    .surname-fix {
+      margin-right: -5pt;
+    }
+
+    
+    nav ul li, h3 {
+      font-size: 12pt;
+      font-weight: 400;
+    }
+    
+    section#hero h1, section#hero h3 {
+      text-align: inherit;
+    }
+    
+    section#hero .sticky {
+      top: 10vh;
+    }
+
+    .sticky {
+      position: sticky;
+    }
+
+    section#projects {
+      display: flex;
+      gap: 2rem;
+      flex-direction: row;
+    }
+
+    section#projects #proj-nav {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: max-content;
+      gap: .5rem;
+      height: 100%;
+    }
+    
+    section#projects #proj-nav h1 {
+      font-size: 20pt;
+      font-weight: 100;
+      text-align: center;
+      width: 8ch;
+    }
+
+    section#projects h2 {
+      line-height: 4rem;
+    }
+    
+    section#projects #proj-nav h1.active {
+      font-weight: 1000;
+      /* 
+      color: var(--primary);
+      background-color: var(--text);
+      text-shadow: 0px 0px 10px var(--text); 
+      */
+    }
+
+    section#projects #proj-nav h1:not(.active):hover {
+      color: var(--primary);
+      background-color: var(--text);
+      cursor: pointer;
+      /*
+      text-shadow: 0px 0px 10px var(--text); 
+      */
+    }
+
+    section#projects #proj-nav button {
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+      border: 1px solid var(--text);
+      padding: 1rem 2rem;
+      background-color: var(--primary);
+      color: var(--text);
+    }
+    
+    section#projects #proj-nav button:hover {
+      background-color: var(--text);
+      color: var(--primary);
+    }
+    
+
+    section#projects figure {
+      height: 40vh;
+      aspect-ratio:  4 / 3;
+      background-color: var(--text);
+      margin: 0;
+      background-size: 100% auto;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+
+    section#projects figure iframe,
+    section#projects figure video {
+      width: 100%;
+      height: 100%;
+    }
+
+    section#projects .image-container {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+    }
+
+    section#projects .image-container .images {
+      display: flex;
+      width: 60pt;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    section#projects .image-container .images div {
+      position: relative;
+      cursor: pointer;
+      display: block;
+      height: 100%;
+      background-color: var(--text);
+      background-size: auto 100%;
+      overflow: hidden;
+    }
+    
+    section#projects .image-container .images div:after {
+      content: '';
+      position: absolute;
+      display: block;
+      inset: -1px;
+      background-color: var(--primary);
+      width: 100vh;
+      height: 1px;
+      animation: 5s slide-up linear infinite alternate;
+    }
+    
+    section#projects .image-container .images div.video-thumb,
+    section#projects .image-container .images div.iframe-thumb
+    {
+      background-url: none;
+    }
+    section#projects .image-container .images div.video-thumb:before,
+    section#projects .image-container .images div.iframe-thumb:before 
+    {
+      content: 'Vid.';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--primary);
+    }
+    section#projects .image-container .images div.iframe-thumb:before {
+      content: "Pen"
+    }
+    
+    section#projects .image-container .images div:nth-child(even):after {
+      animation-delay: 1.5s;
+    }
+
+    @keyframes slide-up {
+      20% {top: -2px}
+      20.01% { 
+        top: 100%;
+      }
+      40%, 60% { 
+        top: -2px;
+        left: -2px;
+        transform: none;
+        background-color: var(--primary);
+      }
+      60.01% {
+        left: -2px;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(90deg);
+        background-color: var(--text);
+      }
+      80%, 100% { 
+        background-color: var(--text);
+        top: 50%;
+        left: 100%;
+        transform: translate(-50%, -50%) rotate(90deg);
       }
     }
-    
-    let bookmark = domArticle.querySelector("button.bookmark")
-    if (bookmark) {
-      bookmark.onclick = e => {
-        dontBubble(e)
-        if (ind == curArticleInd) return;
-        goToPageIndex(ind)
-      }
-      let bookmarkWidth = bookmark.getBoundingClientRect().width
-      let leftPos = 20 + (bookmarkWidth + 1) * (articles.length - 2 - ind) 
-      bookmark.style.setProperty("left", leftPos + "px")
+
+    section#projects, section#work {
+      padding-top: 20vh;
     }
-  })
-
-  let contact = document.querySelector("#contact");
-  contact.onclick = () => {
-    if (curArticleInd == -1) return;
-    goToPageIndex(0);
-    articles[0].slideUp();
-    curArticleInd = -1;
-    setIcon();
-  }
-
-  let diploma = document.querySelector("#education article")
-  diploma.onclick = () => {
-    diploma.classList.toggle("focused");
-  }
 
 
-  // setup all the image stacks
-  document.querySelectorAll(".media-stack").forEach(stack => {
-    let images = stack.querySelectorAll('li')
-    images.forEach(image => {
-      image.addEventListener('mouseenter', e => {
-        dontBubble(e);
-        if (!stackIsOnTop(stack)) return;
-        articles[curArticleInd].querySelector('.paperclip.media').classList.add('onHover');
-        images.forEach(otherImage => {
-          if (image != stack.activeImage && otherImage != stack.activeImage) {
-            otherImage.classList.add('onHover')
-          }
-        });
-      });
+
+
+
+    section#work ul {
+    }
+
+    section#work li {
+      list-style: none;
+      border-left: 1px solid var(--text);
+      margin: 0;
+      padding: 0 2rem 4rem 3rem;
+      position: relative;
+    }
+    
+    section#work li:after, section#work li:first-child:before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      border-radius: 50%;
+      width: 20pt;
+      aspect-ratio: 1;
+      border: 1px solid var(--text);
+      transform: translate(-50%);
+      background-color: var(--primary);
+      z-index: 1;
+    }
+    
+    section#work li:first-child:after {
+      background-color: var(--text);
+    }
+
+    section#work li:first-child {
+      border-left: 1px dashed var(--text);
+    }
+    
+    section#work li:first-child:before {
+      content: "?";
+      font-weight: 100;
+      top: 0;
+      border: none;
+      font-size: 40pt;
+      margin-left: -2pt;
+      transform: translate(-50%, -100%);
+      animation: 3s blink ease-in-out infinite;
+      background: none;
+    }
+
+    @keyframes blink {
+      0%   { opacity: 0; }
+      50%  { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    
+    section#work h2, section#work h3, section#work h4 {
+      text-transform: none;
+    }
+    section#work h2 {
+      line-height: 1.2rem;
+    }
+    section#work h4 {
+      font-style: oblique;
+      line-height: 1.2rem;
+      font-weight: 300;
+    }
+
+
+
+
+
+    section#press {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      grid-gap: 2rem;
+      align-items: start;
+    }
+
+    section::before {
+      content: "";
+      position: absolute;
+      text-transform: uppercase;
+      font-family: "Bahnschrift";
+      font-size: 100pt;
+      line-height: 100pt;
+      opacity: .1;
+      z-index: -1;
+      top: 1rem;
+    }
+
+    section#projects::before {
+      content: "";
+    }
+    section#work::before {
+      content: "Work";
+    }
+    section#press::before {
+      content: "Press";
+    }
+
+    section#press h1 {
+      font-size: 20pt;
+      font-style: oblique;
+    }
+
+    section#press div {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-gap: 1rem;
+    }
+
+
+    
+    @media screen and (max-width: 1437px) {
+      body {
+        grid-template-areas: "hero"
+                             "main";
+        grid-template-columns: 1fr
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+      }
+
+      nav ul {
+        width: max-content;
+        z-index: 100;
+      }
+      nav ul li {
+        margin-right: 4rem;
+      }
       
-      image.addEventListener('mouseleave', e => {
-        dontBubble(e);
-        if (!stackIsOnTop(stack)) return;
-        if (stack.activeImage) return;
-        images.forEach(image => image.classList.remove('onHover'));
-        articles[curArticleInd].querySelector('.paperclip.media').classList.remove('onHover');
-      });
-      
-      image.addEventListener("click", e => {
-        dontBubble(e);
-        if (!stackIsOnTop(stack)) return;
-        if (stack.activeImage) {
-          // pause youtube video
-          stack.activeImage.querySelector("iframe")
-            ?.contentWindow
-            .postMessage('{"event":"command","func":"pauseVideo","args":""}', "*");
-          stack.activeImage.classList.remove("expanded");
-          // ANIMATE PICTURE TO smol VERSION
-          {
-            let rect = image.getBoundingClientRect();
-            let startTransform = image.style.transform;
-            animateToPosition(image, image.originalPos.top, image.originalPos.left + 100, .1);
-            setTimeout(_ => {
-              // reset image
-              animateToPosition(image, image.originalPos.top + .15 * rect.height, image.originalPos.left - 55, .1);
-              image.style.setProperty("transform", image.originalTransform);
-              },
-            .1 * 1000)
-            setTimeout(_ => {
-              // reset stack
-              stack.style.setProperty("z-index", 0)
-              
-              // reset image
-              image.style.setProperty("position", "absolute");
-              image.style.removeProperty("top");
-              image.style.removeProperty("left");
-            }, .2 * 1000);
-          }
-        
-        }
-        if (stack.activeImage == image) {
-          stack.activeImage = undefined;
-          setTimeout(_ =>  stack.style.setProperty("z-index", 0) , .1 * 1000);
-          return;
-        }
-        image.classList.remove('onHover');
-        image.classList.toggle("expanded");
-        
-        // ANIMATE PICTURE TO BIG VERSION
-        {
-          let startPos = image.getBoundingClientRect();
-          image.originalPos = startPos;
-          let startTransform = image.style.transform;
-          image.originalTransform = startTransform;
-          animateToPosition(image, startPos.top, startPos.left + 100, .1);
-          image.style.setProperty("transform", startTransform); // animate to position clears transform
-          setTimeout(_ => {
-            animateToPosition(image, window.innerHeight / 2, window.innerWidth / 2, .1)
-            image.style.setProperty("transform", "translate(-50%, -50%)");
-            },
-          .1 * 1000)
-          setTimeout(_ =>  stack.style.setProperty("z-index", 5) , .2 * 1000);
-        }
-        
-        stack.activeImage = image;
-      })
-    })
-  });
-}
+      section#hero {
+        text-align: left;
+      }
 
-function stackIsOnTop(stack) {
-  return []
-    .slice
-    .call(articles[curArticleInd].querySelectorAll('.media-stack'))
-    .includes(stack);
-}
+      section#hero a {
+        padding: .2rem;
+      }
 
-function setIcon() {
-  // set the scroll-nav icon to the right thing
-  let iconEl = document.querySelector("#nav-icon");
-  iconEl.classList.remove('uarr');
-  let icon; 
-  if (curArticleInd == articles.length-1) { icon = "&darr;" } // down arrow
-  else if (curArticleInd < 0)             { icon = "&uarr;";  // up arrow
-                                            iconEl.classList.add('uarr') } // requires specific alignment
-  else                                    { icon = "&varr;" } // vertical arrow
-  iconEl.innerHTML = icon;
-}
-  
+      section#hero ul {
+        padding: 0;
+      }
 
-function goToPageIndex(ind) {
-  let domArticle = articles[ind]
-  
-  // if it's the top page, go to next page
-  if (ind == curArticleInd) {
-    domArticle.slideUp()
-    curArticleInd--;
-    setIcon();
-    return;
-  }
-  
-  if (domArticle.isDown) {
-    // animate to the clicked project, slide away top pages
-    articles
-      .slice(ind + 1, curArticleInd + 1)
-      .forEach(otherArticle => otherArticle.slideUp())
-  }
-  else {
-    // animate to clicked project, slide down to it
-    articles
-      .slice(curArticleInd + 1, ind + 1)
-      .forEach(otherArticle => otherArticle.slideDown())
-  }
-  curArticleInd = ind;
-  setIcon();
-}
+      section::before {
+        left: 0;
+        right: 100%;
+      }
+    }
 
-function onWheelHandler(e) {
-  if (e.deltaY > 0 && curArticleInd >= 0) {
-    // scroll down
-    goToPageIndex(curArticleInd)
-  }
-  else if (e.deltaY < 0 && curArticleInd < articles.length - 1) {
-    // scroll up
-    goToPageIndex(curArticleInd + 1)
-  }
-}
 
-window.onwheel = debounce(onWheelHandler, 150)
-
-</script>
-<body>
-  <div id="name">
-    <div>Ezekiel D'Ascoli</div>
-    <!-- <span>Software Engineer</span> -->
-  </div>
-  <section id="education" class="">
-    <h3>Education</h3>
-    <article>
-    <h3>Northeastern University</h3>
-    <span class="class">2018&mdash;2023</span>
-    <div class="spacer"></div>
-    <div class="degrees">
-      <span>Bachelor of Science</span>
-      <span>Computer Science</span>
-      <span>Concentration</span>
-      <span>Human Centered Computing</span>
-      <span>Minors</span>
-      <span>Theatre, Interaction Design</span>
-    </div>
-    <div class="spacer"></div>
-    <span class="honors"><i>Magna Cum Laude</i></span>
-    </article>
-  </section>
-  <section id="projects">
-    <article>
-      <h3>Projects</h3>
-    </article>
-  </section>
-  <section id="work">
-    <h3>Work</h3>
-    <article>
-      <h3>Smartleaf Inc.</h3>
-      <span>Software Development Co-Op</span>
-      <span class="date">Dec 2019&ndash;Aug 2020</span>
-    </article>
-    <article>
-      <h3>Places For Less</h3>
-      <span>Software Engineeringing Co-Op</span>
-      <span class="date">Jan&ndash;Aug 2021</span>
-    </article>
-    <article>
-      <h3>Verve Motion</h3>
-      <span>Software Engineeringing Co-Op</span>
-      <span class="date">July&ndash;Dec 2022</span>
-    </article>
-  </section>
-  <section id="contact">
-    <h3>Contact</h3>
-    <ul>
-      <li><a target="_" href='mailto:dascoli.e@northeastern.edu'>Email</a></li>
-      <li><a target="_" href='https://www.linkedin.com/in/ezekiel-dascoli-2023/'>LinkedIn</a></li>
-    </ul>
-  </section>
-  <a href="./misc/Ezekiel_DAscoli_Resume_2023.pdf" target="_">
-    <section id="resume"></section>
-  </a>
-  <h3 id="nav-icon">&darr;</h3>
-  <img id="coffee-stain" src="imgs/coffee-stain.svg" alt="casualty of working"/>
-</body>
+  </style>
+  <body>
+    <section id="hero">
+      <div class="sticky">
+        <nav>
+          <ul>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#press">Press</a></li>
+          </ul>
+        </nav>
+        <h1 class="name-fix">Ezekiel</h1>
+        <h1 class="surname-fix">D'Ascoli</h1>
+        <h3>Software Engineer</h3>
+        <h3>Actor</h3>
+        <ul>
+          <li><a href="resume.pdf">Resume</a></li>
+          <li><a href="mailto:dascoli.e@northeastern.edu">Email</a></li>
+          <li><a href="https://linkedin.com/in/ezekiel-dascoli-2023">LinkedIn</a></li>
+          <li><a rel="preload" href="https://github.com/Zeke-D">GitHub</a></li>
+          <li><a rel="preload" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">OnlyFans</a></li>
+        </ul>
+      </div>
+    </section>
+    <main>
+      <section id="projects">
+        <div id="proj-nav">
+          <!-- <button>Prev.</button> -->
+          <!-- <button>Next</button> -->
+        </div>
+        <article>
+          <h2>Project Title</h2>
+          <div class="image-container">
+            <figure class="main"></figure>
+            <div class="images">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+          <p class="description">
+            This project aimed to physicalize an emotional environment. Using a holographic display, we rendered realtime interpretations of webcam emotional data. We ended up finishing Top 10 in the whole event and won 1st Prize for the Looking Glass subcategory.
+          </p>
+        </article>
+      </section>
+      <section id="work">
+        <ul>
+          <li>
+            <a href="mailto:dascoli.e@northeastern.edu">Help me expand this list</a>
+          </li>
+          <li>
+            <h2>Northeastern University</h2>
+            <h3>Theatrical Data Science Research Assistant</h3>
+            <h4>Apr. 2023 - Present</h4>
+            <p>Investigating the benefits of theater to increase data accessibility</p>
+          </li>
+          <li>
+            <h2>Verve Motion</h2>
+            <h3>Software Engineering Co-Op</h3>
+            <h4>July - Dec. 2022</h4>
+            <p>Investigating the benefits of theater to increase data accessibility</p>
+          </li>
+          <li>
+            <h2>Places For Less</h2>
+            <h3>Software Development Co-Op</h3>
+            <h4>Jan. - Aug 2021</h4>
+            <p>Investigating the benefits of theater to increase data accessibility</p>
+          </li>
+          <li>
+            <h2>Smartleaf, Inc.</h2>
+            <h3>Software Development Co-Op</h3>
+            <h4>Dec. 2019 - Aug 2020</h4>
+            <p>Investigating the benefits of theater to increase data accessibility</p>
+          </li>
+        </ul>
+      </section>
+      <section id="press">
+        <div>
+          <h1>By me</h1>
+          <span>Coming soon...</span>
+        </div>
+        <div>
+          <h1>Of me</h1>
+          <article>
+            <h2><a href="https://news.northeastern.edu/2023/06/22/magazine/data-theater-performance/">Data as Theater</a></h2>
+          </article>
+          <article>
+            <h2><a href="https://blog.lookingglassfactory.com/community/looking-glass-factory-x-mit-reality-hack/">LKG Blog</a></h2>
+          </article>
+          <article>
+            <h2><a href="https://www.khoury.northeastern.edu/khoury-college-students-win-award-for-holographic-project-at-mit-hackathon/">Khoury Spotlight</a></h2>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

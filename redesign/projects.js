@@ -86,6 +86,7 @@ const projects = [
 ]
 
 
+/*
 let currentProj;
 window.onload = _ => {
   addProjects("section#portfolio .container");
@@ -131,4 +132,10 @@ function addProjects(selector) {
     }
     el.appendChild(article);
   });
+}
+*/
+
+function setProject(project) {
+  document.querySelector("#projects article h2").innerHTML = project.title;
+  document.querySelector("#projects article .description").innerHTML = project.desc;
 }
