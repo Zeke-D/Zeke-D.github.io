@@ -441,32 +441,27 @@
 
 
     
-    @media screen and (max-width: 1437px) {
+    @media only screen and (max-width: 1437px) {
       body {
         grid-template-areas: "hero"
                              "main";
         grid-template-columns: 1fr;
         margin: 0 40pt;
-        font-size: 40pt;
-      }
-      
-      nav ul li, h3 {
-        font-size: 40pt;
-        line-height: 40pt;
-        font-weight: 400;
       }
 
       nav {
         position: fixed;
         top: 0;
+        width: 50vw;
+        padding: 10pt 10vw;
       }
 
       nav ul {
-        width: max-content;
-        z-index: 100;
+        width: 100%;
       }
       nav ul li {
         margin-right: 4rem;
+        z-index: 100;
       }
       
       section#hero {
@@ -487,6 +482,10 @@
         right: 100%;
       }
     
+      section#projects {
+        background-color: var(--primary);
+      }
+      
     
       section#projects #proj-nav h1 {
         font-size: 40pt;
@@ -511,20 +510,42 @@
         width: 100%;
         height: 100%;
       }
-    }
 
+    }
+    
+    @media only screen and (max-width: 1437px) and (any-pointer: coarse) {
+      body {
+        font-size: 40pt;
+      }
+      
+      nav ul li, h3 {
+        font-size: 40pt;
+        line-height: 40pt;
+        font-weight: 400;
+      }
+
+      section#work h2 {
+        line-height: 60pt;
+        margin-bottom: .2rem;
+      }
+      
+      section#work h3 {
+        line-height: 40pt;
+        margin-bottom: 20pt;
+      }
+    }
 
   </style>
   <body>
     <section id="hero">
+      <nav>
+        <ul>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#press">Press</a></li>
+        </ul>
+      </nav>
       <div class="sticky">
-        <nav>
-          <ul>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#work">Work</a></li>
-            <li><a href="#press">Press</a></li>
-          </ul>
-        </nav>
         <h1 class="name-fix">Ezekiel</h1>
         <h1 class="surname-fix">D'Ascoli</h1>
         <h3>Software Engineer</h3>
