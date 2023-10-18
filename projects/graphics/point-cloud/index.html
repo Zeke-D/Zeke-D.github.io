@@ -1,0 +1,199 @@
+<html>
+  <title>Point Cloud Rendering</title>
+  <head>
+    <script src="../lib/gl-matrix-min.js"></script>
+    <script>
+
+      const vert = `
+        precision highp float;
+
+        attribute vec4 vertPos;
+        attribute vec2 vert_uv;
+
+        uniform float time;
+
+        uniform mat4 modelView;
+        uniform mat4 projection;
+
+        varying vec2 frag_uv;
+        void main() {
+          frag_uv = vert_uv;
+          gl_Position = projection * modelView * vertPos;
+          gl_PointSize = 10.;
+        }
+      `;
+
+      const frag = `
+        precision highp float;
+
+        varying vec2 frag_uv;
+
+        void main() {
+          gl_FragColor = vec4(frag_uv.x, frag_uv.y, .3, 1.);
+        }
+      `;
+
+      function initShader(gl, vertSrc, fragSrc) {
+        const vertShader = loadShader(gl, gl.VERTEX_SHADER, vertSrc);
+        const fragShader = loadShader(gl, gl.FRAGMENT_SHADER, fragSrc);
+        if (!vertShader || !fragShader) {
+          console.error("No vert / frag shader.");
+          return null;
+        }
+        const shaderProg = gl.createProgram();
+        gl.attachShader(shaderProg, vertShader);
+        gl.attachShader(shaderProg, fragShader);
+        gl.linkProgram(shaderProg);
+
+        if (!gl.getProgramParameter(shaderProg, gl.LINK_STATUS)) {
+          console.error(`Unable to initialize shader: ${gl.getProgramInfoLog(shaderProg)}`);
+          gl.deleteProgram(shaderProg);
+          return null;
+        }
+
+        return shaderProg;
+      }
+
+      function loadShader(gl, shaderType, source) {
+        const shader = gl.createShader(shaderType);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+          console.error(`Could not compile shader: ${gl.getShaderInfoLog(shader)}`);
+          gl.deleteShader(shader);
+          return null;
+        } else { console.info("Compiled shader.") }
+        return shader;
+      }
+
+      function initBuffers(gl) {
+        return { 
+          position: initPosBuff(gl),
+          uv: initUvBuff(gl)
+        }
+      }
+
+      function initPosBuff(gl) {
+        const posBuff = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, posBuff);
+        // quad
+        const positions = [
+           1.,  1., // TR   ._______.
+          -1.,  1., // TL   |\      |
+           1., -1., // BR   |   \   |
+          -1., -1.  // BL   .______\.
+        ];
+
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+        return posBuff;
+      }
+
+      function initUvBuff(gl) {
+        const uvBuff = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, uvBuff);
+        const uvs = [
+          1., 1., // TR,
+          0., 1., // TL,
+          1., 0., // BR
+          0., 0., // BL
+        ];
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(uvs), gl.STATIC_DRAW);
+        return uvBuff;
+      }
+    
+      function main() {
+        const cvs = document.querySelector("canvas");
+        const gl = cvs.getContext("webgl");
+        if (gl == null) {
+          console.error("Error loading WebGL context.");
+          return;
+        } else { console.info("WebGL context found.") }
+
+        const shaderProg = initShader(gl, vert, frag);
+        const progInfo = {
+          program: shaderProg,
+          attribLocations: {
+            vertPos: gl.getAttribLocation(shaderProg, "vertPos"),
+            vertUv: gl.getAttribLocation(shaderProg, "vert_uv"),
+          },
+          uniformLocations: {
+            projection: gl.getUniformLocation(shaderProg, "projection"),
+            modelView:  gl.getUniformLocation(shaderProg, "modelView"),
+          },
+        }
+
+        console.log(progInfo);
+        const buffers = initBuffers(gl);
+        drawScene(gl, progInfo, buffers);
+
+      }
+
+      function drawScene(gl, programInfo, buffers) {
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        gl.clearDepth(1.0);
+        gl.enable(gl.DEPTH_TEST)
+        gl.depthFunc(gl.LEQUAL) // <=
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+
+
+        // construct frustum
+        const fov_radians = (Math.PI * 45.0 / 180.0);
+        const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+        const nearClip = .1;
+        const farClip = 100.0;
+        const projectionMatrix = mat4.create();
+        mat4.perspective(projectionMatrix, fov_radians, aspect, nearClip, farClip);
+        const modelViewMatrix = mat4.create();
+        mat4.translate(modelViewMatrix, modelViewMatrix, [0.0, 0.0, -6.0])
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
+        gl.vertexAttribPointer(
+          programInfo.attribLocations.vertPos,
+          2, // two components per vertex; xy
+          gl.FLOAT,
+          false, // don't normalize
+          0, // stride
+          0,  // offset
+        );
+        gl.enableVertexAttribArray(programInfo.attribLocations.vertPos);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.uv);
+        gl.vertexAttribPointer(
+          programInfo.attribLocations.vertUv,
+          2, // two components per vertex; xy
+          gl.FLOAT,
+          false, // don't normalize
+          0, // stride
+          0,  // offset
+        );
+        gl.enableVertexAttribArray(programInfo.attribLocations.vertUv);
+        
+        gl.useProgram(programInfo.program);
+        gl.uniformMatrix4fv(programInfo.uniformLocations.projection, false, projectionMatrix);
+        gl.uniformMatrix4fv(programInfo.uniformLocations.modelView, false, modelViewMatrix);
+
+        gl.drawArrays(gl.POINTS, 0, 4);
+      }
+
+
+
+      window.onload = _ => main();
+    </script>
+    <style>
+      body {
+        display: grid;
+        place-items: center;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+      }
+
+      canvas {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas width=1920 height=1080></canvas>
+  </body>
+</html>

@@ -1,0 +1,261 @@
+<html>
+ <title>Point Cloud Rendering</title>
+  <head>
+    <script src="../lib/gl-matrix-min.js"></script>
+    <script>
+
+      let startTime = undefined;
+      let worldTime = 0;
+      let deltaTime = 0;
+      let gl = null;
+      let progInfo = null;
+      let buffers = null;
+
+
+      const vert = `
+        precision highp float;
+
+        attribute vec4 vertPos;
+
+        uniform float worldTime;
+        uniform float deltaTime;
+
+        uniform mat4 modelView;
+        uniform mat4 projection;
+
+        // things to pass to frag shader
+        varying vec4 pos; // world position post model multiply
+        varying vec4 v_pos; // world pos pre model-view mult
+        varying float frag_worldTime;
+
+        void main() {
+          frag_worldTime = worldTime;
+          v_pos = vertPos;
+          pos = modelView * vertPos;
+          gl_Position = projection * pos;
+          vec3 new_pos = gl_Position.xyz;
+          // float t = .5 * (sin(worldTime / 1000.) + 1.);
+          // new_pos = mix(new_pos, 4. * normalize(new_pos), t);
+          // gl_Position.xyz = new_pos;
+          gl_PointSize = 4.;
+        }
+      `;
+
+      const frag = `
+        precision highp float;
+
+        varying vec4 v_pos;
+        varying vec4 pos;
+        varying float frag_worldTime;
+
+        void main() {
+          gl_FragColor = .5 + .5 * (vec4(v_pos.x, v_pos.y, v_pos.z, 1.)) ;
+          // gl_FragColor = vec4(1.);
+          // gl_FragColor.x += sin(frag_worldTime / 1000.);
+        }
+      `;
+
+      function initShader(gl, vertSrc, fragSrc) {
+        const vertShader = loadShader(gl, gl.VERTEX_SHADER, vertSrc);
+        const fragShader = loadShader(gl, gl.FRAGMENT_SHADER, fragSrc);
+        if (!vertShader || !fragShader) {
+          console.error("No vert / frag shader.");
+          return null;
+        }
+        const shaderProg = gl.createProgram();
+        gl.attachShader(shaderProg, vertShader);
+        gl.attachShader(shaderProg, fragShader);
+        gl.linkProgram(shaderProg);
+
+        if (!gl.getProgramParameter(shaderProg, gl.LINK_STATUS)) {
+          console.error(`Unable to initialize shader: ${gl.getProgramInfoLog(shaderProg)}`);
+          gl.deleteProgram(shaderProg);
+          return null;
+        }
+
+        return shaderProg;
+      }
+
+      function loadShader(gl, shaderType, source) {
+        const shader = gl.createShader(shaderType);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+          console.error(`Could not compile shader: ${gl.getShaderInfoLog(shader)}`);
+          gl.deleteShader(shader);
+          return null;
+        } else { console.info("Compiled shader.") }
+        return shader;
+      }
+
+      function initBuffers(gl, programInfo) {
+        return { 
+          position: initPosBuff(gl, programInfo),
+        }
+      }
+
+      function initPosBuff(gl, programInfo) {
+        const posBuff = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, posBuff);
+
+        let NUM_POINTS_ACROSS = 10;
+
+        let TOTAL_POINTS = NUM_POINTS_ACROSS ** 3;
+        let TOTAL_COMPONENTS = TOTAL_POINTS * 3;
+        const positions = Array(TOTAL_COMPONENTS);
+
+        const X = 0, Y = 1, Z = 2;
+        const origin = [0, 0, 0.];
+        const dimensions = [2, 2, 2];
+
+        let count = 0;
+        for (let i = 0; i < NUM_POINTS_ACROSS; i++) {
+          let x = dimensions[X] * ((i / (NUM_POINTS_ACROSS - 1))  - .5) + origin[X];
+
+          for (let j = 0; j < NUM_POINTS_ACROSS; j++) {
+            let y = dimensions[Y] * ((j / (NUM_POINTS_ACROSS - 1)) - .5) + origin[Y];
+
+            for (let k = 0; k < NUM_POINTS_ACROSS; k++) {
+              let z = dimensions[Z] * ((k / (NUM_POINTS_ACROSS - 1)) - .5) + origin[Z];
+
+              positions[count * 3 + X] = x;
+              positions[count * 3 + Y] = y;
+              positions[count * 3 + Z] = z;
+
+              count++;
+            }
+          }
+        }
+
+        console.assert(count == TOTAL_POINTS)
+        // put this buffer on the GPU
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+
+        // let the gpu know how to interpret this buffer
+        gl.bindBuffer(gl.ARRAY_BUFFER, posBuff);
+        gl.vertexAttribPointer(
+          programInfo.attribLocations.vertPos,
+          3, // 3 components per vertex; xyz
+          gl.FLOAT,
+          false, // don't normalize
+          0, // stride
+          0,  // offset
+        );
+        gl.enableVertexAttribArray(programInfo.attribLocations.vertPos);
+
+        return {buffer: posBuff, element_count: TOTAL_POINTS};
+      }
+
+      function initUvBuff(gl) {
+        const uvBuff = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, uvBuff);
+        const uvs = [
+          1., 1., // TR,
+          0., 1., // TL,
+          1., 0., // BR
+          0., 0., // BL
+        ];
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(uvs), gl.STATIC_DRAW);
+        return uvBuff;
+      }
+    
+      function main() {
+        const cvs = document.querySelector("canvas");
+        gl = cvs.getContext("webgl");
+        if (gl == null) {
+          console.error("Error loading WebGL context.");
+          return;
+        } else { console.info("WebGL context found.") }
+
+        const shaderProg = initShader(gl, vert, frag);
+        progInfo = {
+          program: shaderProg,
+          attribLocations: {
+            vertPos: gl.getAttribLocation(shaderProg, "vertPos"),
+          },
+          uniformLocations: {
+            projection: gl.getUniformLocation(shaderProg, "projection"),
+            modelView:  gl.getUniformLocation(shaderProg, "modelView"),
+            time:       gl.getUniformLocation(shaderProg, "worldTime"),
+            deltaTime:  gl.getUniformLocation(shaderProg, "deltaTime"),
+          },
+        }
+
+        console.log(progInfo);
+        buffers = initBuffers(gl, progInfo);
+        window.requestAnimationFrame(render);
+      }
+
+      function render(timeStamp) {
+        if (startTime == undefined) startTime = timeStamp;
+
+        deltaTime = timeStamp - worldTime; // diff betw. frames
+        worldTime = timeStamp - startTime;
+        
+        drawScene(gl, progInfo, buffers);
+        window.requestAnimationFrame(render);
+      }
+
+      function drawScene(gl, programInfo, buffers) {
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        gl.clearDepth(1.0);
+        gl.enable(gl.DEPTH_TEST)
+        gl.depthFunc(gl.LEQUAL) // <=
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+
+
+        // construct frustum
+        const fov_radians = (Math.PI * 45.0 / 180.0);
+        const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+        const nearClip = .1;
+        const farClip = 100.0;
+        const projectionMatrix = mat4.create();
+        mat4.perspective(projectionMatrix, fov_radians, aspect, nearClip, farClip);
+        const radius = 10;
+        let cameraPos = [radius * Math.cos(worldTime / 1000), 3., radius * Math.sin(worldTime / 1000)];
+        let cubePos = [0, 0, 0];
+        const lookAt = mat4.create();
+        const modelViewMatrix = mat4.create();
+        mat4.lookAt(modelViewMatrix, cameraPos, cubePos, [0, 1, 0]);
+        mat4.translate(modelViewMatrix, modelViewMatrix, cubePos)
+        mat4.multiply(modelViewMatrix, modelViewMatrix, lookAt);
+
+
+        gl.useProgram(programInfo.program);
+        // set uniforms
+        // dt = ms / frame
+        // i want seconds / frame
+        // dt ^ -1 = frame / ms
+        // * 1000 = frame / sec
+        // console.log(1000 / deltaTime, "fps");
+        gl.uniformMatrix4fv(programInfo.uniformLocations.projection, false, projectionMatrix);
+        gl.uniformMatrix4fv(programInfo.uniformLocations.modelView, false, modelViewMatrix);
+
+        gl.uniform1f(programInfo.uniformLocations.time, worldTime);
+        gl.uniform1f(programInfo.uniformLocations.deltaTime, deltaTime);
+
+        gl.drawArrays(gl.POINTS, 0, buffers.position.element_count);
+      }
+
+
+
+      window.onload = _ => main();
+    </script>
+    <style>
+      body {
+        display: grid;
+        place-items: center;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+      }
+
+      canvas {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas width=1920 height=1080></canvas>
+  </body>
+</html>
