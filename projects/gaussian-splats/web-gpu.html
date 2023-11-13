@@ -4,6 +4,7 @@
     <style>
       html {
         width: 100vw;
+        background: black;
       }
       body {
         width: 100%;
@@ -12,17 +13,34 @@
         display: grid;
         grid-columns: 1fr [content-start] min-width [content-end] 1fr;
       }
+      #reset {
+        background-color: black;
+        color: white;
+        padding: 0;
+        margin: 0;
+        border: none;
+        font-size: 50pt;
+        cursor: pointer;
+        border-radius: 10pt;
+      }
+      #reset:hover {
+        background-color: rgb(.07, 0, .1);
+      }
       canvas {
-        margin-top: 100px;
+        margin-top: 30px;
         grid-column: content;
       }
     </style>
   </head>
   <body>
-    <canvas width="600" height="600"></canvas>
+    <button id="reset">Reset</button>
+    <canvas width="640" height="640"></canvas>
     <script type="module">
 
-      const GRID_SIZE = 8;
+      const GRID_SIZE = 256;
+      const UPDATE_INTERVAL = 1000 / 30;
+      const WORKGROUP_SIZE = 8;
+      let step = 0;
     
       const canvas = document.querySelector("canvas");
       
@@ -39,14 +57,14 @@
         format: canvasFormat,
       });
 
-      // vertices for clip-space quad
+      // vertices for clip-pace quad
       const clipQuadVerts = new Float32Array([
-        -.8, -.8,
-         .8, -.8,
-         .8,  .8,
-        -.8, -.8,
-         .8,  .8,
-        -.8,  .8
+        -1., -1.,
+         1., -1.,
+         1.,  1.,
+        -1., -1.,
+         1.,  1.,
+        -1.,  1.
       ])
 
       const vertexBuffer = device.createBuffer({
@@ -74,69 +92,228 @@
         usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
       })
       device.queue.writeBuffer(uniformBuffer, 0, uniformArray);
-      
-      const conwayShaderModule = device.createShaderModule({
-        label: "Conway shader",
+
+      // buffer to store the state of the cells
+      const cellStateArray = new Uint32Array(GRID_SIZE * GRID_SIZE);
+      const cellStateStorage = [
+        device.createBuffer({
+          label: "Cell State Current",
+          size: cellStateArray.byteLength,
+          usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST,
+        }),
+        device.createBuffer({
+          label: "Cell State Next",
+          size: cellStateArray.byteLength,
+          usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST,
+        }),
+      ];
+
+      function initState() {
+        for (let i = 0; i < cellStateArray.length; i++) {
+          cellStateArray[i] = Math.random() < .6 ? 1 : 0;
+        }
+        device.queue.writeBuffer(cellStateStorage[0], 0, cellStateArray);
+      }
+
+      initState();
+      document.querySelector("#reset").onclick = initState;
+
+      const simulationShaderModule = device.createShaderModule({
+        label: "Game of Life simulation",
         code: `
           @group(0) @binding(0) var<uniform> gridSize: vec2f;
+          @group(0) @binding(1) var<storage> currentState: array<u32>;
+          @group(0) @binding(2) var<storage, read_write> nextState: array<u32>;
+
+          fn cellIndex(cell: vec2u) -> u32 {
+              return (cell.y % u32(gridSize.y)) * u32(gridSize.x) + 
+                (cell.x % u32(gridSize.x));
+          }
+
+          fn isCellActive(x: u32, y: u32) -> u32 {
+            return currentState[cellIndex(vec2u(x, y))];
+          }
+
+          @compute @workgroup_size(${WORKGROUP_SIZE}, ${WORKGROUP_SIZE})
+          fn computeMain(@builtin(global_invocation_id) cell: vec3u) {
+            var activeNeighbors: u32 = 0;
+            for (var i: u32 = 0; i <= 2; i++) {
+              for (var j: u32 = 0; j <= 2; j++) {
+                activeNeighbors += isCellActive(cell.x + i - 1, cell.y + j - 1);
+              }
+            }
+            activeNeighbors -= isCellActive(cell.x, cell.y);
+
+            if (activeNeighbors < 2 || activeNeighbors > 3) {
+              nextState[cellIndex(cell.xy)] = 0;
+            }
+
+            if (0 == isCellActive(cell.x, cell.y) && activeNeighbors == 3) {
+              nextState[cellIndex(cell.xy)] = 1;
+            }
+
+          }
+        `,
+      });
+      const renderingShaderModule = device.createShaderModule({
+        label: "Conway shader",
+        code: `
+          struct VertexInput {
+            @location(0) pos: vec2f,
+            @builtin(instance_index) instance: u32,
+          }
+
+          struct VertexOutput {
+            @builtin(position) pos: vec4f,
+            @location(0) cell: vec2f,
+          }
+        
+          @group(0) @binding(0) var<uniform> gridSize: vec2f;
+          @group(0) @binding(1) var<storage> cellState: array<u32>;
+
           @vertex
-          fn vertexMain(@location(0) pos: vec2f) -> @builtin(position) vec4f {
-            let gridPos: vec2f = (pos - gridSize + 1) / gridSize;
-            return vec4f(gridPos, 0, 1);
+          fn vertexMain(input: VertexInput) -> VertexOutput {
+
+            let i = f32(input.instance);
+            let cellInd = vec2f(i % gridSize.x, floor(i / gridSize.y));
+            let gridPos: vec2f = (input.pos + 2 * cellInd - gridSize + 1) / gridSize;
+            let scale = f32(cellState[input.instance]);
+
+            var output: VertexOutput;
+            output.pos = vec4(gridPos.x * scale, gridPos.y * scale, 0, 1);
+            output.cell = cellInd;
+            return output;
           }
 
           @fragment
-          fn fragmentMain() -> @location(0) vec4f {
-            return vec4f(.8, 0, .3, 1);
+          fn fragmentMain(@location(0) cell: vec2f) -> @location(0) vec4f {
+            let color = cell / gridSize;
+            return vec4f(.3 + color.x * .7, color.y * .8, .3, 1);
           }
         `
       });
 
+      const bindGroupLayout = device.createBindGroupLayout({
+        label: "Cell Bind Group Layout",
+        entries: [
+          {
+            binding: 0,
+            visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT | GPUShaderStage.COMPUTE,
+            buffer: {}
+          },
+          {
+            binding: 1,
+            visibility: GPUShaderStage.VERTEX | GPUShaderStage.COMPUTE,
+            buffer: { type: "read-only-storage" }
+          },
+          {
+            binding: 2,
+            visibility: GPUShaderStage.COMPUTE,
+            buffer: { type: "storage" }
+          },
+        ]
+      });
+
+      const pipelineLayout = device.createPipelineLayout({
+        label: "Cell Pipeline Layout",
+        bindGroupLayouts: [ bindGroupLayout ],
+      });
+
+      const simulationPipeline = device.createComputePipeline({
+        label: "Simulation pipeline",
+        layout: pipelineLayout,
+        compute: {
+          module: simulationShaderModule,
+          entryPoint: "computeMain"
+        }
+      })
+
       const conwayPipeline = device.createRenderPipeline({
         label: "Conway Pipeline",
-        layout: "auto",
+        layout: pipelineLayout,
         vertex: {
-          module: conwayShaderModule,
+          module: renderingShaderModule,
           entryPoint: "vertexMain",
           buffers: [vertexBufferLayout]
         },
         fragment: {
-          module: conwayShaderModule,
+          module: renderingShaderModule,
           entryPoint: "fragmentMain",
           targets: [{
             format: canvasFormat
           }]
         }
       });
-      
-      const bindGroup = device.createBindGroup({
-        label: "Bind group for Conway sim",
-        layout: conwayPipeline.getBindGroupLayout(0),
-        entries: [{
-          binding: 0,
-          resource: { buffer: uniformBuffer }
-        }],
-      });
 
+      const bindGroups = [
+        device.createBindGroup({
+          label: "Bind group for Current Step",
+          layout: bindGroupLayout,
+          entries: [
+            {
+              binding: 0,
+              resource: { buffer: uniformBuffer }
+            },
+            {
+              binding: 1,
+              resource: { buffer: cellStateStorage[0] }
+            },
+            {
+              binding: 2,
+              resource: { buffer: cellStateStorage[1] }
+            },
+          ],
+        }),
+        device.createBindGroup({
+          label: "Bind group for Next Step",
+          layout: bindGroupLayout,
+          entries: [
+            {
+              binding: 0,
+              resource: { buffer: uniformBuffer }
+            },
+            {
+              binding: 1,
+              resource: { buffer: cellStateStorage[1] }
+            },
+            {
+              binding: 2,
+              resource: { buffer: cellStateStorage[0] }
+            },
+          ],
+        }),
+      ];
 
-      const encoder = device.createCommandEncoder();
-      const pass = encoder.beginRenderPass({
-        colorAttachments: [{
-          view: context.getCurrentTexture().createView(),
-          loadOp: "clear",
-          clearValue: [.1, 0, .3, 1],
-          storeOp: "store",
-        }]
-      });
+      function updateGrid() {
+        const encoder = device.createCommandEncoder();
+        const computePass = encoder.beginComputePass();
+        computePass.setPipeline(simulationPipeline);
+        computePass.setBindGroup(0, bindGroups[step % 2]);
+        const workgroupCount = Math.ceil(GRID_SIZE / WORKGROUP_SIZE);
+        computePass.dispatchWorkgroups(workgroupCount, workgroupCount);
+        computePass.end();
+        
+        step++;
+        const renderPass = encoder.beginRenderPass({
+          colorAttachments: [{
+            view: context.getCurrentTexture().createView(),
+            loadOp: "clear",
+            clearValue: [.07, 0, .1, 1],
+            storeOp: "store",
+          }]
+        });
 
-      pass.setPipeline(conwayPipeline);
-      pass.setVertexBuffer(0, vertexBuffer);
-      pass.setBindGroup(0, bindGroup);
-      pass.draw(clipQuadVerts.length / 2);
-      pass.end();
+        renderPass.setPipeline(conwayPipeline);
+        renderPass.setBindGroup(0, bindGroups[step % 2]);
+        renderPass.setVertexBuffer(0, vertexBuffer);
+        renderPass.draw(clipQuadVerts.length / 2, GRID_SIZE * GRID_SIZE);
+        renderPass.end();
       
-      device.queue.submit([encoder.finish()]);
-      
+        device.queue.submit([encoder.finish()]);
+      }
+
+      setInterval(updateGrid, UPDATE_INTERVAL);
+
     </script>
   </body>
 </html>
