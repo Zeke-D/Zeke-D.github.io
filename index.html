@@ -169,12 +169,14 @@
       display: flex;
       gap: 2rem;
       flex-direction: row;
+      justify-content: space-around;
     }
 
     section#projects #proj-nav {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      align-items: end;
       width: max-content;
       gap: .5rem;
       height: 100%;
@@ -187,12 +189,19 @@
       width: 8ch;
     }
 
+    section#projects article {
+      max-width: 600px;
+    }
+
     section#projects h2 {
       line-height: 4rem;
+      font-size: 40pt;
+      margin-bottom: 2rem;
     }
     
     section#projects #proj-nav h1.active {
       font-weight: 1000;
+      border: 1px solid var(--text);
       /* 
       color: var(--primary);
       background-color: var(--text);
@@ -333,9 +342,13 @@
 
 
     section#work ul {
+      display: block;
+      width: fit-content;
     }
 
     section#work li {
+      display: block;
+      width: fit-content;
       list-style: none;
       border-left: 1px solid var(--text);
       margin: 0;
@@ -447,7 +460,7 @@
         grid-template-areas: "hero"
                              "main";
         grid-template-columns: 1fr;
-        margin: 0 40pt;
+        margin: 0 20vw;
       }
 
       nav {
@@ -489,7 +502,6 @@
       
     
       section#projects #proj-nav h1 {
-        font-size: 40pt;
         font-weight: 400;
         text-align: center;
         width: 4ch;
@@ -498,7 +510,6 @@
 
       section#projects .image-container {
         flex-direction: column;
-        width: 70vw;
         margin-top: 2rem;
       }
 
