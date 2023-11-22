@@ -3,11 +3,14 @@
     <script src="./projects.js" type="application/javascript"></script>
   </head> 
   <style>
+    /* FONT DECLARATIONS */
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
     @font-face {
       font-family: Bahnschrift;
       src: url(fonts/Bahnschrift.ttf) format("truetype");
     }
-
+    
+  
     * {
       box-sizing: border-box;
     }
@@ -34,7 +37,8 @@
       ;
       grid-gap: 20pt 60pt;
       grid-template-columns: 2fr 3fr;
-      font-family: "Roboto Mono", sans-serif;
+      font-family: "Roboto Mono", monospace, sans-serif;
+      line-height: 1.5rem;
       height: 100vh;
       align-items: center;
     }
@@ -44,9 +48,13 @@
     }
     
     nav {
-      z-index: 1;
+      z-index: 10;
       background-color: var(--primary);
-      justify-self: end;
+      position: fixed;
+      top: 0;
+      width: max-content;
+      left: 50%;
+      transform: translate(-100%);
     }
 
     h1, h2, h3, h4, nav ul {
@@ -100,7 +108,7 @@
     }
     
     section#hero ul {
-      margin: 3rem 0 0 0 ;
+      flex-direction: row;
       text-transform: uppercase;
       letter-spacing: .2rem;
       text-align: right;
@@ -109,14 +117,14 @@
     section#hero ul li {
       list-style: none;
       text-align: inherit;
-      margin: 1.2rem 0;
+      margin: 1.2rem 2rem;
     }
     
     a {
       text-decoration: none;
       padding-bottom: .2rem;
       border-bottom: 1px solid var(--text);
-      color: var(--text);
+      color: inherit;
       padding: .2rem 1rem .2rem 1rem;
       cursor: pointer;
     }
@@ -124,6 +132,11 @@
     a:hover {
       background-color: var(--text);
       color: var(--primary);
+    }
+
+    li a {
+      padding: 1rem 2rem;
+      display: inline-block;
     }
 
     section#hero h1 {
@@ -135,10 +148,6 @@
       margin-top: 1rem;
       margin-right: -.75rem;
     }
-    section#hero a {
-      padding: .2rem 0 .2rem 1rem;
-    }
-
     .name-fix {
       margin-top: 4rem;
       margin-right: 1rem;
@@ -231,6 +240,9 @@
     section#projects #proj-nav button:hover {
       background-color: var(--text);
       color: var(--primary);
+    }
+
+    section#projects .description {
     }
     
 
@@ -453,6 +465,21 @@
       grid-gap: 1rem;
     }
 
+    
+    /* target vertical displays differently from horizontal */
+    @media screen and (max-aspect-ratio: 1/1) {
+      nav {
+        top: 0;
+        left: 0;
+        width: min-content;
+      }
+      nav ul {
+        height: 100%;
+        width: min-content;
+        flex-direction: column;
+      }
+    }
+
 
     
     @media only screen and (max-width: 1437px) {
@@ -466,7 +493,9 @@
       nav {
         position: fixed;
         top: 0;
-        width: 50vw;
+        width: 100%;
+        left: 50%;
+        transform: translate(-50%);
         padding: 10pt 10vw;
       }
 
@@ -483,8 +512,9 @@
         margin: 100pt 0 200pt 100pt;
       }
 
-      section#hero a {
-        padding: .2rem;
+      section#hero nav {
+        display: flex;
+        justify-content: space-between;
       }
 
       section#hero ul {
@@ -546,6 +576,26 @@
         margin-bottom: 20pt;
       }
     }
+    
+    /* target vertical displays differently from horizontal */
+    @media screen and (min-aspect-ratio: 4/3) {
+      section#hero nav {
+        top: -3rem;
+        left: 0;
+        width: min-content;
+        background-color: rgba(0, 0, 0, 0);
+        padding: 0;
+        margin: 0;
+        transform-origin: bottom left;
+        transform: rotate(.25turn);
+      }
+      section#hero nav ul {
+        width: min-content;
+        align-items: start;
+        justify-content: space-around;
+      }
+    }
+
 
   </style>
   <body>
@@ -560,8 +610,7 @@
       <div class="sticky">
         <h1 class="name-fix">Ezekiel</h1>
         <h1 class="surname-fix">D'Ascoli</h1>
-        <h3>Software Engineer</h3>
-        <h3>Actor</h3>
+        <h3>Creative Technologist</h3>
         <div style="display: flex; flex-direction: row">
           <ul>
             <li><a href="./misc/Ezekiel_DAscoli_Resume_2023.pdf">Resume</a></li>
