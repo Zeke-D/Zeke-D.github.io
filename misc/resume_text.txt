@@ -1,0 +1,21 @@
+Verve
+
+• Independently built React app for running manufacturing tests on remote exosuits
+• Prototyped 3D Visualization technology for realtime exosuit lift data rendering
+• Programmed a go-lang PDF renderer to generate reports via AWS Lambdas
+• Designed customer lift report interfaces for digital and print
+
+PFL
+
+• Engineered an address-based apartment search engine within Laravel/Vue framework
+• Homebrewed analytic tools for optimizing automatic advertisement success
+• Integrated backend with Salesforce, Twillio, and Zapier to automate sales-team workflow
+• Improved user search-page load-time by ~71%
+
+SL
+
+• Utilized React, Redux, and plotly API to build a developer tools suite
+• Tracked, fixed, & automated testing of major application breaking bugs
+• Built large client-facing securities report using Ruby/Rails, Oracle SQL
+• Conducted technical interviews and onboarded my proceeding co-ops
+• Operated as Release Master for 1 month & deployed 4 production releases

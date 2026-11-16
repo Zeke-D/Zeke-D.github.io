@@ -5,6 +5,7 @@
   --dark-gray: #707070;  
   --neu-gold: #A4804A;
   --neu-red: #C8102E;
+  --blue: #009ce5;
   --shadow: 0px 3px 10px rgba(0, 0, 0, .16);
 }
 
@@ -12,6 +13,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  user-select: none;
 }
 
 .spacer {
@@ -28,13 +30,18 @@ b {
 
 a {
   word-break: break-word;
+  &:hover {
+    color: var(--blue);
+  }
 }
 
 
 body {
   margin: 0;
   padding: 0;
-  background: var(--light-gray);
+  /* background-image: url('../../imgs/wood-grain-pixelated.png');
+  background-size: calc(1 * 128px) calc(1 * 128px);*/
+  background-color: #997255;
   width: 100%;
   color: var(--dark-gray);
   text-transform: uppercase;
@@ -47,22 +54,22 @@ body {
 
 #nav-icon {
   position: fixed;
-  bottom: -10pt;
-  /* left: 50%; */
-  top: 50%;
-  right: 30pt;
-  /* transform: translateY(-50%);*/
-  opacity: 0;
-  /* opacity: .15; */
+  left: 50%;
+  bottom: 40pt;
+  transform: translate(-50%);
+  /* opacity: 0; */
+  opacity: .35; 
+  mix-blend-mode: multiply;
   font-size: 200pt;
   line-height: 200pt;
 }
 
 #nav-icon.uarr {
-  /* transform: translate(-50%, -16px);  */
+  transform: translate(-50%, -16px);
 }
 
 #name {  
+  mix-blend-mode: multiply;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -73,7 +80,7 @@ body {
   line-height: 70pt;
   width: max-content;
   font-stretch: condensed;
-  transform: translate(-50%, calc(-50% - 380pt/2 - 10pt));
+  transform: translate(-50%, calc(-50% - 380pt/2 - 40pt));
 }
 
 #name span {
@@ -99,7 +106,7 @@ body {
 }
 
 #contact:hover {
-  transform: translate(-50%, calc(-100% + 10pt + .5 * 380pt)) rotate(-5deg);
+  transform: translate(-50%, calc(-100% + 10pt + .5 * 380pt)) rotate(-15deg);
   box-shadow: 0px 5px 20px rgba(0, 0, 0, .1);
   cursor: pointer;
 }
@@ -115,15 +122,119 @@ body {
 }
 
 
-#projects article {
-  z-index: 1;
+#projects .title-card {
+
+  padding: 0;
+  height: 400pt;
+  transform-style: preserve-3d;
+  transform-origin: calc(0% - 1rem) center;
+  transition: transform 600ms ease-in-out, box-shadow 300ms ease-out;
+  /* Need a symmetrical easing function to make transition math easy */
+  &:hover {
+    transform: perspective(1000px) rotateY(-3deg);
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, .4);
+  }
+  
+  --deep-red:  #520012;
+
+  position: absolute;
+
+  .card {
+    border-radius: 10px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color:  #fad598;
+    z-index: 3;
+
+    &.front {
+      
+      .title {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    &.back {
+      z-index: 1;
+      transform: rotateY(-0.5turn);
+      padding: 2rem;
+      display: flex;
+      flex-direction: row;
+      gap: 12pt;
+      .col {
+        flex-grow: 1;
+        max-width: 50%;
+      }
+
+      &:not(.visible) {
+        /* When closed, we want to not bleed work cards */
+        #work span, #work h3, #tag-list span {
+          opacity: 0;
+        }
+      }
+
+    }
+  }
+  
+  .title {
+    color: var(--deep-red);
+    text-transform: uppercase;
+    /* border: 5px dashed var(--deep-red);*/
+  }
+  > .title {
+    padding: 1rem;
+  }
+  
+
+  &.open {
+    transition: transform 600ms ease-in-out;
+    transform: perspective(1000px) rotateY(-0.5turn);
+  }
+  
+}
+
+#tag-list {
+  font-size: 12pt;
+  
+  list-style: none;
+  
+  display: block;
+  width: fit-content;
+  
+  li {
+    display: inline-block;
+    padding: 5px 10px;
+    text-align: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+  .skill {
+    &:hover {
+      filter: brightness(0.95);
+    }
+    background-color: white;
+    &.selected {
+      color: white;
+      background-color: var(--blue);
+    }
+  }
+}
+
+
+
+#projects > article {
+  cursor: pointer;
+  z-index: 4;
   position: absolute;
   top: calc(50% - 380pt * .5);
   left: calc(50% - 380pt * 8 / 9 * .5);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40pt 30pt;
+  padding: 40pt 25pt;
   background: #fff;
   aspect-ratio: 8/9;
   height: 380pt;
@@ -131,12 +242,12 @@ body {
   box-shadow: var(--shadow);
 }
 
-#projects article h3 {
+#projects > article > h3 {
   line-height: 30pt;
   text-align: center;
 }
 
-#projects article span {
+#projects > article > span {
   font-weight: 100;
   text-align: center;
   line-height: 20pt;
@@ -146,7 +257,7 @@ body {
   margin-top: .4rem;
 }
 
-#projects article p {
+#projects > article p {
   font-family: "Courier New", serif;
   text-transform: none;
   font-weight: 100;
@@ -156,16 +267,16 @@ body {
   margin-top: 2rem;
 }
 
-#projects article p ul li {
+#projects > article p ul li {
   margin-bottom: 4pt;
 }
 
-#projects article .links {
+#projects > article .links {
   display: flex;
   gap: 1rem;
   width: 100%;
 }
-#projects article a.btn {
+#projects > article a.btn {
   color: white;
   display: inline-block;
   text-transform: uppercase;
@@ -181,15 +292,18 @@ body {
   border-radius: 5pt;
   margin-top: .5rem;
   z-index: 2;
+  &:hover {
+    filter: brightness(1.1);
+  }
 }
 
-#projects article ul.tags {
+#projects > article ul.tags {
   position: absolute;
   bottom: 40pt;
   z-index: 1;
 }
 
-#projects article ul.tags li {
+#projects > article ul.tags li {
   background-color: var(--light-gray);
   font-size: 20pt;
   color: white;
@@ -197,6 +311,10 @@ body {
   display: inline-block;
   margin: 5pt 10pt 0 0;
   padding: 0 10pt;
+
+  &.selected {
+    background-color: var(--blue);
+  }
 }
 
 #projects button.add-bookmark {
@@ -210,7 +328,7 @@ body {
   display: none;
 }
 
-#projects article .date {
+#projects > article > .date {
   position: absolute;
   bottom: 10pt;
   right: 10pt;
@@ -226,23 +344,27 @@ body {
   height: 40px;
   width: 50px;
   border: none;
-  background-color: #009ce5;
-  box-shadow: 0px 2px 0px #008ac1, 0px 3px 6px rgba(0, 0, 0, .3);
+  background-color: var(--light-gray);
+  box-shadow: 0px 2px 0px var(--mid-gray), 0px 3px 6px rgba(0, 0, 0, .3);
   border-radius: 5px 5px 15px 15px ;
   cursor: pointer;
   transition: .2s ease-out bottom;
   z-index: 3;
+}
+#projects > article:has(.tags li.selected) button.bookmark {
+  background-color: #009ce5;
+  box-shadow: 0px 2px 0px #008ac1, 0px 3px 6px rgba(0, 0, 0, .3);
 }
 
 #projects button.bookmark:hover {
   bottom: -20px;
 }
 
-#projects article[data-bookmarked="true"]  button.bookmark{
+#projects > article[data-bookmarked="true"]  button.bookmark{
   opacity: 100%;
 }
 
-#projects article .splash {
+#projects > article .splash {
   position: absolute;
   display: block;
   left: 50%;
@@ -258,24 +380,22 @@ body {
 
 
 #work {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translate(-83%, -50%);
-  text-align: right;
+  margin-left: -10px;
+  z-index: 4;
 }
 
 #work > h3 {
+  mix-blend-mode: multiply;
   transform: translate(20%);
 }
 
-#work article {
+#work > article {
   position: relative;
-  display: block;
-  width: 330px;
-  height: 200px;
-  padding: 30pt;
-  margin-bottom: -50pt;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 20px 10px;
+  margin-bottom: -10pt;
   background: #fff;
   border-radius: 12px;
   border: 2pt solid var(--mid-gray);
@@ -284,32 +404,36 @@ body {
   cursor: pointer;
 }
 
-#work article:not(:first-child):hover {
-  transform: translate(70%);
+#work > article:not(:first-child):hover {
+  transform: translate(-10%);
 }
 
-#work article h3 {
-  font-size: 24pt;
-  line-height: 20pt;
+#work > article h3 {
+  font-size: 12pt;
+  line-height: 15pt;
 }
 
-#work article span {
+#work > article > span {
+  text-align: left;
   display: block;
   font-weight: 400;
-  line-height: 15pt;
-  font-size: 12pt;
+  line-height: 12pt;
+  font-size: 10pt;
   margin: 0;
 }
 
-#work article .date {
+#work > article > .date {
   font-family: "Courier New", serif;
   font-style: oblique;
   font-stretch: normal;
   text-transform: none;
   font-weight: 200;
+  font-size: 10pt;
+  line-height: 12pt;
 }
 
 #education > h3 {
+  mix-blend-mode: multiply;
   position: fixed;
   top: 27%;
   right: 50pt;
@@ -319,10 +443,10 @@ body {
   position: fixed;
   top: 50%;
   left: 50%;
-  z-index: 3;
+  z-index: 5;
   aspect-ratio: 3 / 2;
   width: 700px;
-  transform: translate(calc(-25pt + 50vw), calc(-50%));
+  transform: translate(calc(-40pt + 50vw), calc(-50%));
   padding: 50px 50px 20px 50px;
   border-radius: 10pt;
   background-color: white;
@@ -367,7 +491,7 @@ body {
 
 #education article:not(.focused):hover {
   box-shadow: 0px 10px 30px rgba(0, 0, 0, .4);
-  transform: translate(calc(-50pt + 50vw), calc(-50%));
+  transform: translate(calc(-80pt + 50vw), calc(-50%)) rotate(15deg);
 }
 
 #education article.focused {
@@ -491,8 +615,8 @@ body {
 }
 
 .media-stack li.expanded { 
-  z-index: 3; 
-  transform: translate(-100%, -75%) scale(1); 
+  z-index: 3;
+  transform: translate(-77%, -75%);
 }
 .media-stack li.expanded img, .media-stack li.expanded iframe { 
   box-shadow: 0px 20px 50px rgba(0, 0, 0, .3);
@@ -556,8 +680,24 @@ function dontBubble(event) {
   event.stopPropagation()
 }
 
+let currently_dragging = false;
+let current_touch_event = {
+  origin: {
+    x: 0,
+    y: 0,
+  },
+  end: {
+    x: 0,
+    y: 0,
+  }
+};
 let articles = [];
 let curArticleInd = 0;
+// center of article stack
+let projects_origin = {
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
+}
 
 function resetArticleMedia(domArticle) {
   domArticle.querySelectorAll('.media-stack').forEach(stack => {stack.activeImage = undefined});
@@ -570,33 +710,88 @@ function resetArticleMedia(domArticle) {
   });
 }
 
-window.onload = _ => {
+window.onload = init
+window.addEventListener("resize", redraw);
+
+function redraw() {
+  projects_origin = {
+    x: window.innerWidth / 2,
+    y: window.innerHeight / 2,
+  }
+
+  // recenter all the articles
+  articles.forEach(article => {
+    let bounds = article.getBoundingClientRect()
+    article.style.setProperty("top",  projects_origin.y - bounds.height / 2);
+    article.style.setProperty("left", projects_origin.x - bounds.width / 2);
+  });
+}
+
+function init() {
 
   // init articles
   loadProjects();
 
   
   let pageStackMargin = 5;
-  articles = Array.prototype.slice.call(document.querySelectorAll("#projects article"))
+  articles = Array.prototype.slice.call(document.querySelectorAll("#projects > article"))
   curArticleInd = articles.length - 1;
   
   articles.forEach((domArticle, ind) => {
   
-    domArticle.style.setProperty("margin-top", ind * -pageStackMargin + "px")
     let bounds = domArticle.getBoundingClientRect()
+    domArticle.style.setProperty("top", projects_origin.y - bounds.height / 2 + ind * -pageStackMargin + "px")
     
     domArticle.isDown = true;
-    
-    domArticle.slideUp = () => {
-      animateToPosition(domArticle, -bounds.height + projects.length * 6, bounds.left, 300)
-      resetArticleMedia(domArticle);
-      domArticle.isDown = false;
+
+    // do something diff for title page
+    if (ind == articles.length - 1) {
+      domArticle.slideUp = () => {
+        domArticle.classList.add("open");
+        domArticle.isDown = false;
+        setTimeout(_ => {
+          domArticle.style.zIndex = 1;
+          let front = domArticle.querySelector('.card.front');
+          let back  = domArticle.querySelector('.card.back');
+          
+          back.classList.add("visible");
+          front.style.zIndex = 1;
+          back.style.zIndex = 3; // put back in front
+        // half the transition time for the title-card
+        }, 300);
+        
+      }
+      domArticle.slideDown = () => {
+        domArticle.classList.remove("open");
+        domArticle.isDown = true;
+        setTimeout(_ => {
+          domArticle.style.zIndex = 4;
+          let front = domArticle.querySelector('.card.front');
+          let back  = domArticle.querySelector('.card.back');
+          back.classList.remove("visible");
+          front.style.zIndex = 3;
+          back.style.zIndex = 1; // put front in front        
+        }, 300);
+      }
     }
+    else {
+      domArticle.slideUp = () => {
+        let bounds = domArticle.getBoundingClientRect()
+        animateToPosition(domArticle, -bounds.height + (articles.length - 1 - ind) * pageStackMargin, bounds.left, 300)
+        resetArticleMedia(domArticle);
+        domArticle.isDown = false;
+      }
     
-    domArticle.slideDown = () => {
-      animateToPosition(domArticle, bounds.top + ind * pageStackMargin, bounds.left, 300)
-      if (articles[curArticleInd]) resetArticleMedia(articles[curArticleInd]);
-      domArticle.isDown = true;
+      domArticle.slideDown = () => {
+        let bounds = domArticle.getBoundingClientRect()
+        animateToPosition(domArticle, 
+          projects_origin.y - bounds.height / 2 - pageStackMargin * articles.length + (articles.length - 1 - ind) * pageStackMargin,
+          projects_origin.x - bounds.width / 2, 
+          300
+        );
+        if (articles[curArticleInd]) resetArticleMedia(articles[curArticleInd]);
+        domArticle.isDown = true;
+      }
     }
 
     domArticle.bookmark = () => {
@@ -605,8 +800,12 @@ window.onload = _ => {
       domArticle.setAttribute("data-bookmarked", domArticle.isBookmarked)
     }
     domArticle.bookmark()
-    
-    domArticle.onclick = _ => goToPageIndex(ind)
+  
+    domArticle.querySelectorAll('a').forEach(link => {
+      link.addEventListener("mousedown", e => {
+        e.stopPropagation();
+      })
+    })
     let addBmBtn = domArticle.querySelector("button.add-bookmark")
     if (addBmBtn) {
       addBmBtn.onclick = e => {
@@ -614,7 +813,7 @@ window.onload = _ => {
         domArticle.bookmark()
       }
     }
-    
+  
     let bookmark = domArticle.querySelector("button.bookmark")
     if (bookmark) {
       bookmark.onclick = e => {
@@ -638,9 +837,16 @@ window.onload = _ => {
   }
 
   let diploma = document.querySelector("#education article")
-  diploma.onclick = () => {
+  diploma.addEventListener("mousedown", e => {
     diploma.classList.toggle("focused");
-  }
+    dontBubble(e);
+  })
+  window.addEventListener("mousedown", e => {
+    if (e.target != diploma && diploma.classList.contains('focused')) {
+      dontBubble(e);
+      diploma.classList.remove('focused');
+    }
+  })
 
 
   // setup all the image stacks
@@ -664,7 +870,7 @@ window.onload = _ => {
         images.forEach(image => image.classList.remove('onHover'));
       });
       
-      image.addEventListener("click", e => {
+      image.addEventListener("mousedown", e => {
         dontBubble(e);
         if (!stackIsOnTop(stack)) return;
         if (stack.activeImage) {
@@ -684,8 +890,94 @@ window.onload = _ => {
       })
     })
   });
+
+  // add listeners for project scroll behavior
+  let touchstart = e => {
+    currently_dragging = true;
+    current_touch_event.origin.x = e.touches[0].clientX;
+    current_touch_event.origin.y = e.touches[0].clientY;
+  };
+  let touchend = e => {
+    currently_dragging = false;
+    current_touch_event.end.x = e.changedTouches[0].clientX;
+    current_touch_event.end.y = e.changedTouches[0].clientY;
+    dontBubble(e);
+    handle_current_touch_event(current_touch_event);
+  };
+  let mousedown = e => {
+    currently_dragging = true;
+    current_touch_event.origin.x = e.clientX;
+    current_touch_event.origin.y = e.clientY;
+  };
+  let mouseup =  e => {
+    current_touch_event.end.x = e.clientX;
+    current_touch_event.end.y = e.clientY;
+    if (currently_dragging) {
+      dontBubble(e);
+      handle_current_touch_event(current_touch_event);
+    }
+    currently_dragging = false;
+  };
+  articles.forEach(article => {
+    article.addEventListener("touchstart", touchstart);
+    article.addEventListener("touchend",   touchend);
+    article.addEventListener("mousedown",  mousedown);
+    article.addEventListener("mouseup",    mouseup);
+  })
+  window.addEventListener("touchstart", touchstart);
+  window.addEventListener("touchend",   touchend);
+  document.addEventListener("mousedown", mousedown);
+  document.addEventListener("mouseup",   mouseup);
+
+
+  document.querySelector("#name").addEventListener("mousedown", e => {
+    dontBubble(e);
+    goToPageIndex(0);
+    goToNextPage();
+  })
+
+
+  // initialize the skill tags
+  let tag_list = document.querySelector("#tag-list");
+  let tag_set = new Set();
+  projects.forEach(project => {
+    project.tags.forEach(tag => {
+      tag_set.add(tag);
+    })
+  })
+  console.log(tag_set);
+  Object.values(Tag).sort().forEach(tag_val => {
+    if (!tag_set.has(tag_val)) return;
+    let tag_el = document.createElement("li");
+    tag_el.classList.add("skill");
+    let tag_text = document.createElement("span");
+    tag_text.innerText = tag_val;
+    tag_el.append(tag_text);
+    tag_el.dataset.tag = tag_val;
+    tag_el.addEventListener("mousedown", e => {
+      dontBubble(e);
+      highlight_tag(tag_el);
+    })
+    tag_list.append(tag_el);
+  });
   
 }
+
+
+
+function highlight_tag(tag_el) {
+  tag_el.classList.toggle("selected");
+  let selected_tags = [...document.querySelectorAll("#tag-list .skill.selected")]
+    .map(skill_el =>  skill_el.dataset.tag);
+  articles.forEach(project => {
+    project.querySelectorAll(".tags li").forEach(proj_tag => {
+      proj_tag.classList.toggle("selected", selected_tags.includes(proj_tag.dataset.tag));
+    })
+  })
+}
+
+
+
 
 function stackIsOnTop(stack) {
   return []
@@ -706,6 +998,15 @@ function setIcon() {
   iconEl.innerHTML = icon;
 }
   
+function goToNextPage() {
+  if (curArticleInd == -1) return; // no pages left
+  goToPageIndex(curArticleInd);
+}
+
+function goToPreviousPage() {
+  if (curArticleInd == articles.length - 1) return; // no pages left
+  goToPageIndex(curArticleInd + 1);
+}
 
 function goToPageIndex(ind) {
   let domArticle = articles[ind]
@@ -735,13 +1036,45 @@ function goToPageIndex(ind) {
 }
 
 function onWheelHandler(e) {
-  if (e.deltaY > 0 && curArticleInd >= 0) {
-    // scroll down
-    goToPageIndex(curArticleInd)
+  // scroll down
+  if (e.deltaY > 10)       goToNextPage(curArticleInd);
+  // scroll up
+  else if (e.deltaY < -10) goToPreviousPage(curArticleInd + 1);
+}
+
+function handle_current_touch_event(current_touch_event) {
+  let deltaX = current_touch_event.end.x - current_touch_event.origin.x;
+  let deltaY = current_touch_event.end.y - current_touch_event.origin.y;
+  
+  let min_threshold = 40; // px
+  if (Math.abs(deltaX) <= min_threshold && Math.abs(deltaY) <= min_threshold) {
+    // if we 'detected' a drag but it's too subtle, treat it as a click for better UX
+    goToNextPage();
+    return;
   }
-  else if (e.deltaY < 0 && curArticleInd < articles.length - 1) {
-    // scroll up
-    goToPageIndex(curArticleInd + 1)
+  
+  if (Math.abs(deltaX) > Math.abs(deltaY)) {
+   // left-right swipe
+    if (deltaX > 0) {
+      // right-swipe
+      goToPreviousPage();
+    }
+    else {
+      // left-swipe
+      goToNextPage();
+    }
+  }
+  else {
+    // top-down swipe
+    if (deltaY > 0) {
+      // down-swipe
+      goToPreviousPage();
+    }
+    else {
+      // up-swipe
+      goToNextPage();
+    }
+    
   }
 }
 
@@ -749,12 +1082,12 @@ window.onwheel = debounce(onWheelHandler, 50)
 
 </script>
 <body>
-  <div id="name">
+  <div id="name" draggable="false">
     <div>Ezekiel D'Ascoli</div>
     <!-- <span>Software Engineer</span> -->
   </div>
   <section id="education" class="">
-    <h3>Education</h3>
+    <!-- <h3>Education</h3> -->
     <article>
     <h3>Northeastern University</h3>
     <span class="class">2018&mdash;2023</span>
@@ -772,26 +1105,49 @@ window.onwheel = debounce(onWheelHandler, 50)
     </article>
   </section>
   <section id="projects">
-    <article>
-      <h3>Projects</h3>
-    </article>
-  </section>
-  <section id="work">
-    <h3>Work</h3>
-    <article>
-      <h3>Smartleaf Inc.</h3>
-      <span>Software Development Co-Op</span>
-      <span class="date">Dec 2019&ndash;Aug 2020</span>
-    </article>
-    <article>
-      <h3>Places For Less</h3>
-      <span>Software Engineeringing Co-Op</span>
-      <span class="date">Jan&ndash;Aug 2021</span>
-    </article>
-    <article>
-      <h3>Verve Motion</h3>
-      <span>Software Engineeringing Co-Op</span>
-      <span class="date">July&ndash;Dec 2022</span>
+    <article class="title-card">
+      <div class="card front">
+        <h3 class='title'>Projects</h3>
+      </div>
+      <div class="card back">
+        <div id="work" class="col">
+          <h3 class='title'>Work</h3>
+          <article>
+            <h3>Smartleaf Inc.</h3>
+            <span>Software Development Co-Op</span>
+            <span class="date">Dec 2019&ndash;Aug 2020</span>
+          </article>
+          <article>
+            <h3>Places For Less</h3>
+            <span>Software Engineeringing Co-Op</span>
+            <span class="date">Jan&ndash;Aug 2021</span>
+          </article>
+          <article>
+            <h3>Verve Motion</h3>
+            <span>Software Engineeringing Co-Op</span>
+            <span class="date">July&ndash;Dec 2022</span>
+          </article>
+          <article>
+            <h3>Northeastern University</h3>
+            <span>Part-time Research Assistant</span>
+            <span class="date">April&ndash;Dec 2023</span>
+          </article>
+          <article>
+            <h3>Northeastern University</h3>
+            <span>Projections Designer</span>
+            <span class="date">Sept&ndash;Nov 2023</span>
+          </article>
+          <article>
+            <h3>Smartleaf Inc.</h3>
+            <span>Software Engineer</span>
+            <span class="date">Jan 2024&ndash;Present</span>
+          </article>
+        </div>
+        <div class="col">
+          <h3 class='title'>Tags</h3>
+          <ul id="tag-list"></ul>
+        </div>
+      </div>
     </article>
   </section>
   <section id="contact">

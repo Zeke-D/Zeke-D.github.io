@@ -3,7 +3,7 @@ const Tag = {
   TYPESCRIPT: "TypeScript", JAVASCRIPT: "JS",
   SVELTE: "Svelte", REACT: "React", VUE: "Vue",
   
-  THREE_D: "3D", WEBGL: "WebGL", OPENGL: "OpenGL", UNITY: "Unity", UNREAL: "Unreal",
+  THREE_D: "3D", WEBGL: "WebGL", OPENGL: "OpenGL", UNITY: "Unity", UNREAL: "Unreal", VISION_OS: "VisionOS",
   SHADERS: "Shaders",
   VR_AR_XR: "VR/AR/XR",
   
@@ -14,7 +14,7 @@ const Tag = {
   ACTING: "Acting", ART: "Art",
   
   ASM: "Assembly", CS: "C#", CPP: "C++", ODIN: "Odin", RUST: "Rust",
-  DATABASE: "Database", SQL: "SQL", POSTGRESQL: "Postgres", 
+  DATABASE: "Database", SQL: "SQL", POSTGRESQL: "Postgres", SWIFT: "Swift",
   
   MOBILE: "Mobile Dev",
   REACT_NATIVE: "React Native", FLUTTER: "Flutter",
@@ -26,6 +26,22 @@ const Tag = {
 
 const projects = [
   {
+    title: "Prism",
+    subtitle: "Multi-modal Surgery Planner",
+    date: new Date("2026-02-24"),
+    images: [],
+    iframes: [],
+    tags: [ Tag.VR_AR_XR, Tag.SHADERS, Tag.THREE_D, Tag.HCI, Tag.RESEARCH, Tag.UI_UX, Tag.SWIFT, Tag.VISION_OS ],
+    desc: "Partnering with MedVR, Apple, and Mass General Hospital, I led a team of volunteers to work with surgeons on" +
+    " a medical XR program to plan surgeries with the Vision Pro. Over the course of about 8 months, we designed, protoyped, &" +
+    " published research. Our work was accepted at both SIGGRAPH and SIGCHI poster sessions.",
+    links: [
+      { text: "SIGGRAPH", url: "https://dl.acm.org/doi/full/10.1145/3799825.3818729" },
+      { text: "MedVR",    url: "https://medvr.io/"},
+      { text: "SIGCHI",   url: "https://dl.acm.org/doi/10.1145/3772363.3799005"},
+    ],
+  },
+  {
     title: "Terrariam",               
     subtitle: "MIT RealityHack 2023 Winner",
     date: new Date("2022-03-26"),
@@ -34,12 +50,13 @@ const projects = [
       "https://www.youtube.com/embed/wtCWMM_7NuE?enablejsapi=1",
       "https://www.youtube.com/embed/aM9F0wimqzY?enablejsapi=1",
     ],
-    tags: [Tag.VR_AR_XR, Tag.UI_UX, Tag.AWARD, Tag.CS, Tag.UNITY, Tag.SHADERS, ],
-    desc: "This project aimed to physicalize an emotional environment. Using a <a href='https://lookingglassfactory.com/'>holographic display</a>, we rendered realtime interpretations of" + 
+    tags: [Tag.VR_AR_XR, Tag.UI_UX, Tag.AWARD, Tag.CS, Tag.UNITY, Tag.SHADERS, Tag.THREE_D],
+    desc: "This project aimed to physicalize an emotional environment. Using a <a target='_blank' href='https://lookingglassfactory.com/'>holographic display</a>, we rendered realtime interpretations of" + 
           " webcam emotional data. We ended up finishing<b> Top 10 </b>in the whole event and won<b> 1st Prize </b>for the Looking Glass subcategory.",
     links: [
-      {text: "LKG Blog", url: "https://blog.lookingglassfactory.com/community/looking-glass-factory-x-mit-reality-hack/"},
+      {text: "LKG Blog", url: "https://web.archive.org/web/20221202134929/https://blog.lookingglassfactory.com/community/looking-glass-factory-x-mit-reality-hack/"},
       {text: "Khoury News", url:"https://www.khoury.northeastern.edu/khoury-college-students-win-award-for-holographic-project-at-mit-hackathon/"},
+      {text: "DevPost", url: "https://devpost.com/software/terrariam"},
     ],
   },
   {
@@ -165,7 +182,8 @@ function makeProject(project) {
     let linkEl = document.createElement('a');
     linkEl.classList.add("btn");
     linkEl.href = link.url;
-    linkEl.innerHTML = link.text;
+    linkEl.target = "_blank"; // open in new tab
+    linkEl.innerHTML = link.text + " 🡵";
     links.append(linkEl);
   })
   article.append(links);
@@ -175,6 +193,7 @@ function makeProject(project) {
   for (let tag of project.tags) {
     let tagEl = document.createElement("li");
     tagEl.innerHTML = tag;
+    tagEl.dataset.tag = tag;
     tags.appendChild(tagEl);
   }
 
@@ -184,6 +203,7 @@ function makeProject(project) {
     project.iframes?.forEach(video => {
       let item = document.createElement("li");
       let vid = document.createElement("iframe");
+      vid.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
       vid.src = video;
       item.append(vid);
       mediaStack.append(item)

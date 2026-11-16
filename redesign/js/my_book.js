@@ -11,6 +11,7 @@ const AnimatedProperties = {
 
 const HitType = {
   Bookmark: _prop++,
+  Page:     _prop++,
 }
 
 
@@ -54,22 +55,23 @@ window.onload = _ => {
       let PAGE_THICKNESS = .0125;
       let COVER_THICKNESS = .035;
 
+      function makePage(color, width, height, thickness, origin) {
+        // makes a transform anchor point
+        let anchor = new THREE.Object3D();
+        anchor.position.set(origin.x, origin.y, origin.z)
+        const pageGeo = new THREE.BoxGeometry(width, height, thickness);
+        const pageMat = new THREE.MeshPhongMaterial({ color: color });
+        const page = new THREE.Mesh(pageGeo, pageMat);
+        // adds box geometry as child to anchor point
+        anchor.add(page);
+        page.position.set(0, 0, 0); // zero out pos just in case
+        page.translateY(-.5 * height);
+        return anchor;
+      }
+  
       // TODO: take in projects array, texture cubes based on projs
       // for now, constructs n pag4s and returns them as an array of THREE objs
       function makeBook(numPages) {
-        function makePage(color, width, height, thickness, origin) {
-          // makes a transform anchor point
-          let anchor = new THREE.Object3D();
-          anchor.position.set(origin.x, origin.y, origin.z)
-          const pageGeo = new THREE.BoxGeometry(width, height, thickness);
-          const pageMat = new THREE.MeshPhongMaterial({ color: color });
-          const page = new THREE.Mesh(pageGeo, pageMat);
-          // adds box geometry as child to anchor point
-          anchor.add(page);
-          page.position.set(0, 0, 0); // zero out pos just in case
-          page.translateY(-.5 * height);
-          return anchor;
-        }
         let origin = new THREE.Vector3(0, 0, 0);
         let frontCover = makePage(0x0088cc, 3.1, 2.05, COVER_THICKNESS, origin);
         let pages = [frontCover];
@@ -144,14 +146,18 @@ window.onload = _ => {
       }
   
       document.addEventListener("mousedown", e => {
-        for (let hit of getMouseIntersections(scene.children, e)) {
-          switch (hit.object.userData.hitType) {
-            case HitType.Bookmark:
-              flipToPageIndex(pages, hit.object.userData.pageNum);
-              break;
-            default:
-              break;
-          }
+        // We only care about the first hit on mousedown
+        let hit = getMouseIntersections(scene.children, e)[0]
+        if (!hit) return;
+    
+        switch (hit.object.userData.hitType) {
+          case HitType.Page:
+            break;
+          case HitType.Bookmark:
+            flipToPageIndex(pages, hit.object.userData.pageNum);
+            break;
+          default:
+            break;
         }
       });
 

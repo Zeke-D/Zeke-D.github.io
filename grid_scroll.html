@@ -1,0 +1,576 @@
+<html>
+  <head>
+    <script src="./projects.js" type="application/javascript"></script>
+  </head>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: chartreuse;
+      --text: #111;
+      scroll-behavior: smooth;
+    }
+
+    ::selection {
+      color: var(--primary);
+      background: var(--text);
+    }
+    
+    body {
+      color: var(--text);
+      background-color: var(--primary);
+      display: grid;
+      position: relative;
+      margin: 0 200px;
+      grid-template-areas: 
+        "hero main"
+      ;
+      grid-gap: 20pt 60pt;
+      grid-template-columns: 2fr 3fr;
+      font-family: "Roboto Mono", sans-serif;
+      height: 100vh;
+      align-items: center;
+    }
+
+    section {
+      position: relative;
+    }
+    
+    nav {
+      z-index: 1;
+      background-color: var(--primary);
+      justify-self: end;
+    }
+
+    h1, h2, h3, h4, nav ul {
+      text-transform: uppercase;
+      margin: 0;
+      padding:0;
+    }
+
+    nav ul {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin: 0;
+      /*
+      background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23333' stroke-width='4' stroke-dasharray='10%2c 30' stroke-dashoffset='15' stroke-linecap='square'/%3e%3c/svg%3e");    
+      */
+    }
+
+    nav ul li {
+      list-style: none;
+      display: inline-block;
+      letter-spacing: .2rem;
+    }
+    
+    main {
+      grid-area: main;
+      align-self: start;
+    }
+
+    h1 {
+      font-size: 72pt;
+      line-height: 60pt;
+    }
+
+    main section {
+      margin-bottom: 20vh;
+    }
+
+    main {
+      /* cursor: grab; */
+    }
+
+
+    section#hero {
+      grid-area: hero;
+      align-self: start;
+      height: 100%;
+      margin-top: 0;
+      text-align: right;
+    }
+    
+    section#hero ul {
+      margin: 3rem 0 0 0 ;
+      text-transform: uppercase;
+      letter-spacing: .2rem;
+    }
+    
+    section#hero ul li {
+      list-style: none;
+      text-align: inherit;
+      margin: 1.2rem 0;
+    }
+    
+    a {
+      text-decoration: none;
+      padding-bottom: .2rem;
+      border-bottom: 1px solid var(--text);
+      color: var(--text);
+      padding: .2rem 1rem .2rem 1rem;
+      cursor: pointer;
+    }
+
+    a:hover {
+      background-color: var(--text);
+      color: var(--primary);
+    }
+
+    section#hero h1 {
+      font-family: "Bahnschrift";
+    }
+
+    section#hero h3 {
+      letter-spacing: .75rem;
+      margin-top: 1rem;
+      margin-right: -.75rem;
+    }
+    section#hero a {
+      padding: .2rem 0 .2rem 1rem;
+    }
+
+    .name-fix {
+      margin-top: 4rem;
+      margin-right: 1rem;
+    }
+    .surname-fix {
+      margin-right: -5pt;
+    }
+
+    
+    nav ul li, h3 {
+      font-size: 12pt;
+      font-weight: 400;
+    }
+    
+    section#hero h1, section#hero h3 {
+      text-align: inherit;
+    }
+    
+    section#hero .sticky {
+      top: 10vh;
+    }
+
+    .sticky {
+      position: sticky;
+    }
+
+    section#projects {
+      display: flex;
+      gap: 2rem;
+      flex-direction: row;
+    }
+
+    section#projects #proj-nav {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: max-content;
+      gap: .5rem;
+      height: 100%;
+    }
+    
+    section#projects #proj-nav h1 {
+      font-size: 20pt;
+      font-weight: 100;
+      text-align: center;
+      width: 8ch;
+    }
+
+    section#projects h2 {
+      line-height: 4rem;
+    }
+    
+    section#projects #proj-nav h1.active {
+      font-weight: 1000;
+      /* 
+      color: var(--primary);
+      background-color: var(--text);
+      text-shadow: 0px 0px 10px var(--text); 
+      */
+    }
+
+    section#projects #proj-nav h1:not(.active):hover {
+      color: var(--primary);
+      background-color: var(--text);
+      cursor: pointer;
+      /*
+      text-shadow: 0px 0px 10px var(--text); 
+      */
+    }
+
+    section#projects #proj-nav button {
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+      border: 1px solid var(--text);
+      padding: 1rem 2rem;
+      background-color: var(--primary);
+      color: var(--text);
+    }
+    
+    section#projects #proj-nav button:hover {
+      background-color: var(--text);
+      color: var(--primary);
+    }
+    
+
+    section#projects figure {
+      height: 40vh;
+      aspect-ratio:  4 / 3;
+      background-color: var(--text);
+      margin: 0;
+      background-size: 100% auto;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+
+    section#projects figure iframe,
+    section#projects figure video {
+      width: 100%;
+      height: 100%;
+    }
+
+    section#projects .image-container {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+    }
+
+    section#projects .image-container .images {
+      display: flex;
+      width: 60pt;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    section#projects .image-container .images div {
+      position: relative;
+      cursor: pointer;
+      display: block;
+      height: 100%;
+      background-color: var(--text);
+      background-size: auto 100%;
+      overflow: hidden;
+    }
+    
+    section#projects .image-container .images div:after {
+      content: '';
+      position: absolute;
+      display: block;
+      inset: -1px;
+      background-color: var(--primary);
+      width: 100vh;
+      height: 1px;
+      animation: 5s slide-up linear infinite alternate;
+    }
+    
+    section#projects .image-container .images div.video-thumb,
+    section#projects .image-container .images div.iframe-thumb
+    {
+      background-url: none;
+    }
+    section#projects .image-container .images div.video-thumb:before,
+    section#projects .image-container .images div.iframe-thumb:before 
+    {
+      content: 'Vid.';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--primary);
+    }
+    section#projects .image-container .images div.iframe-thumb:before {
+      content: "Pen"
+    }
+    
+    section#projects .image-container .images div:nth-child(even):after {
+      animation-delay: 1.5s;
+    }
+
+    @keyframes slide-up {
+      20% {top: -2px}
+      20.01% { 
+        top: 100%;
+      }
+      40%, 60% { 
+        top: -2px;
+        left: -2px;
+        transform: none;
+        background-color: var(--primary);
+      }
+      60.01% {
+        left: -2px;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(90deg);
+        background-color: var(--text);
+      }
+      80%, 100% { 
+        background-color: var(--text);
+        top: 50%;
+        left: 100%;
+        transform: translate(-50%, -50%) rotate(90deg);
+      }
+    }
+
+    section#projects, section#work {
+      padding-top: 20vh;
+    }
+
+
+
+
+
+    section#work ul {
+    }
+
+    section#work li {
+      list-style: none;
+      border-left: 1px solid var(--text);
+      margin: 0;
+      padding: 0 2rem 4rem 3rem;
+      position: relative;
+    }
+    
+    section#work li:after, section#work li:first-child:before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      border-radius: 50%;
+      width: 20pt;
+      aspect-ratio: 1;
+      border: 1px solid var(--text);
+      transform: translate(-50%);
+      background-color: var(--primary);
+      z-index: 1;
+    }
+    
+    section#work li:first-child:after {
+      background-color: var(--text);
+    }
+
+    section#work li:first-child {
+      border-left: 1px dashed var(--text);
+    }
+    
+    section#work li:first-child:before {
+      content: "?";
+      font-weight: 100;
+      top: 0;
+      border: none;
+      font-size: 40pt;
+      margin-left: -2pt;
+      transform: translate(-50%, -100%);
+      animation: 3s blink ease-in-out infinite;
+      background: none;
+    }
+
+    @keyframes blink {
+      0%   { opacity: 0; }
+      50%  { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    
+    section#work h2, section#work h3, section#work h4 {
+      text-transform: none;
+    }
+    section#work h2 {
+      line-height: 1.2rem;
+    }
+    section#work h4 {
+      font-style: oblique;
+      line-height: 1.2rem;
+      font-weight: 300;
+    }
+
+
+
+
+
+    section#press {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      grid-gap: 2rem;
+      align-items: start;
+    }
+
+    section::before {
+      content: "";
+      position: absolute;
+      text-transform: uppercase;
+      font-family: "Bahnschrift";
+      font-size: 100pt;
+      line-height: 100pt;
+      opacity: .1;
+      z-index: -1;
+      top: 1rem;
+    }
+
+    section#projects::before {
+      content: "";
+    }
+    section#work::before {
+      content: "Work";
+    }
+    section#press::before {
+      content: "Press";
+    }
+
+    section#press h1 {
+      font-size: 20pt;
+      font-style: oblique;
+    }
+
+    section#press div {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-gap: 1rem;
+    }
+
+
+    
+    @media screen and (max-width: 1437px) {
+      body {
+        grid-template-areas: "hero"
+                             "main";
+        grid-template-columns: 1fr
+        margin: 0 40pt;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+      }
+
+      nav ul {
+        width: max-content;
+        z-index: 100;
+      }
+      nav ul li {
+        margin-right: 4rem;
+      }
+      
+      section#hero {
+        text-align: left;
+      }
+
+      section#hero a {
+        padding: .2rem;
+      }
+
+      section#hero ul {
+        padding: 0;
+      }
+
+      section::before {
+        left: 0;
+        right: 100%;
+      }
+    }
+
+
+  </style>
+  <body>
+    <section id="hero">
+      <div class="sticky">
+        <nav>
+          <ul>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#press">Press</a></li>
+          </ul>
+        </nav>
+        <h1 class="name-fix">Ezekiel</h1>
+        <h1 class="surname-fix">D'Ascoli</h1>
+        <h3>Software Engineer</h3>
+        <h3>Actor</h3>
+        <ul>
+          <li><a href="resume.pdf">Resume</a></li>
+          <li><a href="mailto:dascoli.e@northeastern.edu">Email</a></li>
+          <li><a href="https://linkedin.com/in/ezekiel-dascoli-2023">LinkedIn</a></li>
+          <li><a rel="preload" href="https://github.com/Zeke-D">GitHub</a></li>
+          <li><a rel="preload" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">OnlyFans</a></li>
+        </ul>
+      </div>
+    </section>
+    <main>
+      <section id="projects">
+        <div id="proj-nav">
+          <!-- <button>Prev.</button> -->
+          <!-- <button>Next</button> -->
+        </div>
+        <article>
+          <h2>Project Title</h2>
+          <div class="image-container">
+            <figure class="main"></figure>
+            <div class="images">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+          <p class="description">
+            This project aimed to physicalize an emotional environment. Using a holographic display, we rendered realtime interpretations of webcam emotional data. We ended up finishing Top 10 in the whole event and won 1st Prize for the Looking Glass subcategory.
+          </p>
+        </article>
+      </section>
+      <section id="work">
+        <ul>
+          <li>
+            <a href="mailto:dascoli.e@northeastern.edu">Help me expand this list</a>
+          </li>
+          <li>
+            <h2>Northeastern University</h2>
+            <h3>Theatrical Data Science Research Assistant</h3>
+            <h4>Apr. 2023 - Present</h4>
+            <p>Investigating the benefits of theater to increase data accessibility</p>
+          </li>
+          <li>
+            <h2>Verve Motion</h2>
+            <h3>Software Engineering Co-Op</h3>
+            <h4>July - Dec. 2022</h4>
+            <p>Investigating the benefits of theater to increase data accessibility</p>
+          </li>
+          <li>
+            <h2>Places For Less</h2>
+            <h3>Software Development Co-Op</h3>
+            <h4>Jan. - Aug 2021</h4>
+            <p>Investigating the benefits of theater to increase data accessibility</p>
+          </li>
+          <li>
+            <h2>Smartleaf, Inc.</h2>
+            <h3>Software Development Co-Op</h3>
+            <h4>Dec. 2019 - Aug 2020</h4>
+            <p>Investigating the benefits of theater to increase data accessibility</p>
+          </li>
+        </ul>
+      </section>
+      <section id="press">
+        <div>
+          <h1>By me</h1>
+          <span>Coming soon...</span>
+        </div>
+        <div>
+          <h1>Of me</h1>
+          <article>
+            <h2><a href="https://news.northeastern.edu/2023/06/22/magazine/data-theater-performance/">Data as Theater</a></h2>
+          </article>
+          <article>
+            <h2><a href="https://blog.lookingglassfactory.com/community/looking-glass-factory-x-mit-reality-hack/">LKG Blog</a></h2>
+          </article>
+          <article>
+            <h2><a href="https://www.khoury.northeastern.edu/khoury-college-students-win-award-for-holographic-project-at-mit-hackathon/">Khoury Spotlight</a></h2>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

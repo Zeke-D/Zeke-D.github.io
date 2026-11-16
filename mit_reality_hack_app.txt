@@ -1,0 +1,26 @@
+Q: What platforms and programming languages are you already proficient with?
+A: 
+Programming Languages:
+I can use pretty much any programming languages, but I am especially comfortable in:
+C, C#, C++, Python, Ruby, Bash, Go, Java, GLSL / HLSL.
+
+Software:
+I am comfortable and proficient with most enterprise 3D tools: Unity, Unreal, Godot, and Blender.
+I am proficient with photo editing (Photoshop, Gimp), 
+video editing (After Effects, Premiere, iMovie, Final Cut Pro), 
+and rapid prototyping (Adobe XD, Figma) technologies.
+
+Q: MIT Reality Hack is a fast-paced event that harness a variety of talents from 
+participants to create something entirely new in a very short period of time. 
+How do you envision your role in this environment and how will you contribute to your team?
+A:
+In college, I studied Computer Science and Acting because I saw a
+performative void in the world of technology and a computational void in the world of art. 
+I love solving logical problems. I equally love exploring the vast berth of experiences humans are capable
+of curating. I see myself in RealityHack as a translater and explorer. I want to be perched between rapid programming
+and artistic curiosity. At the event, there will be many techno-wunderkinds. There will also be many
+virtuosos. Alone, they will create many good things. Together, they could create many great things.
+Being able to listen to different perspectives and communicate across different talents will enable 
+us to navigate the possibility space much more effectively.
+My background lets me appreciate a wide range of what many participants offer.
+I feel I have unique lens which can focus the spectrum of individual talent into a clear signal.

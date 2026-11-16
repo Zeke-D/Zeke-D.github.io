@@ -117,9 +117,6 @@ pub fn remap_ranges(ranges: *std.ArrayList(Range), maps: std.ArrayList(Map)) !vo
                 },
                 .partial => {
                     ranges.*.items[i] = overlap.dest_overlap;
-                    // std.debug.print("Remainder: ", .{});
-                    // print_range(overlap.src_remainder);
-                    // std.debug.print("\n", .{});
                     _ = try ranges.*.append(overlap.src_remainder);
                     continue :range_loop;
                 },
